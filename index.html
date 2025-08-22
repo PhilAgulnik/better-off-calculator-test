@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Credit Calculator</title>
+    <meta name="description" content="Calculate your Universal Credit entitlement with our comprehensive, year-based calculator">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Universal Credit Calculator</h1>
+            <p class="subtitle">Calculate your Universal Credit entitlement for any tax year</p>
+        </header>
+
+        <main class="main-content">
+            <div class="calculator-grid">
+                <!-- Input Section -->
+                <section class="input-section">
+                    <div class="card">
+                        <h2>Your Details</h2>
+                        
+                        <!-- Tax Year Selection -->
+                        <div class="form-group">
+                            <label for="taxYear">Tax Year</label>
+                            <select id="taxYear" class="form-control">
+                                <option value="2024_25">2024/25</option>
+                                <option value="2023_24">2023/24</option>
+                            </select>
+                        </div>
+
+                        <!-- Personal Circumstances -->
+                        <div class="form-group">
+                            <label>Personal Circumstances</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="circumstances" value="single" checked>
+                                    <span class="radio-custom"></span>
+                                    Single
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="circumstances" value="couple">
+                                    <span class="radio-custom"></span>
+                                    Couple
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" class="form-control" min="16" max="120" value="25">
+                        </div>
+
+                        <div class="form-group" id="partnerAgeGroup" style="display: none;">
+                            <label for="partnerAge">Partner's Age</label>
+                            <input type="number" id="partnerAge" class="form-control" min="16" max="120" value="25">
+                        </div>
+
+                        <!-- Children -->
+                        <div class="form-group">
+                            <label for="children">Number of Children</label>
+                            <input type="number" id="children" class="form-control" min="0" max="10" value="0">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="childrenAge">Age of Youngest Child</label>
+                            <select id="childrenAge" class="form-control">
+                                <option value="under1">Under 1</option>
+                                <option value="1to2">1 to 2</option>
+                                <option value="3to4">3 to 4</option>
+                                <option value="5to10">5 to 10</option>
+                                <option value="11to15">11 to 15</option>
+                                <option value="16to19">16 to 19</option>
+                            </select>
+                        </div>
+
+                        <!-- Carer Section -->
+                        <div class="carer-section">
+                            <h3>Carer Status</h3>
+                            
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="isCarer">
+                                    <span class="checkbox-custom"></span>
+                                    Do you care for someone who is sick or disabled?
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="isPartnerCarer">
+                                    <span class="checkbox-custom"></span>
+                                    Does your partner care for someone who is sick or disabled?
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="currentlyReceivingCA">
+                                    <span class="checkbox-custom"></span>
+                                    Do you currently receive Carer's Allowance or Carer Support Payment?
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="isScotland">
+                                    <span class="checkbox-custom"></span>
+                                    Do you live in Scotland?
+                                </label>
+                            </div>
+
+                            <!-- Carer Details (shown when isCarer or isPartnerCarer is checked) -->
+                            <div id="carerDetails" class="carer-details" style="display: none;">
+                                <div class="form-group">
+                                    <label for="caringHours">How many hours a week do you spend caring?</label>
+                                    <input type="number" id="caringHours" class="form-control" min="0" max="168" value="0">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="caredForPersonBenefits">
+                                        <span class="checkbox-custom"></span>
+                                        Does the person you care for receive one of the following benefits?
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="includeCarerAllowance" checked>
+                                        <span class="checkbox-custom"></span>
+                                        Should we include Carer's Allowance in your benefit calculation?
+                                    </label>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="includeCarerElement" checked>
+                                        <span class="checkbox-custom"></span>
+                                        Should we calculate your Universal Credit including a carer element?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Housing -->
+                        <div class="form-group">
+                            <label>Tenant Type</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="tenantType" value="private" checked>
+                                    <span class="radio-custom"></span>
+                                    Private Tenant
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="tenantType" value="social">
+                                    <span class="radio-custom"></span>
+                                    Social Tenant
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="rent">Rent</label>
+                            <div class="input-with-period">
+                                <div class="input-with-prefix">
+                                    <span class="prefix">£</span>
+                                    <input type="number" id="rent" class="form-control" min="0" step="0.01" value="0">
+                                </div>
+                                <select id="rentPeriod" class="period-selector">
+                                    <option value="weekly">per week</option>
+                                    <option value="fortnightly">per fortnight</option>
+                                    <option value="monthly" selected>per month</option>
+                                    <option value="yearly">per year</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="serviceCharges">Service Charges</label>
+                            <div class="input-with-period">
+                                <div class="input-with-prefix">
+                                    <span class="prefix">£</span>
+                                    <input type="number" id="serviceCharges" class="form-control" min="0" step="0.01" value="0">
+                                </div>
+                                <select id="serviceChargesPeriod" class="period-selector">
+                                    <option value="weekly">per week</option>
+                                    <option value="fortnightly">per fortnight</option>
+                                    <option value="monthly" selected>per month</option>
+                                    <option value="yearly">per year</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="bedrooms">Number of Bedrooms</label>
+                            <input type="number" id="bedrooms" class="form-control" min="0" max="10" value="1">
+                        </div>
+
+                        <!-- Private Tenant Options -->
+                        <div id="privateTenantOptions" class="tenant-options">
+                            <div class="form-group">
+                                <label for="area">Area (for LHA rates)</label>
+                                <select id="area" class="form-control">
+                                    <option value="default">Select your area</option>
+                                    <option value="london_central">London Central</option>
+                                    <option value="london_outer">London Outer</option>
+                                    <option value="manchester">Manchester</option>
+                                    <option value="birmingham">Birmingham</option>
+                                    <option value="leeds">Leeds</option>
+                                    <option value="liverpool">Liverpool</option>
+                                    <option value="bristol">Bristol</option>
+                                    <option value="cardiff">Cardiff</option>
+                                    <option value="edinburgh">Edinburgh</option>
+                                    <option value="glasgow">Glasgow</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Social Tenant Options -->
+                        <div id="socialTenantOptions" class="tenant-options" style="display: none;">
+                            <div class="form-group">
+                                <label>Bedroom Tax Exemptions</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="exemptionDisabled" value="disabled_adaptations">
+                                        <span class="checkbox-custom"></span>
+                                        Disabled adaptations
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="exemptionFoster" value="foster_carer">
+                                        <span class="checkbox-custom"></span>
+                                        Foster carer
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="exemptionArmedForces" value="armed_forces">
+                                        <span class="checkbox-custom"></span>
+                                        Armed forces
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="exemptionBereavement" value="bereavement">
+                                        <span class="checkbox-custom"></span>
+                                        Bereavement
+                                    </label>
+                                    <label class="checkbox-label">
+                                        <input type="checkbox" id="exemptionOver65" value="over_65">
+                                        <span class="checkbox-custom"></span>
+                                        Over 65
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Non-Dependants -->
+                        <div class="form-group">
+                            <label for="nonDependants">Number of Non-Dependants</label>
+                            <input type="number" id="nonDependants" class="form-control" min="0" max="10" value="0">
+                        </div>
+
+                        <div id="nonDependantsDetails" class="non-dependants-details" style="display: none;">
+                            <!-- Non-dependant details will be dynamically added here -->
+                        </div>
+
+                        <!-- Employment Section -->
+                        <div class="employment-section">
+                            <h3>Employment</h3>
+                            
+                            <!-- Employment Type Toggle -->
+                            <div class="employment-toggle">
+                                <div class="toggle-group">
+                                    <label class="toggle-label">
+                                        <input type="radio" name="employmentType" value="employed" checked>
+                                        <span class="toggle-custom"></span>
+                                        Employed Income
+                                    </label>
+                                    <label class="toggle-label">
+                                        <input type="radio" name="employmentType" value="self-employed">
+                                        <span class="toggle-custom"></span>
+                                        Self Employed
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Employed Section -->
+                            <div id="employedSection" class="employment-subsection">
+                                <h4>Employed Income</h4>
+                                <div class="form-group">
+                                    <label for="monthlyEarnings">Earnings (after tax)</label>
+                                    <div class="input-with-period">
+                                        <div class="input-with-prefix">
+                                            <span class="prefix">£</span>
+                                            <input type="number" id="monthlyEarnings" class="form-control" min="0" step="0.01" value="0">
+                                        </div>
+                                        <select id="monthlyEarningsPeriod" class="period-selector">
+                                            <option value="weekly">per week</option>
+                                            <option value="fortnightly">per fortnight</option>
+                                            <option value="monthly" selected>per month</option>
+                                            <option value="yearly">per year</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Self Employed Section -->
+                            <div id="selfEmployedSection" class="employment-subsection" style="display: none;">
+                                <h4>Self Employed</h4>
+                                
+                                <!-- Money In - Business Income -->
+                                <div class="income-expense-group">
+                                    <h5>Money In - Business Income</h5>
+                                    <div class="form-group">
+                                        <label for="businessIncomeBank">Bank Receipts</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessIncomeBank" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessIncomeBankPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessIncomeCash">Cash Receipts</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessIncomeCash" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessIncomeCashPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Money Out - Business Expenses -->
+                                <div class="income-expense-group">
+                                    <h5>Money Out - Business Expenses</h5>
+                                    <div class="form-group">
+                                        <label for="businessExpensesRent">Rent and Premises Costs</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesRent" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesRentPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesRates">Business Rates</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesRates" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesRatesPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesUtilities">Utilities (Gas, Electricity, Water)</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesUtilities" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesUtilitiesPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesInsurance">Insurance</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesInsurance" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesInsurancePeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesTelephone">Telephone & Internet</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesTelephone" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesTelephonePeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesMarketing">Marketing & Advertising</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesMarketing" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesMarketingPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesVehicle">Vehicle Running Costs</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesVehicle" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesVehiclePeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesEquipment">Equipment Purchase/Leasing</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesEquipment" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesEquipmentPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesPostage">Postage, Printing & Stationery</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesPostage" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesPostagePeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesTransport">Transport & Delivery</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesTransport" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesTransportPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessExpensesProfessional">Professional Fees</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessExpensesProfessional" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessExpensesProfessionalPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Money Out - Tax, NIC, Pensions -->
+                                <div class="income-expense-group">
+                                    <h5>Money Out - Tax, NIC & Pensions</h5>
+                                    <div class="form-group">
+                                        <label for="businessTax">Income Tax</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessTax" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessTaxPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessNIC">National Insurance</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessNIC" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessNICPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessPension">Pension Contributions</label>
+                                        <div class="input-with-period">
+                                            <div class="input-with-prefix">
+                                                <span class="prefix">£</span>
+                                                <input type="number" id="businessPension" class="form-control" min="0" step="0.01" value="0">
+                                            </div>
+                                            <select id="businessPensionPeriod" class="period-selector">
+                                                <option value="weekly">per week</option>
+                                                <option value="fortnightly">per fortnight</option>
+                                                <option value="monthly" selected>per month</option>
+                                                <option value="yearly">per year</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Money Out - Home and Car -->
+                                <div class="income-expense-group">
+                                    <h5>Money Out - Home and Car</h5>
+                                    <div class="form-group">
+                                        <label for="businessCarMiles">Number of miles this assessment period</label>
+                                        <input type="number" id="businessCarMiles" class="form-control" min="0" value="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessCarDeduction">Amount of deduction</label>
+                                        <div class="input-with-prefix">
+                                            <span class="prefix">£</span>
+                                            <input type="number" id="businessCarDeduction" class="form-control" min="0" step="0.01" value="0" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessHomeHours">Number of hours spent working at home this assessment period</label>
+                                        <input type="number" id="businessHomeHours" class="form-control" min="0" value="0">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="businessHomeDeduction">Amount of deduction</label>
+                                        <div class="input-with-prefix">
+                                            <span class="prefix">£</span>
+                                            <input type="number" id="businessHomeDeduction" class="form-control" min="0" step="0.01" value="0" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Net Loss Display -->
+                                <div class="net-loss-display">
+                                    <div class="net-loss-item">
+                                        <span class="label">Total Business Income</span>
+                                        <span id="totalBusinessIncome" class="value">£0.00</span>
+                                    </div>
+                                    <div class="net-loss-item">
+                                        <span class="label">Total Business Expenses</span>
+                                        <span id="totalBusinessExpenses" class="value">£0.00</span>
+                                    </div>
+                                    <div class="net-loss-item">
+                                        <span class="label">Total Tax, NIC & Pensions</span>
+                                        <span id="totalTaxNICPension" class="value">£0.00</span>
+                                    </div>
+                                    <div class="net-loss-item">
+                                        <span class="label">Total Home and Car</span>
+                                        <span id="totalHomeAndCar" class="value">£0.00</span>
+                                    </div>
+                                    <div class="net-loss-item net-result">
+                                        <span class="label">Net Profit/Loss</span>
+                                        <span id="netBusinessProfit" class="value">£0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Childcare -->
+                        <div class="form-group">
+                            <label for="childcareCosts">Childcare Costs</label>
+                            <div class="input-with-period">
+                                <div class="input-with-prefix">
+                                    <span class="prefix">£</span>
+                                    <input type="number" id="childcareCosts" class="form-control" min="0" step="0.01" value="0">
+                                </div>
+                                <select id="childcareCostsPeriod" class="period-selector">
+                                    <option value="weekly">per week</option>
+                                    <option value="fortnightly">per fortnight</option>
+                                    <option value="monthly" selected>per month</option>
+                                    <option value="yearly">per year</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Savings -->
+                        <div class="form-group">
+                            <label for="savings">Capital/Savings</label>
+                            <div class="input-with-prefix">
+                                <span class="prefix">£</span>
+                                <input type="number" id="savings" class="form-control" min="0" step="0.01" value="0">
+                            </div>
+                        </div>
+
+                        <!-- Other Benefits -->
+                        <div class="form-group">
+                            <label for="otherBenefits">Other Benefits</label>
+                            <div class="input-with-period">
+                                <div class="input-with-prefix">
+                                    <span class="prefix">£</span>
+                                    <input type="number" id="otherBenefits" class="form-control" min="0" step="0.01" value="0">
+                                </div>
+                                <select id="otherBenefitsPeriod" class="period-selector">
+                                    <option value="weekly">per week</option>
+                                    <option value="fortnightly">per fortnight</option>
+                                    <option value="monthly" selected>per month</option>
+                                    <option value="yearly">per year</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="button-group">
+                            <button type="button" id="calculateBtn" class="btn btn-primary">Calculate</button>
+                            <button type="button" id="saveBtn" class="btn btn-secondary">Save Scenario</button>
+                            <button type="button" id="resetBtn" class="btn btn-outline">Reset</button>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Saved Scenarios -->
+            <section class="saved-scenarios">
+                <div class="card">
+                    <h2>Saved Scenarios</h2>
+                    <div id="savedScenariosList" class="scenarios-list">
+                        <p class="no-scenarios">No saved scenarios yet. Save your first calculation to compare different scenarios.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="card">
+                    <h2>Your Universal Credit Calculation</h2>
+                    
+                    <div id="resultsContainer" class="results-container">
+                        <div class="placeholder">
+                            <p>Your calculation results will appear here</p>
+                        </div>
+                    </div>
+
+                    <div id="detailedResults" class="detailed-results" style="display: none;">
+                        <h3>Breakdown</h3>
+                        <div class="breakdown-list">
+                            <div class="breakdown-item">
+                                <span class="label">Standard Allowance</span>
+                                <span id="standardAllowance" class="value">£0.00</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="label">Housing Element</span>
+                                <span id="housingElement" class="value">£0.00</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="label">Child Element</span>
+                                <span id="childElement" class="value">£0.00</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="label">Childcare Element</span>
+                                <span id="childcareElement" class="value">£0.00</span>
+                            </div>
+                            <div class="breakdown-item total">
+                                <span class="label">Total Elements</span>
+                                <span id="totalElements" class="value">£0.00</span>
+                            </div>
+                            <div class="breakdown-item deduction">
+                                <span class="label">Earnings Reduction</span>
+                                <span id="earningsReduction" class="value">-£0.00</span>
+                            </div>
+                            <div class="breakdown-item deduction">
+                                <span class="label">Other Deductions</span>
+                                <span id="otherDeductions" class="value">-£0.00</span>
+                            </div>
+                            <div class="breakdown-item final">
+                                <span class="label">Final Universal Credit</span>
+                                <span id="finalAmount" class="value">£0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button type="button" id="printBtn" class="btn btn-outline">Print Results</button>
+                        <button type="button" id="exportBtn" class="btn btn-outline">Export PDF</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2024 Universal Credit Calculator. This calculator is for guidance only and should not be considered as official advice.</p>
+            <p>For official Universal Credit information, visit <a href="https://www.gov.uk/universal-credit" target="_blank">gov.uk/universal-credit</a></p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <p>Calculating...</p>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/rates/rates-base.js"></script>
+    <script src="js/rates/rates-2024-25.js"></script>
+    <script src="js/rates/rates-2023-24.js"></script>
+    <script src="js/rates/rates-manager.js"></script>
+    <script src="js/modules/standard-allowance.js"></script>
+    <script src="js/modules/housing-costs.js"></script>
+    <script src="js/modules/children.js"></script>
+    <script src="js/modules/childcare.js"></script>
+    <script src="js/modules/earnings.js"></script>
+    <script src="js/modules/deductions.js"></script>
+    <script src="js/modules/carer.js"></script>
+    <script src="js/utils/period-converter.js"></script>
+    <script src="js/utils/validators.js"></script>
+    <script src="js/utils/formatters.js"></script>
+    <script src="js/utils/storage.js"></script>
+    <script src="js/ui/components.js"></script>
+    <script src="js/ui/events.js"></script>
+    <script src="js/ui/display.js"></script>
+    <script src="js/calculator.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

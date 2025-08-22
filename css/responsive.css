@@ -1,0 +1,391 @@
+/* Responsive Design for Universal Credit Calculator */
+
+/* Large Desktop (1400px and up) */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1600px;
+    }
+    
+    .calculator-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-12);
+    }
+}
+
+/* Desktop (1024px to 1399px) */
+@media (max-width: 1399px) {
+    .calculator-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-6);
+    }
+}
+
+/* Tablet (768px to 1023px) */
+@media (max-width: 1023px) {
+    .container {
+        padding: 0 var(--spacing-3);
+    }
+    
+    .header {
+        padding: var(--spacing-8) 0 var(--spacing-6);
+        margin-bottom: var(--spacing-6);
+    }
+    
+    .header h1 {
+        font-size: var(--font-size-3xl);
+    }
+    
+    .subtitle {
+        font-size: var(--font-size-base);
+    }
+    
+    .calculator-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+    
+    .card {
+        padding: var(--spacing-6);
+    }
+    
+    .card h2 {
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--spacing-5);
+    }
+    
+    .button-group {
+        flex-direction: column;
+        gap: var(--spacing-2);
+    }
+    
+    .btn {
+        width: 100%;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: var(--spacing-2);
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
+    }
+}
+
+/* Mobile Large (481px to 767px) */
+@media (max-width: 767px) {
+    .container {
+        padding: 0 var(--spacing-2);
+    }
+    
+    .header {
+        padding: var(--spacing-6) 0 var(--spacing-4);
+        margin-bottom: var(--spacing-4);
+        border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    }
+    
+    .header h1 {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-1);
+    }
+    
+    .subtitle {
+        font-size: var(--font-size-sm);
+    }
+    
+    .main-content {
+        margin-bottom: var(--spacing-8);
+    }
+    
+    .calculator-grid {
+        gap: var(--spacing-4);
+        margin-bottom: var(--spacing-8);
+    }
+    
+    .card {
+        padding: var(--spacing-4);
+        border-radius: var(--radius-lg);
+    }
+    
+    .card h2 {
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--spacing-4);
+        padding-bottom: var(--spacing-3);
+    }
+    
+    .card h3 {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-3);
+    }
+    
+    .form-group {
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .form-group label {
+        font-size: var(--font-size-xs);
+        margin-bottom: var(--spacing-1);
+    }
+    
+    .form-control {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-sm);
+    }
+    
+    .radio-group {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+    
+    .radio-label {
+        font-size: var(--font-size-sm);
+    }
+    
+    .radio-custom {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .radio-label input[type="radio"]:checked + .radio-custom::after {
+        width: 6px;
+        height: 6px;
+    }
+    
+    .button-group {
+        margin-top: var(--spacing-6);
+    }
+    
+    .btn {
+        padding: var(--spacing-2) var(--spacing-4);
+        font-size: var(--font-size-sm);
+        min-height: 40px;
+    }
+    
+    .results-container {
+        min-height: 150px;
+    }
+    
+    .breakdown-item {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-sm);
+    }
+    
+    .breakdown-item.final {
+        font-size: var(--font-size-base);
+    }
+    
+    .breakdown-item .value {
+        font-size: var(--font-size-sm);
+    }
+    
+    .action-buttons {
+        margin-top: var(--spacing-4);
+    }
+    
+    .saved-scenarios {
+        margin-top: var(--spacing-8);
+    }
+    
+    .footer {
+        padding: var(--spacing-6) 0;
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* Mobile Small (320px to 480px) */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 var(--spacing-1);
+    }
+    
+    .header {
+        padding: var(--spacing-4) 0 var(--spacing-3);
+        margin-bottom: var(--spacing-3);
+    }
+    
+    .header h1 {
+        font-size: var(--font-size-xl);
+    }
+    
+    .subtitle {
+        font-size: var(--font-size-xs);
+    }
+    
+    .card {
+        padding: var(--spacing-3);
+        border-radius: var(--radius-md);
+    }
+    
+    .card h2 {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-3);
+        padding-bottom: var(--spacing-2);
+    }
+    
+    .form-control {
+        padding: var(--spacing-2);
+        font-size: var(--font-size-xs);
+    }
+    
+    .input-with-prefix .form-control {
+        padding-left: calc(var(--spacing-2) + 0.75rem);
+    }
+    
+    .input-with-prefix .prefix {
+        left: var(--spacing-2);
+        font-size: var(--font-size-xs);
+    }
+    
+    .btn {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-xs);
+        min-height: 36px;
+    }
+    
+    .breakdown-item {
+        padding: var(--spacing-1) var(--spacing-2);
+        font-size: var(--font-size-xs);
+    }
+    
+    .breakdown-item .value {
+        font-size: var(--font-size-xs);
+    }
+    
+    .loading-spinner {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+/* Landscape Mobile */
+@media (max-width: 767px) and (orientation: landscape) {
+    .header {
+        padding: var(--spacing-4) 0 var(--spacing-3);
+    }
+    
+    .header h1 {
+        font-size: var(--font-size-xl);
+    }
+    
+    .calculator-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-3);
+    }
+    
+    .card {
+        padding: var(--spacing-3);
+    }
+    
+    .form-group {
+        margin-bottom: var(--spacing-3);
+    }
+    
+    .button-group {
+        flex-direction: row;
+        gap: var(--spacing-2);
+    }
+    
+    .btn {
+        flex: 1;
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .radio-custom {
+        border-width: 1.5px;
+    }
+    
+    .form-control {
+        border-width: 1.5px;
+    }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .loading-spinner {
+        animation: none;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --white: #1a1a1a;
+        --gray-50: #2a2a2a;
+        --gray-100: #3a3a3a;
+        --gray-200: #4a4a4a;
+        --gray-300: #5a5a5a;
+        --gray-400: #6a6a6a;
+        --gray-500: #7a7a7a;
+        --gray-600: #8a8a8a;
+        --gray-700: #9a9a9a;
+        --gray-800: #e0e0e0;
+        --gray-900: #f0f0f0;
+    }
+    
+    body {
+        background-color: var(--gray-50);
+        color: var(--gray-800);
+    }
+    
+    .card {
+        background: var(--white);
+        border-color: var(--gray-200);
+    }
+    
+    .form-control {
+        background-color: var(--white);
+        color: var(--gray-800);
+        border-color: var(--gray-200);
+    }
+    
+    .breakdown-item {
+        background-color: var(--gray-100);
+        border-left-color: var(--gray-300);
+    }
+}
+
+/* Focus Styles for Accessibility */
+@media (prefers-reduced-motion: no-preference) {
+    .btn:focus,
+    .form-control:focus {
+        outline: 2px solid var(--primary-color);
+        outline-offset: 2px;
+    }
+}
+
+/* Print Styles Enhancement */
+@media print {
+    .calculator-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+    
+    .card {
+        break-inside: avoid;
+        margin-bottom: var(--spacing-4);
+    }
+    
+    .breakdown-item {
+        break-inside: avoid;
+    }
+    
+    .btn {
+        display: none;
+    }
+    
+    .form-control {
+        border: 1px solid var(--gray-300);
+        background: transparent;
+    }
+}
+
+
+
