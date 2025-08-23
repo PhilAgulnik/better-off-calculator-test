@@ -153,6 +153,224 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               />
             </div>
 
+            {/* Individual child ages */}
+            <div className="form-group">
+              <label>Age of Each Child</label>
+              {Array.from({ length: formData.children }, (_, index) => (
+                <div key={index} className="child-age-input" style={{ marginBottom: '10px' }}>
+                  <label htmlFor={`childAge${index}`}>Child {index + 1} Age:</label>
+                  <input 
+                    type="number" 
+                    id={`childAge${index}`} 
+                    className="form-control" 
+                    min="0" 
+                    max="19" 
+                    value={formData.childAges[index] || ''}
+                    onChange={(e) => {
+                      const newChildAges = [...(formData.childAges || [])];
+                      newChildAges[index] = parseInt(e.target.value) || 0;
+                      handleInputChange('childAges', newChildAges);
+                    }}
+                    placeholder="Enter age"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Children's disability information */}
+            <div className="form-group">
+              <label>Children's Disability Information</label>
+              {Array.from({ length: formData.children }, (_, index) => (
+                <div key={index} className="child-disability-section" style={{ 
+                  border: '1px solid #ddd', 
+                  padding: '15px', 
+                  marginBottom: '15px', 
+                  borderRadius: '5px' 
+                }}>
+                  <h4 style={{ marginTop: '0', marginBottom: '15px' }}>Child {index + 1}</h4>
+                  
+                  {/* Does child have illness or disability? */}
+                  <div className="form-group">
+                    <label>Does Child {index + 1} have an illness or disability?</label>
+                    <div className="radio-group">
+                      <label className="radio-label">
+                        <input 
+                          type="radio" 
+                          name={`childDisability${index}`} 
+                          value="yes" 
+                          checked={formData.childDisabilities[index]?.hasDisability === true}
+                          onChange={(e) => {
+                            const newChildDisabilities = [...(formData.childDisabilities || [])];
+                            if (!newChildDisabilities[index]) newChildDisabilities[index] = {};
+                            newChildDisabilities[index].childIndex = index;
+                            newChildDisabilities[index].hasDisability = true;
+                            handleInputChange('childDisabilities', newChildDisabilities);
+                          }}
+                        />
+                        <span className="radio-custom"></span>
+                        Yes
+                      </label>
+                      <label className="radio-label">
+                        <input 
+                          type="radio" 
+                          name={`childDisability${index}`} 
+                          value="no" 
+                          checked={formData.childDisabilities[index]?.hasDisability === false}
+                          onChange={(e) => {
+                            const newChildDisabilities = [...(formData.childDisabilities || [])];
+                            if (!newChildDisabilities[index]) newChildDisabilities[index] = {};
+                            newChildDisabilities[index].childIndex = index;
+                            newChildDisabilities[index].hasDisability = false;
+                            newChildDisabilities[index].claimsDLA = false;
+                            newChildDisabilities[index].careRate = '';
+                            newChildDisabilities[index].mobilityRate = '';
+                            handleInputChange('childDisabilities', newChildDisabilities);
+                          }}
+                        />
+                        <span className="radio-custom"></span>
+                        No
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Show DLA questions only if child has disability */}
+                  {formData.childDisabilities[index]?.hasDisability && (
+                    <>
+                      <div className="form-group">
+                        <label>Does Child {index + 1} claim Disability Living Allowance (DLA)?</label>
+                        <div className="radio-group">
+                          <label className="radio-label">
+                            <input 
+                              type="radio" 
+                              name={`childDLA${index}`} 
+                              value="yes" 
+                              checked={formData.childDisabilities[index]?.claimsDLA === true}
+                              onChange={(e) => {
+                                const newChildDisabilities = [...(formData.childDisabilities || [])];
+                                newChildDisabilities[index].claimsDLA = true;
+                                handleInputChange('childDisabilities', newChildDisabilities);
+                              }}
+                            />
+                            <span className="radio-custom"></span>
+                            Yes
+                          </label>
+                          <label className="radio-label">
+                            <input 
+                              type="radio" 
+                              name={`childDLA${index}`} 
+                              value="no" 
+                              checked={formData.childDisabilities[index]?.claimsDLA === false}
+                              onChange={(e) => {
+                                const newChildDisabilities = [...(formData.childDisabilities || [])];
+                                newChildDisabilities[index].claimsDLA = false;
+                                newChildDisabilities[index].careRate = '';
+                                newChildDisabilities[index].mobilityRate = '';
+                                handleInputChange('childDisabilities', newChildDisabilities);
+                              }}
+                            />
+                            <span className="radio-custom"></span>
+                            No
+                          </label>
+                        </div>
+                      </div>
+
+                      {/* Show DLA rates only if child claims DLA */}
+                      {formData.childDisabilities[index]?.claimsDLA && (
+                        <>
+                          <div className="form-group">
+                            <label>DLA Care Component Rate</label>
+                            <div className="radio-group">
+                              <label className="radio-label">
+                                <input 
+                                  type="radio" 
+                                  name={`childCareRate${index}`} 
+                                  value="lowest" 
+                                  checked={formData.childDisabilities[index]?.careRate === 'lowest'}
+                                  onChange={(e) => {
+                                    const newChildDisabilities = [...(formData.childDisabilities || [])];
+                                    newChildDisabilities[index].careRate = e.target.value;
+                                    handleInputChange('childDisabilities', newChildDisabilities);
+                                  }}
+                                />
+                                <span className="radio-custom"></span>
+                                Lowest Rate (£26.90)
+                              </label>
+                              <label className="radio-label">
+                                <input 
+                                  type="radio" 
+                                  name={`childCareRate${index}`} 
+                                  value="middle" 
+                                  checked={formData.childDisabilities[index]?.careRate === 'middle'}
+                                  onChange={(e) => {
+                                    const newChildDisabilities = [...(formData.childDisabilities || [])];
+                                    newChildDisabilities[index].careRate = e.target.value;
+                                    handleInputChange('childDisabilities', newChildDisabilities);
+                                  }}
+                                />
+                                <span className="radio-custom"></span>
+                                Middle Rate (£68.10)
+                              </label>
+                              <label className="radio-label">
+                                <input 
+                                  type="radio" 
+                                  name={`childCareRate${index}`} 
+                                  value="highest" 
+                                  checked={formData.childDisabilities[index]?.careRate === 'highest'}
+                                  onChange={(e) => {
+                                    const newChildDisabilities = [...(formData.childDisabilities || [])];
+                                    newChildDisabilities[index].careRate = e.target.value;
+                                    handleInputChange('childDisabilities', newChildDisabilities);
+                                  }}
+                                />
+                                <span className="radio-custom"></span>
+                                Highest Rate (£101.75)
+                              </label>
+                            </div>
+                          </div>
+
+                          <div className="form-group">
+                            <label>DLA Mobility Component Rate</label>
+                            <div className="radio-group">
+                              <label className="radio-label">
+                                <input 
+                                  type="radio" 
+                                  name={`childMobilityRate${index}`} 
+                                  value="lowest" 
+                                  checked={formData.childDisabilities[index]?.mobilityRate === 'lowest'}
+                                  onChange={(e) => {
+                                    const newChildDisabilities = [...(formData.childDisabilities || [])];
+                                    newChildDisabilities[index].mobilityRate = e.target.value;
+                                    handleInputChange('childDisabilities', newChildDisabilities);
+                                  }}
+                                />
+                                <span className="radio-custom"></span>
+                                Lowest Rate (£26.90)
+                              </label>
+                              <label className="radio-label">
+                                <input 
+                                  type="radio" 
+                                  name={`childMobilityRate${index}`} 
+                                  value="highest" 
+                                  checked={formData.childDisabilities[index]?.mobilityRate === 'highest'}
+                                  onChange={(e) => {
+                                    const newChildDisabilities = [...(formData.childDisabilities || [])];
+                                    newChildDisabilities[index].mobilityRate = e.target.value;
+                                    handleInputChange('childDisabilities', newChildDisabilities);
+                                  }}
+                                />
+                                <span className="radio-custom"></span>
+                                Highest Rate (£71.00)
+                              </label>
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+
             <div className="form-group">
               <label>Age of Youngest Child</label>
               <div className="radio-group">

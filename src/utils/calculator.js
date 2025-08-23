@@ -340,6 +340,8 @@ export class UniversalCreditCalculator {
         partnerAge: input.partnerAge,
         children: input.children,
         childrenAge: input.childrenAge,
+        childAges: input.childAges || [],
+        childDisabilities: input.childDisabilities || [],
         
         // Housing
         housingStatus: input.housingStatus,

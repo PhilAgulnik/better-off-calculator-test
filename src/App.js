@@ -21,6 +21,10 @@ function App() {
     children: 0,
     childrenAge: '5to10',
     
+    // Children's disability information
+    childDisabilities: [], // Array of objects: {childIndex: 0, hasDisability: false, claimsDLA: false, careRate: '', mobilityRate: ''}
+    childAges: [], // Array of ages for each child
+    
     // Housing
     housingStatus: 'no_housing_costs',
     tenantType: 'private',
@@ -159,6 +163,8 @@ function App() {
         partnerAge: 25,
         children: 0,
         childrenAge: '5to10',
+        childDisabilities: [],
+        childAges: [],
         housingStatus: 'no_housing_costs',
         tenantType: 'private',
         rent: 0,
