@@ -117,8 +117,13 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 type="radio" 
                 name="hasChildren" 
                 value="no" 
-                checked={formData.children === 0}
-                onChange={(e) => handleInputChange('children', 0)}
+                checked={!formData.hasChildren}
+                onChange={(e) => {
+                  handleInputChange('hasChildren', false);
+                  handleInputChange('children', 0);
+                  handleInputChange('childAges', []);
+                  handleInputChange('childDisabilities', []);
+                }}
               />
               <span className="radio-custom"></span>
               No Children
@@ -128,8 +133,13 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 type="radio" 
                 name="hasChildren" 
                 value="yes" 
-                checked={formData.children > 0}
-                onChange={(e) => handleInputChange('children', 1)}
+                checked={formData.hasChildren}
+                onChange={(e) => {
+                  handleInputChange('hasChildren', true);
+                  if (formData.children === 0) {
+                    handleInputChange('children', 1);
+                  }
+                }}
               />
               <span className="radio-custom"></span>
               Yes, I have children
@@ -138,7 +148,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         </div>
 
         {/* Show children fields only if they have children */}
-        {formData.children > 0 && (
+        {formData.hasChildren && (
           <>
             <div className="form-group">
               <label htmlFor="children">Number of Children</label>

@@ -23,6 +23,7 @@ function App() {
     // Children's disability information
     childDisabilities: [], // Array of objects: {childIndex: 0, hasDisability: false, claimsDLA: false, careRate: '', mobilityRate: ''}
     childAges: [], // Array of ages for each child
+    hasChildren: false, // Track whether user has children (separate from number)
     
     // Housing
     housingStatus: 'no_housing_costs',
@@ -163,6 +164,7 @@ function App() {
         children: 0,
         childDisabilities: [],
         childAges: [],
+        hasChildren: false,
         housingStatus: 'no_housing_costs',
         tenantType: 'private',
         rent: 0,
