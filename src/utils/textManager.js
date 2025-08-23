@@ -71,13 +71,6 @@ const defaultTextBlocks = [
     editorName: ''
   },
   {
-    key: 'Calculator.Form.ChildrenAge.Label',
-    english: 'Age of Youngest Child',
-    siteMode: 'ComprehensiveCalc',
-    editHistory: 'Not changed',
-    editorName: ''
-  },
-  {
     key: 'Calculator.Form.Housing.Title',
     english: 'Housing',
     siteMode: 'ComprehensiveCalc',

@@ -55,7 +55,6 @@ function TestingModule({ isVisible, onToggleVisibility }) {
             age: parseInt(columns[2]) || 25,
             partnerAge: parseInt(columns[3]) || 25,
             children: parseInt(columns[4]) || 0,
-            childrenAge: columns[5] || '5to10',
             childAges: columns[5] ? columns[5].split('|').map(age => parseInt(age) || 0) : [],
             childDisabilities: columns[6] ? JSON.parse(columns[6]) : [],
             housingStatus: columns[7] || 'no_housing_costs',
