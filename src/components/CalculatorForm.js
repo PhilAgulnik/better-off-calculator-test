@@ -181,41 +181,37 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               />
             </div>
 
-            {/* Individual child ages */}
+            {/* Individual child information - grouped by child */}
             <div className="form-group">
-              <label>Age of Each Child</label>
+              <label>Information for Each Child</label>
               {Array.from({ length: Math.max(1, formData.children || 1) }, (_, index) => (
-                <div key={index} className="child-age-input" style={{ marginBottom: '10px' }}>
-                  <label htmlFor={`childAge${index}`}>Child {index + 1} Age:</label>
-                  <input 
-                    type="number" 
-                    id={`childAge${index}`} 
-                    className="form-control" 
-                    min="0" 
-                    max="19" 
-                    value={formData.childAges[index] || ''}
-                    onChange={(e) => {
-                      const newChildAges = [...(formData.childAges || [])];
-                      newChildAges[index] = parseInt(e.target.value) || 0;
-                      handleInputChange('childAges', newChildAges);
-                    }}
-                    placeholder="Enter age"
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Children's disability information */}
-            <div className="form-group">
-              <label>Children's Disability Information</label>
-              {Array.from({ length: Math.max(1, formData.children || 1) }, (_, index) => (
-                <div key={index} className="child-disability-section" style={{ 
+                <div key={index} className="child-section" style={{ 
                   border: '1px solid #ddd', 
-                  padding: '15px', 
-                  marginBottom: '15px', 
-                  borderRadius: '5px' 
+                  padding: '20px', 
+                  marginBottom: '20px', 
+                  borderRadius: '8px',
+                  backgroundColor: '#f9f9f9'
                 }}>
-                  <h4 style={{ marginTop: '0', marginBottom: '15px' }}>Child {index + 1}</h4>
+                  <h4 style={{ marginTop: '0', marginBottom: '20px', color: '#333' }}>Child {index + 1}</h4>
+                  
+                  {/* Child's Age */}
+                  <div className="form-group">
+                    <label htmlFor={`childAge${index}`}>Age:</label>
+                    <input 
+                      type="number" 
+                      id={`childAge${index}`} 
+                      className="form-control" 
+                      min="0" 
+                      max="19" 
+                      value={formData.childAges[index] || ''}
+                      onChange={(e) => {
+                        const newChildAges = [...(formData.childAges || [])];
+                        newChildAges[index] = parseInt(e.target.value) || 0;
+                        handleInputChange('childAges', newChildAges);
+                      }}
+                      placeholder="Enter age"
+                    />
+                  </div>
                   
                   {/* Does child have illness or disability? */}
                   <div className="form-group">
