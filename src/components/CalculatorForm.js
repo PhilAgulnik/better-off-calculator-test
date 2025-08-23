@@ -159,14 +159,32 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 min="1" 
                 max="10" 
                 value={formData.children}
-                onChange={(e) => handleInputChange('children', parseInt(e.target.value) || 1)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '') {
+                    // Allow empty input while typing
+                    handleInputChange('children', '');
+                  } else {
+                    const numValue = parseInt(value);
+                    if (!isNaN(numValue) && numValue >= 1 && numValue <= 10) {
+                      handleInputChange('children', numValue);
+                    }
+                  }
+                }}
+                onBlur={(e) => {
+                  // Ensure minimum value when input loses focus
+                  const value = e.target.value;
+                  if (value === '' || parseInt(value) < 1) {
+                    handleInputChange('children', 1);
+                  }
+                }}
               />
             </div>
 
             {/* Individual child ages */}
             <div className="form-group">
               <label>Age of Each Child</label>
-              {Array.from({ length: formData.children }, (_, index) => (
+              {Array.from({ length: Math.max(1, formData.children || 1) }, (_, index) => (
                 <div key={index} className="child-age-input" style={{ marginBottom: '10px' }}>
                   <label htmlFor={`childAge${index}`}>Child {index + 1} Age:</label>
                   <input 
@@ -190,7 +208,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             {/* Children's disability information */}
             <div className="form-group">
               <label>Children's Disability Information</label>
-              {Array.from({ length: formData.children }, (_, index) => (
+              {Array.from({ length: Math.max(1, formData.children || 1) }, (_, index) => (
                 <div key={index} className="child-disability-section" style={{ 
                   border: '1px solid #ddd', 
                   padding: '15px', 
