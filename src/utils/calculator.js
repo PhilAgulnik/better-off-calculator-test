@@ -423,6 +423,11 @@ export class UniversalCreditCalculator {
         isDisabled: input.isDisabled,
         claimsDisabilityBenefits: input.claimsDisabilityBenefits,
         disabilityBenefitType: input.disabilityBenefitType,
+        pipDailyLivingRate: input.pipDailyLivingRate,
+        pipMobilityRate: input.pipMobilityRate,
+        dlaCareRate: input.dlaCareRate,
+        dlaMobilityRate: input.dlaMobilityRate,
+        aaRate: input.aaRate,
         hasLCWRA: input.hasLCWRA,
         
         // Employment and Disability - Partner
@@ -431,6 +436,11 @@ export class UniversalCreditCalculator {
         partnerIsDisabled: input.partnerIsDisabled,
         partnerClaimsDisabilityBenefits: input.partnerClaimsDisabilityBenefits,
         partnerDisabilityBenefitType: input.partnerDisabilityBenefitType,
+        partnerPipDailyLivingRate: input.partnerPipDailyLivingRate,
+        partnerPipMobilityRate: input.partnerPipMobilityRate,
+        partnerDlaCareRate: input.partnerDlaCareRate,
+        partnerDlaMobilityRate: input.partnerDlaMobilityRate,
+        partnerAaRate: input.partnerAaRate,
         partnerHasLCWRA: input.partnerHasLCWRA,
         
         // Self-employed fields

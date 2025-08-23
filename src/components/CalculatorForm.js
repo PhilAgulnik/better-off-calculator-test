@@ -463,58 +463,277 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 </div>
               </div>
 
-              {/* Disability Benefit Type - only show if claiming */}
-              {formData.claimsDisabilityBenefits === 'yes' && (
-                <div className="form-group">
-                  <label>What disability benefit do you claim?</label>
-                  <div className="radio-group">
-                    <label className="radio-label">
-                      <input 
-                        type="radio" 
-                        name="disabilityBenefitType" 
-                        value="pip" 
-                        checked={formData.disabilityBenefitType === 'pip'}
-                        onChange={(e) => handleInputChange('disabilityBenefitType', e.target.value)}
-                      />
-                      <span className="radio-custom"></span>
-                      Personal Independence Payment (PIP)
-                    </label>
-                    <label className="radio-label">
-                      <input 
-                        type="radio" 
-                        name="disabilityBenefitType" 
-                        value="dla" 
-                        checked={formData.disabilityBenefitType === 'dla'}
-                        onChange={(e) => handleInputChange('disabilityBenefitType', e.target.value)}
-                      />
-                      <span className="radio-custom"></span>
-                      Disability Living Allowance (DLA)
-                    </label>
-                    <label className="radio-label">
-                      <input 
-                        type="radio" 
-                        name="disabilityBenefitType" 
-                        value="aa" 
-                        checked={formData.disabilityBenefitType === 'aa'}
-                        onChange={(e) => handleInputChange('disabilityBenefitType', e.target.value)}
-                      />
-                      <span className="radio-custom"></span>
-                      Attendance Allowance (AA)
-                    </label>
-                    <label className="radio-label">
-                      <input 
-                        type="radio" 
-                        name="disabilityBenefitType" 
-                        value="other" 
-                        checked={formData.disabilityBenefitType === 'other'}
-                        onChange={(e) => handleInputChange('disabilityBenefitType', e.target.value)}
-                      />
-                      <span className="radio-custom"></span>
-                      Other
-                    </label>
-                  </div>
-                </div>
-              )}
+                             {/* Disability Benefit Type - only show if claiming */}
+               {formData.claimsDisabilityBenefits === 'yes' && (
+                 <div className="form-group">
+                   <label>What disability benefit do you claim?</label>
+                   <div className="radio-group">
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="disabilityBenefitType" 
+                         value="pip" 
+                         checked={formData.disabilityBenefitType === 'pip'}
+                         onChange={(e) => handleInputChange('disabilityBenefitType', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Personal Independence Payment (PIP)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="disabilityBenefitType" 
+                         value="dla" 
+                         checked={formData.disabilityBenefitType === 'dla'}
+                         onChange={(e) => handleInputChange('disabilityBenefitType', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Disability Living Allowance (DLA)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="disabilityBenefitType" 
+                         value="aa" 
+                         checked={formData.disabilityBenefitType === 'aa'}
+                         onChange={(e) => handleInputChange('disabilityBenefitType', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Attendance Allowance (AA)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="disabilityBenefitType" 
+                         value="other" 
+                         checked={formData.disabilityBenefitType === 'other'}
+                         onChange={(e) => handleInputChange('disabilityBenefitType', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Other
+                     </label>
+                   </div>
+                 </div>
+               )}
+
+               {/* PIP Rates - only show if claiming PIP */}
+               {formData.claimsDisabilityBenefits === 'yes' && formData.disabilityBenefitType === 'pip' && (
+                 <div className="form-group">
+                   <label>PIP Daily Living Component Rate</label>
+                   <div className="radio-group">
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="pipDailyLivingRate" 
+                         value="none" 
+                         checked={formData.pipDailyLivingRate === 'none'}
+                         onChange={(e) => handleInputChange('pipDailyLivingRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       No award
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="pipDailyLivingRate" 
+                         value="standard" 
+                         checked={formData.pipDailyLivingRate === 'standard'}
+                         onChange={(e) => handleInputChange('pipDailyLivingRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Standard Rate (£72.65)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="pipDailyLivingRate" 
+                         value="enhanced" 
+                         checked={formData.pipDailyLivingRate === 'enhanced'}
+                         onChange={(e) => handleInputChange('pipDailyLivingRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Enhanced Rate (£108.55)
+                     </label>
+                   </div>
+                 </div>
+               )}
+
+               {formData.claimsDisabilityBenefits === 'yes' && formData.disabilityBenefitType === 'pip' && (
+                 <div className="form-group">
+                   <label>PIP Mobility Component Rate</label>
+                   <div className="radio-group">
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="pipMobilityRate" 
+                         value="none" 
+                         checked={formData.pipMobilityRate === 'none'}
+                         onChange={(e) => handleInputChange('pipMobilityRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       No award
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="pipMobilityRate" 
+                         value="standard" 
+                         checked={formData.pipMobilityRate === 'standard'}
+                         onChange={(e) => handleInputChange('pipMobilityRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Standard Rate (£28.70)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="pipMobilityRate" 
+                         value="enhanced" 
+                         checked={formData.pipMobilityRate === 'enhanced'}
+                         onChange={(e) => handleInputChange('pipMobilityRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Enhanced Rate (£75.75)
+                     </label>
+                   </div>
+                 </div>
+               )}
+
+               {/* DLA Rates - only show if claiming DLA */}
+               {formData.claimsDisabilityBenefits === 'yes' && formData.disabilityBenefitType === 'dla' && (
+                 <div className="form-group">
+                   <label>DLA Care Component Rate</label>
+                   <div className="radio-group">
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="dlaCareRate" 
+                         value="none" 
+                         checked={formData.dlaCareRate === 'none'}
+                         onChange={(e) => handleInputChange('dlaCareRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       No award
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="dlaCareRate" 
+                         value="lowest" 
+                         checked={formData.dlaCareRate === 'lowest'}
+                         onChange={(e) => handleInputChange('dlaCareRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Lowest Rate (£28.70)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="dlaCareRate" 
+                         value="middle" 
+                         checked={formData.dlaCareRate === 'middle'}
+                         onChange={(e) => handleInputChange('dlaCareRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Middle Rate (£72.65)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="dlaCareRate" 
+                         value="highest" 
+                         checked={formData.dlaCareRate === 'highest'}
+                         onChange={(e) => handleInputChange('dlaCareRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Highest Rate (£108.55)
+                     </label>
+                   </div>
+                 </div>
+               )}
+
+               {formData.claimsDisabilityBenefits === 'yes' && formData.disabilityBenefitType === 'dla' && (
+                 <div className="form-group">
+                   <label>DLA Mobility Component Rate</label>
+                   <div className="radio-group">
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="dlaMobilityRate" 
+                         value="none" 
+                         checked={formData.dlaMobilityRate === 'none'}
+                         onChange={(e) => handleInputChange('dlaMobilityRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       No award
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="dlaMobilityRate" 
+                         value="lowest" 
+                         checked={formData.dlaMobilityRate === 'lowest'}
+                         onChange={(e) => handleInputChange('dlaMobilityRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Lowest Rate (£28.70)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="dlaMobilityRate" 
+                         value="highest" 
+                         checked={formData.dlaMobilityRate === 'highest'}
+                         onChange={(e) => handleInputChange('dlaMobilityRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Highest Rate (£75.75)
+                     </label>
+                   </div>
+                 </div>
+               )}
+
+               {/* AA Rates - only show if claiming AA */}
+               {formData.claimsDisabilityBenefits === 'yes' && formData.disabilityBenefitType === 'aa' && (
+                 <div className="form-group">
+                   <label>Attendance Allowance Rate</label>
+                   <div className="radio-group">
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="aaRate" 
+                         value="none" 
+                         checked={formData.aaRate === 'none'}
+                         onChange={(e) => handleInputChange('aaRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       No award
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="aaRate" 
+                         value="lower" 
+                         checked={formData.aaRate === 'lower'}
+                         onChange={(e) => handleInputChange('aaRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Lower Rate (£72.65)
+                     </label>
+                     <label className="radio-label">
+                       <input 
+                         type="radio" 
+                         name="aaRate" 
+                         value="higher" 
+                         checked={formData.aaRate === 'higher'}
+                         onChange={(e) => handleInputChange('aaRate', e.target.value)}
+                       />
+                       <span className="radio-custom"></span>
+                       Higher Rate (£108.55)
+                     </label>
+                   </div>
+                 </div>
+               )}
 
               {/* LCWRA Status */}
               <div className="form-group">
@@ -682,58 +901,277 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                   </div>
                 </div>
 
-                {/* Partner Disability Benefit Type - only show if claiming */}
-                {formData.partnerClaimsDisabilityBenefits === 'yes' && (
-                  <div className="form-group">
-                    <label>What disability benefit does your partner claim?</label>
-                    <div className="radio-group">
-                      <label className="radio-label">
-                        <input 
-                          type="radio" 
-                          name="partnerDisabilityBenefitType" 
-                          value="pip" 
-                          checked={formData.partnerDisabilityBenefitType === 'pip'}
-                          onChange={(e) => handleInputChange('partnerDisabilityBenefitType', e.target.value)}
-                        />
-                        <span className="radio-custom"></span>
-                        Personal Independence Payment (PIP)
-                      </label>
-                      <label className="radio-label">
-                        <input 
-                          type="radio" 
-                          name="partnerDisabilityBenefitType" 
-                          value="dla" 
-                          checked={formData.partnerDisabilityBenefitType === 'dla'}
-                          onChange={(e) => handleInputChange('partnerDisabilityBenefitType', e.target.value)}
-                        />
-                        <span className="radio-custom"></span>
-                        Disability Living Allowance (DLA)
-                      </label>
-                      <label className="radio-label">
-                        <input 
-                          type="radio" 
-                          name="partnerDisabilityBenefitType" 
-                          value="aa" 
-                          checked={formData.partnerDisabilityBenefitType === 'aa'}
-                          onChange={(e) => handleInputChange('partnerDisabilityBenefitType', e.target.value)}
-                        />
-                        <span className="radio-custom"></span>
-                        Attendance Allowance (AA)
-                      </label>
-                      <label className="radio-label">
-                        <input 
-                          type="radio" 
-                          name="partnerDisabilityBenefitType" 
-                          value="other" 
-                          checked={formData.partnerDisabilityBenefitType === 'other'}
-                          onChange={(e) => handleInputChange('partnerDisabilityBenefitType', e.target.value)}
-                        />
-                        <span className="radio-custom"></span>
-                        Other
-                      </label>
-                    </div>
-                  </div>
-                )}
+                                 {/* Partner Disability Benefit Type - only show if claiming */}
+                 {formData.partnerClaimsDisabilityBenefits === 'yes' && (
+                   <div className="form-group">
+                     <label>What disability benefit does your partner claim?</label>
+                     <div className="radio-group">
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDisabilityBenefitType" 
+                           value="pip" 
+                           checked={formData.partnerDisabilityBenefitType === 'pip'}
+                           onChange={(e) => handleInputChange('partnerDisabilityBenefitType', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Personal Independence Payment (PIP)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDisabilityBenefitType" 
+                           value="dla" 
+                           checked={formData.partnerDisabilityBenefitType === 'dla'}
+                           onChange={(e) => handleInputChange('partnerDisabilityBenefitType', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Disability Living Allowance (DLA)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDisabilityBenefitType" 
+                           value="aa" 
+                           checked={formData.partnerDisabilityBenefitType === 'aa'}
+                           onChange={(e) => handleInputChange('partnerDisabilityBenefitType', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Attendance Allowance (AA)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDisabilityBenefitType" 
+                           value="other" 
+                           checked={formData.partnerDisabilityBenefitType === 'other'}
+                           onChange={(e) => handleInputChange('partnerDisabilityBenefitType', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Other
+                       </label>
+                     </div>
+                   </div>
+                 )}
+
+                 {/* Partner PIP Rates - only show if claiming PIP */}
+                 {formData.partnerClaimsDisabilityBenefits === 'yes' && formData.partnerDisabilityBenefitType === 'pip' && (
+                   <div className="form-group">
+                     <label>Partner's PIP Daily Living Component Rate</label>
+                     <div className="radio-group">
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerPipDailyLivingRate" 
+                           value="none" 
+                           checked={formData.partnerPipDailyLivingRate === 'none'}
+                           onChange={(e) => handleInputChange('partnerPipDailyLivingRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         No award
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerPipDailyLivingRate" 
+                           value="standard" 
+                           checked={formData.partnerPipDailyLivingRate === 'standard'}
+                           onChange={(e) => handleInputChange('partnerPipDailyLivingRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Standard Rate (£72.65)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerPipDailyLivingRate" 
+                           value="enhanced" 
+                           checked={formData.partnerPipDailyLivingRate === 'enhanced'}
+                           onChange={(e) => handleInputChange('partnerPipDailyLivingRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Enhanced Rate (£108.55)
+                       </label>
+                     </div>
+                   </div>
+                 )}
+
+                 {formData.partnerClaimsDisabilityBenefits === 'yes' && formData.partnerDisabilityBenefitType === 'pip' && (
+                   <div className="form-group">
+                     <label>Partner's PIP Mobility Component Rate</label>
+                     <div className="radio-group">
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerPipMobilityRate" 
+                           value="none" 
+                           checked={formData.partnerPipMobilityRate === 'none'}
+                           onChange={(e) => handleInputChange('partnerPipMobilityRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         No award
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerPipMobilityRate" 
+                           value="standard" 
+                           checked={formData.partnerPipMobilityRate === 'standard'}
+                           onChange={(e) => handleInputChange('partnerPipMobilityRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Standard Rate (£28.70)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerPipMobilityRate" 
+                           value="enhanced" 
+                           checked={formData.partnerPipMobilityRate === 'enhanced'}
+                           onChange={(e) => handleInputChange('partnerPipMobilityRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Enhanced Rate (£75.75)
+                       </label>
+                     </div>
+                   </div>
+                 )}
+
+                 {/* Partner DLA Rates - only show if claiming DLA */}
+                 {formData.partnerClaimsDisabilityBenefits === 'yes' && formData.partnerDisabilityBenefitType === 'dla' && (
+                   <div className="form-group">
+                     <label>Partner's DLA Care Component Rate</label>
+                     <div className="radio-group">
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDlaCareRate" 
+                           value="none" 
+                           checked={formData.partnerDlaCareRate === 'none'}
+                           onChange={(e) => handleInputChange('partnerDlaCareRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         No award
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDlaCareRate" 
+                           value="lowest" 
+                           checked={formData.partnerDlaCareRate === 'lowest'}
+                           onChange={(e) => handleInputChange('partnerDlaCareRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Lowest Rate (£28.70)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDlaCareRate" 
+                           value="middle" 
+                           checked={formData.partnerDlaCareRate === 'middle'}
+                           onChange={(e) => handleInputChange('partnerDlaCareRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Middle Rate (£72.65)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDlaCareRate" 
+                           value="highest" 
+                           checked={formData.partnerDlaCareRate === 'highest'}
+                           onChange={(e) => handleInputChange('partnerDlaCareRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Highest Rate (£108.55)
+                       </label>
+                     </div>
+                   </div>
+                 )}
+
+                 {formData.partnerClaimsDisabilityBenefits === 'yes' && formData.partnerDisabilityBenefitType === 'dla' && (
+                   <div className="form-group">
+                     <label>Partner's DLA Mobility Component Rate</label>
+                     <div className="radio-group">
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDlaMobilityRate" 
+                           value="none" 
+                           checked={formData.partnerDlaMobilityRate === 'none'}
+                           onChange={(e) => handleInputChange('partnerDlaMobilityRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         No award
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDlaMobilityRate" 
+                           value="lowest" 
+                           checked={formData.partnerDlaMobilityRate === 'lowest'}
+                           onChange={(e) => handleInputChange('partnerDlaMobilityRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Lowest Rate (£28.70)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerDlaMobilityRate" 
+                           value="highest" 
+                           checked={formData.partnerDlaMobilityRate === 'highest'}
+                           onChange={(e) => handleInputChange('partnerDlaMobilityRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Highest Rate (£75.75)
+                       </label>
+                     </div>
+                   </div>
+                 )}
+
+                 {/* Partner AA Rates - only show if claiming AA */}
+                 {formData.partnerClaimsDisabilityBenefits === 'yes' && formData.partnerDisabilityBenefitType === 'aa' && (
+                   <div className="form-group">
+                     <label>Partner's Attendance Allowance Rate</label>
+                     <div className="radio-group">
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerAaRate" 
+                           value="none" 
+                           checked={formData.partnerAaRate === 'none'}
+                           onChange={(e) => handleInputChange('partnerAaRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         No award
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerAaRate" 
+                           value="lower" 
+                           checked={formData.partnerAaRate === 'lower'}
+                           onChange={(e) => handleInputChange('partnerAaRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Lower Rate (£72.65)
+                       </label>
+                       <label className="radio-label">
+                         <input 
+                           type="radio" 
+                           name="partnerAaRate" 
+                           value="higher" 
+                           checked={formData.partnerAaRate === 'higher'}
+                           onChange={(e) => handleInputChange('partnerAaRate', e.target.value)}
+                         />
+                         <span className="radio-custom"></span>
+                         Higher Rate (£108.55)
+                       </label>
+                     </div>
+                   </div>
+                 )}
 
                 {/* Partner LCWRA Status */}
                 <div className="form-group">
