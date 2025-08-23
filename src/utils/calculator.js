@@ -191,18 +191,82 @@ export class UniversalCreditCalculator {
     const { rent, serviceCharges, tenantType, bedrooms } = input;
     
     if (tenantType === 'private') {
-      // Use LHA rates based on number of bedrooms
+      // Calculate bedroom entitlement based on family composition
+      const bedroomEntitlement = this.calculateBedroomEntitlement(input);
+      
+      // Use LHA rates based on bedroom entitlement
       let lhaRate = rates.lhaRates.oneBed; // Default
-      if (bedrooms === 0) lhaRate = rates.lhaRates.shared;
-      else if (bedrooms === 2) lhaRate = rates.lhaRates.twoBed;
-      else if (bedrooms === 3) lhaRate = rates.lhaRates.threeBed;
-      else if (bedrooms >= 4) lhaRate = rates.lhaRates.fourBed;
+      if (bedroomEntitlement === 0) lhaRate = rates.lhaRates.shared;
+      else if (bedroomEntitlement === 2) lhaRate = rates.lhaRates.twoBed;
+      else if (bedroomEntitlement === 3) lhaRate = rates.lhaRates.threeBed;
+      else if (bedroomEntitlement >= 4) lhaRate = rates.lhaRates.fourBed;
       
       return Math.min(rent + serviceCharges, lhaRate);
     } else {
       // Social housing - simplified calculation
       return rent + serviceCharges;
     }
+  }
+
+  calculateBedroomEntitlement(input) {
+    const { circumstances, children, childAges, childGenders } = input;
+    
+    // Basic entitlement: 1 bedroom for each adult couple or single person
+    let bedrooms = circumstances === 'couple' ? 1 : 1;
+    
+    if (children === 0) {
+      return bedrooms;
+    }
+    
+    // For children, we need to consider gender for bedroom sharing rules
+    if (children === 1) {
+      // One child gets their own bedroom
+      return bedrooms + 1;
+    }
+    
+    // For 2+ children, we need to check if they can share based on gender and age
+    const childrenInfo = [];
+    for (let i = 0; i < children; i++) {
+      childrenInfo.push({
+        age: childAges[i] || 0,
+        gender: childGenders[i] || 'unknown'
+      });
+    }
+    
+    // Sort children by age (youngest first)
+    childrenInfo.sort((a, b) => a.age - b.age);
+    
+    // Group children who can share bedrooms
+    const bedroomGroups = [];
+    const usedChildren = new Set();
+    
+    for (let i = 0; i < childrenInfo.length; i++) {
+      if (usedChildren.has(i)) continue;
+      
+      const currentChild = childrenInfo[i];
+      const group = [currentChild];
+      usedChildren.add(i);
+      
+      // Look for children who can share with this child
+      for (let j = i + 1; j < childrenInfo.length; j++) {
+        if (usedChildren.has(j)) continue;
+        
+        const otherChild = childrenInfo[j];
+        
+        // Children can share if:
+        // 1. They are the same gender, OR
+        // 2. They are both under 10 years old
+        if (currentChild.gender === otherChild.gender || 
+            (currentChild.age < 10 && otherChild.age < 10)) {
+          group.push(otherChild);
+          usedChildren.add(j);
+        }
+      }
+      
+      bedroomGroups.push(group);
+    }
+    
+    return bedrooms + bedroomGroups.length;
   }
 
   calculateChildElement(input, rates) {
@@ -341,6 +405,7 @@ export class UniversalCreditCalculator {
         children: input.children,
         childAges: input.childAges || [],
         childDisabilities: input.childDisabilities || [],
+        childGenders: input.childGenders || [],
         
         // Housing
         housingStatus: input.housingStatus,
@@ -351,10 +416,22 @@ export class UniversalCreditCalculator {
         area: input.area,
         nonDependants: input.nonDependants,
         
-        // Employment
+        // Employment and Disability - Main Person
         employmentType: input.employmentType,
         monthlyEarnings: input.monthlyEarnings,
         childcareCosts: input.childcareCosts,
+        isDisabled: input.isDisabled,
+        claimsDisabilityBenefits: input.claimsDisabilityBenefits,
+        disabilityBenefitType: input.disabilityBenefitType,
+        hasLCWRA: input.hasLCWRA,
+        
+        // Employment and Disability - Partner
+        partnerEmploymentType: input.partnerEmploymentType,
+        partnerMonthlyEarnings: input.partnerMonthlyEarnings,
+        partnerIsDisabled: input.partnerIsDisabled,
+        partnerClaimsDisabilityBenefits: input.partnerClaimsDisabilityBenefits,
+        partnerDisabilityBenefitType: input.partnerDisabilityBenefitType,
+        partnerHasLCWRA: input.partnerHasLCWRA,
         
         // Self-employed fields
         businessIncomeBank: input.businessIncomeBank,

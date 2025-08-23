@@ -23,6 +23,7 @@ function App() {
     // Children's disability information
     childDisabilities: [], // Array of objects: {childIndex: 0, hasDisability: false, claimsDLA: false, careRate: '', mobilityRate: ''}
     childAges: [], // Array of ages for each child
+    childGenders: [], // Array of genders for each child ('male' or 'female')
     hasChildren: false, // Track whether user has children (separate from number)
     
     // Housing
@@ -34,10 +35,22 @@ function App() {
     area: 'default',
     nonDependants: 0,
     
-    // Employment
-    employmentType: 'not_working',
-    monthlyEarnings: 0,
-    childcareCosts: 0,
+                        // Employment and Disability - Main Person
+                    employmentType: 'not_working',
+                    monthlyEarnings: 0,
+                    childcareCosts: 0,
+                    isDisabled: 'no',
+                    claimsDisabilityBenefits: 'no',
+                    disabilityBenefitType: '',
+                    hasLCWRA: 'no',
+                    
+                    // Employment and Disability - Partner
+                    partnerEmploymentType: 'not_working',
+                    partnerMonthlyEarnings: 0,
+                    partnerIsDisabled: 'no',
+                    partnerClaimsDisabilityBenefits: 'no',
+                    partnerDisabilityBenefitType: '',
+                    partnerHasLCWRA: 'no',
     
     // Self-employed fields
     businessIncomeBank: 0,
@@ -164,6 +177,7 @@ function App() {
         children: 0,
         childDisabilities: [],
         childAges: [],
+        childGenders: [],
         hasChildren: false,
         housingStatus: 'no_housing_costs',
         tenantType: 'private',
@@ -175,6 +189,16 @@ function App() {
         employmentType: 'not_working',
         monthlyEarnings: 0,
         childcareCosts: 0,
+        isDisabled: 'no',
+        claimsDisabilityBenefits: 'no',
+        disabilityBenefitType: '',
+        hasLCWRA: 'no',
+        partnerEmploymentType: 'not_working',
+        partnerMonthlyEarnings: 0,
+        partnerIsDisabled: 'no',
+        partnerClaimsDisabilityBenefits: 'no',
+        partnerDisabilityBenefitType: '',
+        partnerHasLCWRA: 'no',
         businessIncomeBank: 0,
         businessIncomeCash: 0,
         businessExpensesRent: 0,

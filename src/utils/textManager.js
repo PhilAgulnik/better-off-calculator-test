@@ -680,6 +680,246 @@ const defaultTextBlocks = [
     siteMode: 'ComprehensiveCalc',
     editHistory: 'Not changed',
     editorName: ''
+  },
+  // Common form text
+  {
+    key: 'Calculator.Form.Common.Yes',
+    english: 'Yes',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Common.No',
+    english: 'No',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  // New text blocks for recently added features
+  {
+    key: 'Calculator.Form.Children.HasChildren.Label',
+    english: 'Do you have children?',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.HasChildren.No',
+    english: 'No Children',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.HasChildren.Yes',
+    english: 'Yes, I have children',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.Number.Label',
+    english: 'Number of Children',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.Information.Label',
+    english: 'Information for Each Child',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.ChildNumber.Label',
+    english: 'Child {number}',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.Age.Label',
+    english: 'Age',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.Gender.Label',
+    english: 'Child {index} Gender',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.Gender.Male',
+    english: 'Male',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.Gender.Female',
+    english: 'Female',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.Gender.Explanation',
+    english: 'We need to know the gender of your children to calculate the correct bedroom entitlement for Local Housing Allowance. Children of the same gender or under 10 years old can share a bedroom.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.Disability.Label',
+    english: 'Does Child {index} have an illness or disability?',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.DLA.Label',
+    english: 'Does Child {index} claim Disability Living Allowance (DLA)?',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.DLA.CareRate.Label',
+    english: 'DLA Care Component Rate',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.DLA.MobilityRate.Label',
+    english: 'DLA Mobility Component Rate',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.DLA.CareRate.Lowest',
+    english: 'Lowest Rate (£26.90)',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.DLA.CareRate.Middle',
+    english: 'Middle Rate (£68.10)',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.DLA.CareRate.Highest',
+    english: 'Highest Rate (£101.75)',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.DLA.MobilityRate.Lowest',
+    english: 'Lowest Rate (£26.90)',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Children.DLA.MobilityRate.Highest',
+    english: 'Highest Rate (£71.00)',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Housing.Status.Label',
+    english: 'Housing Status',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Housing.Status.NoCosts',
+    english: 'No Housing Costs',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Housing.Status.Renting',
+    english: 'Renting',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Housing.Status.Homeowner',
+    english: 'Homeowner',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Housing.Status.Other',
+    english: 'Other',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Housing.Homeowner.Message',
+    english: 'We do not currently support calculations for homeowners. Please select "Renting" or "No Housing Costs" to continue with the calculation.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Housing.Other.Message',
+    english: 'We do not yet cover people who live in Temporary Accommodation, Supported Accommodation, Residential care or in prison. Please select "Renting" or "No Housing Costs" to continue with the calculation.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Housing.NotCovered.Label',
+    english: 'Not covered yet:',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Employment.Status.Label',
+    english: 'Employment Status',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Employment.Status.NotWorking',
+    english: 'Not Working',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Employment.Status.Employed',
+    english: 'Employed',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'Calculator.Form.Employment.Status.SelfEmployed',
+    english: 'Self-employed',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
   }
 ];
 
