@@ -154,7 +154,7 @@ body {
 
 .calculator-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--spacing-8);
     margin-bottom: var(--spacing-12);
 }
@@ -635,6 +635,106 @@ body {
     margin-top: var(--spacing-8);
     border-top: 1px solid var(--gray-200);
     padding-top: var(--spacing-6);
+}
+
+/* Testing Module Styles */
+.testing-module {
+    margin-top: var(--spacing-8);
+    border-top: 1px solid var(--gray-200);
+    padding-top: var(--spacing-6);
+}
+
+.testing-module .card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+}
+
+.test-results {
+    margin-top: var(--spacing-6);
+}
+
+.results-summary {
+    background: var(--gray-50);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-6);
+}
+
+.summary-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--spacing-4);
+}
+
+.stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-2) var(--spacing-3);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-200);
+}
+
+.stat .label {
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.stat .value {
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+}
+
+.stat .value.success {
+    color: var(--success-color);
+}
+
+.stat .value.error {
+    color: var(--error-color);
+}
+
+.test-details {
+    margin-top: var(--spacing-6);
+}
+
+.test-case {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-3);
+}
+
+.test-case.failed {
+    border-left: 4px solid var(--error-color);
+    background: #fef2f2;
+}
+
+.test-case h6 {
+    margin: 0 0 var(--spacing-3) 0;
+    color: var(--gray-900);
+    font-size: var(--font-size-base);
+}
+
+.test-errors {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.error-item {
+    background: var(--white);
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--gray-300);
+    font-size: var(--font-size-sm);
+}
+
+/* Header buttons */
+.header-buttons {
+    display: flex;
+    gap: var(--spacing-2);
 }
 
 .better-off-module .card {

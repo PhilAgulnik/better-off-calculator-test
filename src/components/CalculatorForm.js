@@ -108,94 +108,179 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           </div>
         )}
 
-        {/* Children */}
+        {/* Children Section */}
         <div className="form-group">
-          <label htmlFor="children">Number of Children</label>
-          <input 
-            type="number" 
-            id="children" 
-            className="form-control" 
-            min="0" 
-            max="10" 
-            value={formData.children}
-            onChange={(e) => handleInputChange('children', parseInt(e.target.value) || 0)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Age of Youngest Child</label>
+          <label>Do you have children?</label>
           <div className="radio-group">
             <label className="radio-label">
               <input 
                 type="radio" 
-                name="childrenAge" 
-                value="under1" 
-                checked={formData.childrenAge === 'under1'}
-                onChange={(e) => handleInputChange('childrenAge', e.target.value)}
+                name="hasChildren" 
+                value="no" 
+                checked={formData.children === 0}
+                onChange={(e) => handleInputChange('children', 0)}
               />
               <span className="radio-custom"></span>
-              Under 1
+              No Children
             </label>
             <label className="radio-label">
               <input 
                 type="radio" 
-                name="childrenAge" 
-                value="1to2" 
-                checked={formData.childrenAge === '1to2'}
-                onChange={(e) => handleInputChange('childrenAge', e.target.value)}
+                name="hasChildren" 
+                value="yes" 
+                checked={formData.children > 0}
+                onChange={(e) => handleInputChange('children', 1)}
               />
               <span className="radio-custom"></span>
-              1 to 2
-            </label>
-            <label className="radio-label">
-              <input 
-                type="radio" 
-                name="childrenAge" 
-                value="3to4" 
-                checked={formData.childrenAge === '3to4'}
-                onChange={(e) => handleInputChange('childrenAge', e.target.value)}
-              />
-              <span className="radio-custom"></span>
-              3 to 4
-            </label>
-            <label className="radio-label">
-              <input 
-                type="radio" 
-                name="childrenAge" 
-                value="5to10" 
-                checked={formData.childrenAge === '5to10'}
-                onChange={(e) => handleInputChange('childrenAge', e.target.value)}
-              />
-              <span className="radio-custom"></span>
-              5 to 10
-            </label>
-            <label className="radio-label">
-              <input 
-                type="radio" 
-                name="childrenAge" 
-                value="11to15" 
-                checked={formData.childrenAge === '11to15'}
-                onChange={(e) => handleInputChange('childrenAge', e.target.value)}
-              />
-              <span className="radio-custom"></span>
-              11 to 15
-            </label>
-            <label className="radio-label">
-              <input 
-                type="radio" 
-                name="childrenAge" 
-                value="16to19" 
-                checked={formData.childrenAge === '16to19'}
-                onChange={(e) => handleInputChange('childrenAge', e.target.value)}
-              />
-              <span className="radio-custom"></span>
-              16 to 19
+              Yes, I have children
             </label>
           </div>
         </div>
 
+        {/* Show children fields only if they have children */}
+        {formData.children > 0 && (
+          <>
+            <div className="form-group">
+              <label htmlFor="children">Number of Children</label>
+              <input 
+                type="number" 
+                id="children" 
+                className="form-control" 
+                min="1" 
+                max="10" 
+                value={formData.children}
+                onChange={(e) => handleInputChange('children', parseInt(e.target.value) || 1)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Age of Youngest Child</label>
+              <div className="radio-group">
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="childrenAge" 
+                    value="under1" 
+                    checked={formData.childrenAge === 'under1'}
+                    onChange={(e) => handleInputChange('childrenAge', e.target.value)}
+                  />
+                  <span className="radio-custom"></span>
+                  Under 1
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="childrenAge" 
+                    value="1to2" 
+                    checked={formData.childrenAge === '1to2'}
+                    onChange={(e) => handleInputChange('childrenAge', e.target.value)}
+                  />
+                  <span className="radio-custom"></span>
+                  1 to 2
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="childrenAge" 
+                    value="3to4" 
+                    checked={formData.childrenAge === '3to4'}
+                    onChange={(e) => handleInputChange('childrenAge', e.target.value)}
+                  />
+                  <span className="radio-custom"></span>
+                  3 to 4
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="childrenAge" 
+                    value="5to10" 
+                    checked={formData.childrenAge === '5to10'}
+                    onChange={(e) => handleInputChange('childrenAge', e.target.value)}
+                  />
+                  <span className="radio-custom"></span>
+                  5 to 10
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="childrenAge" 
+                    value="11to15" 
+                    checked={formData.childrenAge === '11to15'}
+                    onChange={(e) => handleInputChange('childrenAge', e.target.value)}
+                  />
+                  <span className="radio-custom"></span>
+                  11 to 15
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="childrenAge" 
+                    value="16to19" 
+                    checked={formData.childrenAge === '16to19'}
+                    onChange={(e) => handleInputChange('childrenAge', e.target.value)}
+                  />
+                  <span className="radio-custom"></span>
+                  16 to 19
+                </label>
+              </div>
+            </div>
+          </>
+        )}
+
         {/* Housing Section */}
         <div className="form-group">
+          <label>Housing Status</label>
+          <div className="radio-group">
+            <label className="radio-label">
+              <input 
+                type="radio" 
+                name="housingStatus" 
+                value="no_housing_costs" 
+                checked={formData.housingStatus === 'no_housing_costs'}
+                onChange={(e) => handleInputChange('housingStatus', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              No Housing Costs
+            </label>
+            <label className="radio-label">
+              <input 
+                type="radio" 
+                name="housingStatus" 
+                value="renting" 
+                checked={formData.housingStatus === 'renting'}
+                onChange={(e) => handleInputChange('housingStatus', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              Renting
+            </label>
+            <label className="radio-label">
+              <input 
+                type="radio" 
+                name="housingStatus" 
+                value="homeowner" 
+                checked={formData.housingStatus === 'homeowner'}
+                onChange={(e) => handleInputChange('housingStatus', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              Homeowner
+            </label>
+            <label className="radio-label">
+              <input 
+                type="radio" 
+                name="housingStatus" 
+                value="other" 
+                checked={formData.housingStatus === 'other'}
+                onChange={(e) => handleInputChange('housingStatus', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              Other
+            </label>
+          </div>
+        </div>
+
+        {/* Show tenant type options only if renting */}
+        {formData.housingStatus === 'renting' && (
+          <div className="form-group">
           <label>Tenant Type</label>
           <div className="radio-group">
             <label className="radio-label">
@@ -222,7 +307,18 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             </label>
           </div>
         </div>
+        )}
 
+        {/* Show message for non-renting options */}
+        {(formData.housingStatus === 'homeowner' || formData.housingStatus === 'other') && (
+          <div className="info-box">
+            <p><strong>Not covered yet:</strong> {formData.housingStatus === 'homeowner' ? 'We do not currently support calculations for homeowners. Please select "Renting" or "No Housing Costs" to continue with the calculation.' : 'We do not yet cover people who live in Temporary Accommodation, Supported Accommodation, Residential care or in prison. Please select "Renting" or "No Housing Costs" to continue with the calculation.'}</p>
+          </div>
+        )}
+
+        {/* Show rent and service charges only if renting */}
+        {formData.housingStatus === 'renting' && (
+          <>
         <div className="form-group">
           <label htmlFor="rent">Monthly Rent</label>
           <div className="input-with-prefix">
@@ -254,7 +350,12 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             />
           </div>
         </div>
+          </>
+        )}
 
+        {/* Show bedrooms and other housing fields only if not "no housing costs" */}
+        {formData.housingStatus !== 'no_housing_costs' && (
+          <>
         <div className="form-group">
           <label>Number of Bedrooms</label>
           <div className="radio-group">
@@ -328,22 +429,34 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         </div>
 
         <div className="form-group">
-          <label htmlFor="nonDependants">Non-dependants</label>
+              <label htmlFor="nonDependants">Number of Non-Dependants</label>
           <input 
             type="number" 
             id="nonDependants" 
             className="form-control" 
             min="0" 
-            max="10" 
             value={formData.nonDependants}
             onChange={(e) => handleInputChange('nonDependants', parseInt(e.target.value) || 0)}
           />
         </div>
+          </>
+        )}
 
         {/* Employment Section */}
         <div className="form-group">
-          <label>Employment Type</label>
+          <label>Employment Status</label>
           <div className="radio-group">
+            <label className="radio-label">
+              <input 
+                type="radio" 
+                name="employmentType" 
+                value="not_working" 
+                checked={formData.employmentType === 'not_working'}
+                onChange={(e) => handleInputChange('employmentType', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              Not Working
+            </label>
             <label className="radio-label">
               <input 
                 type="radio" 
@@ -369,37 +482,42 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="monthlyEarnings">Monthly Earnings</label>
-          <div className="input-with-prefix">
-            <span className="prefix">£</span>
-            <input 
-              type="number" 
-              id="monthlyEarnings" 
-              className="form-control" 
-              min="0" 
-              step="0.01" 
-              value={formData.monthlyEarnings}
-              onChange={(e) => handleInputChange('monthlyEarnings', parseFloat(e.target.value) || 0)}
-            />
-          </div>
-        </div>
+        {/* Show employment fields only if working */}
+        {(formData.employmentType === 'employed' || formData.employmentType === 'self-employed') && (
+          <>
+            <div className="form-group">
+              <label htmlFor="monthlyEarnings">Monthly Earnings</label>
+              <div className="input-with-prefix">
+                <span className="prefix">£</span>
+                <input 
+                  type="number" 
+                  id="monthlyEarnings" 
+                  className="form-control" 
+                  min="0" 
+                  step="0.01" 
+                  value={formData.monthlyEarnings}
+                  onChange={(e) => handleInputChange('monthlyEarnings', parseFloat(e.target.value) || 0)}
+                />
+              </div>
+            </div>
 
-        <div className="form-group">
-          <label htmlFor="childcareCosts">Childcare Costs</label>
-          <div className="input-with-prefix">
-            <span className="prefix">£</span>
-            <input 
-              type="number" 
-              id="childcareCosts" 
-              className="form-control" 
-              min="0" 
-              step="0.01" 
-              value={formData.childcareCosts}
-              onChange={(e) => handleInputChange('childcareCosts', parseFloat(e.target.value) || 0)}
-            />
-          </div>
-        </div>
+            <div className="form-group">
+              <label htmlFor="childcareCosts">Childcare Costs</label>
+              <div className="input-with-prefix">
+                <span className="prefix">£</span>
+                <input 
+                  type="number" 
+                  id="childcareCosts" 
+                  className="form-control" 
+                  min="0" 
+                  step="0.01" 
+                  value={formData.childcareCosts}
+                  onChange={(e) => handleInputChange('childcareCosts', parseFloat(e.target.value) || 0)}
+                />
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Carer Section */}
         <div className="carer-section">

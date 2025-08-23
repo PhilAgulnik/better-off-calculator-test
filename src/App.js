@@ -4,6 +4,7 @@ import ResultsSection from './components/ResultsSection';
 import SavedScenarios from './components/SavedScenarios';
 import LoadingOverlay from './components/LoadingOverlay';
 import AdminPanel from './components/AdminPanel';
+import TestingModule from './components/TestingModule';
 import { UniversalCreditCalculator } from './utils/calculator';
 import { useTextManager } from './hooks/useTextManager';
 // import { formatCurrency } from './utils/formatters';
@@ -21,6 +22,7 @@ function App() {
     childrenAge: '5to10',
     
     // Housing
+    housingStatus: 'no_housing_costs',
     tenantType: 'private',
     rent: 0,
     serviceCharges: 0,
@@ -29,7 +31,7 @@ function App() {
     nonDependants: 0,
     
     // Employment
-    employmentType: 'employed',
+    employmentType: 'not_working',
     monthlyEarnings: 0,
     childcareCosts: 0,
     
@@ -78,6 +80,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [showTestingModule, setShowTestingModule] = useState(false);
 
   useEffect(() => {
     // Initialize calculator
@@ -156,13 +159,14 @@ function App() {
         partnerAge: 25,
         children: 0,
         childrenAge: '5to10',
+        housingStatus: 'no_housing_costs',
         tenantType: 'private',
         rent: 0,
         serviceCharges: 0,
         bedrooms: 1,
         area: 'default',
         nonDependants: 0,
-        employmentType: 'employed',
+        employmentType: 'not_working',
         monthlyEarnings: 0,
         childcareCosts: 0,
         businessIncomeBank: 0,
@@ -240,6 +244,7 @@ function App() {
             <h1>{getTextValue('Calculator.Header.Title', 'Universal Credit Calculator')}</h1>
             <p className="subtitle">{getTextValue('Calculator.Header.Subtitle', 'Calculate your Universal Credit entitlement for any tax year')}</p>
           </div>
+          <div className="header-buttons">
           <button 
             type="button" 
             className="btn btn-outline btn-sm admin-toggle"
@@ -247,6 +252,14 @@ function App() {
           >
             {showAdminPanel ? 'Hide Admin' : 'Admin Panel'}
           </button>
+            <button 
+              type="button" 
+              className="btn btn-outline btn-sm testing-toggle"
+              onClick={() => setShowTestingModule(!showTestingModule)}
+            >
+              {showTestingModule ? 'Hide Testing' : 'Testing Module'}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -287,6 +300,12 @@ function App() {
         <AdminPanel 
           isVisible={showAdminPanel}
           onToggleVisibility={() => setShowAdminPanel(false)}
+        />
+
+        {/* Testing Module */}
+        <TestingModule 
+          isVisible={showTestingModule}
+          onToggleVisibility={() => setShowTestingModule(false)}
         />
       </main>
 

@@ -322,4 +322,96 @@ export class UniversalCreditCalculator {
       rates: this.rates
     };
   }
+
+  // New method for testing comparison
+  exportCalculationForTesting(input, results) {
+    return {
+      metadata: {
+        calculator: 'Universal Credit Calculator React',
+        version: '1.0.0',
+        exportedAt: new Date().toISOString(),
+        taxYear: input.taxYear
+      },
+      input: {
+        // Personal Details
+        taxYear: input.taxYear,
+        circumstances: input.circumstances,
+        age: input.age,
+        partnerAge: input.partnerAge,
+        children: input.children,
+        childrenAge: input.childrenAge,
+        
+        // Housing
+        housingStatus: input.housingStatus,
+        tenantType: input.tenantType,
+        rent: input.rent,
+        serviceCharges: input.serviceCharges,
+        bedrooms: input.bedrooms,
+        area: input.area,
+        nonDependants: input.nonDependants,
+        
+        // Employment
+        employmentType: input.employmentType,
+        monthlyEarnings: input.monthlyEarnings,
+        childcareCosts: input.childcareCosts,
+        
+        // Self-employed fields
+        businessIncomeBank: input.businessIncomeBank,
+        businessIncomeCash: input.businessIncomeCash,
+        businessExpensesRent: input.businessExpensesRent,
+        businessExpensesRates: input.businessExpensesRates,
+        businessExpensesUtilities: input.businessExpensesUtilities,
+        businessExpensesInsurance: input.businessExpensesInsurance,
+        businessExpensesTelephone: input.businessExpensesTelephone,
+        businessExpensesMarketing: input.businessExpensesMarketing,
+        businessExpensesVehicle: input.businessExpensesVehicle,
+        businessExpensesEquipment: input.businessExpensesEquipment,
+        businessExpensesPostage: input.businessExpensesPostage,
+        businessExpensesTransport: input.businessExpensesTransport,
+        businessExpensesProfessional: input.businessExpensesProfessional,
+        businessTax: input.businessTax,
+        businessNIC: input.businessNIC,
+        businessPension: input.businessPension,
+        businessCarMiles: input.businessCarMiles,
+        businessHomeHours: input.businessHomeHours,
+        
+        // Carer details
+        isCarer: input.isCarer,
+        isPartnerCarer: input.isPartnerCarer,
+        currentlyReceivingCarersAllowance: input.currentlyReceivingCarersAllowance,
+        partnerCurrentlyReceivingCarersAllowance: input.partnerCurrentlyReceivingCarersAllowance,
+        caringHours: input.caringHours,
+        partnerCaringHours: input.partnerCaringHours,
+        personReceivesBenefits: input.personReceivesBenefits,
+        partnerPersonReceivesBenefits: input.partnerPersonReceivesBenefits,
+        includeCarersAllowance: input.includeCarersAllowance,
+        partnerIncludeCarersAllowance: input.partnerIncludeCarersAllowance,
+        includeCarerElement: input.includeCarerElement,
+        partnerIncludeCarerElement: input.partnerIncludeCarerElement,
+        
+        // Other
+        savings: input.savings,
+        otherBenefits: input.otherBenefits,
+        otherBenefitsPeriod: input.otherBenefitsPeriod
+      },
+      output: {
+        standardAllowance: results.calculation.standardAllowance,
+        housingElement: results.calculation.housingElement,
+        childElement: results.calculation.childElement,
+        childcareElement: results.calculation.childcareElement,
+        carerElement: results.calculation.carerElement,
+        totalElements: results.calculation.totalElements,
+        earningsReduction: results.calculation.earningsReduction,
+        capitalDeduction: results.calculation.capitalDeduction,
+        benefitDeduction: results.calculation.benefitDeduction,
+        finalAmount: results.calculation.finalAmount,
+        warnings: results.warnings || []
+      },
+      calculationDetails: {
+        workAllowance: results.calculation.workAllowance || 0,
+        taperRate: results.calculation.taperRate || 0.55,
+        lhaRate: results.calculation.lhaRate || 0
+      }
+    };
+  }
 }
