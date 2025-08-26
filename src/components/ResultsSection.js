@@ -2,9 +2,23 @@ import React, { useState } from 'react';
 import { formatCurrency } from '../utils/formatters';
 import BetterOffInWorkModule from './BetterOffInWorkModule';
 
-function ResultsSection({ results, onPrint, onExport }) {
+function ResultsSection({ results, formData, onPrint, onExport }) {
   const { calculation, taxYear } = results;
   const [showBetterOffModule, setShowBetterOffModule] = useState(false);
+
+  // Check if MIF panel should be shown (one person self-employed but not both)
+  const shouldShowMIFPanel = () => {
+    if (!formData) return false;
+    
+    if (formData.circumstances === 'single') {
+      return formData.employmentType === 'self-employed';
+    } else if (formData.circumstances === 'couple') {
+      const mainSelfEmployed = formData.employmentType === 'self-employed';
+      const partnerSelfEmployed = formData.partnerEmploymentType === 'self-employed';
+      return (mainSelfEmployed && !partnerSelfEmployed) || (!mainSelfEmployed && partnerSelfEmployed);
+    }
+    return false;
+  };
 
   return (
     <section className="results-section">
@@ -63,6 +77,27 @@ function ResultsSection({ results, onPrint, onExport }) {
             </div>
           </div>
         </div>
+
+        {/* Minimum Income Floor Panel */}
+        {shouldShowMIFPanel() && (
+          <div className="mif-panel">
+            <div className="card">
+              <h3>Minimum Income Floor Information</h3>
+              <div className="mif-content">
+                <div className="mif-placeholder">
+                  <p><strong>Add picture of MIF panel and include grace periods and gainful self-employment checks.</strong></p>
+                  <p>This section will contain detailed information about the Minimum Income Floor, including:</p>
+                  <ul>
+                    <li>What the Minimum Income Floor is</li>
+                    <li>Grace periods for new self-employed claimants</li>
+                    <li>Gainful self-employment criteria</li>
+                    <li>How it affects your Universal Credit calculation</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="action-buttons">
           <button type="button" onClick={onPrint} className="btn btn-outline">

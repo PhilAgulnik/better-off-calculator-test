@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TextManagement from './admin/TextManagement';
+import SkinManagement from './admin/SkinManagement';
 import './admin/AdminPanel.css';
 
 function AdminPanel({ isVisible = false, onToggleVisibility }) {
@@ -35,6 +36,12 @@ function AdminPanel({ isVisible = false, onToggleVisibility }) {
           Text Management
         </button>
         <button 
+          className={`tab-button ${activeTab === 'skin-management' ? 'active' : ''}`}
+          onClick={() => setActiveTab('skin-management')}
+        >
+          Choose Skin
+        </button>
+        <button 
           className={`tab-button ${activeTab === 'calculator-settings' ? 'active' : ''}`}
           onClick={() => setActiveTab('calculator-settings')}
         >
@@ -51,6 +58,9 @@ function AdminPanel({ isVisible = false, onToggleVisibility }) {
       <div className="admin-content">
         {activeTab === 'text-management' && (
           <TextManagement editorName={editorName} setEditorName={setEditorName} />
+        )}
+        {activeTab === 'skin-management' && (
+          <SkinManagement />
         )}
         {activeTab === 'calculator-settings' && (
           <div className="admin-section">

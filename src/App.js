@@ -7,11 +7,18 @@ import AdminPanel from './components/AdminPanel';
 import TestingModule from './components/TestingModule';
 import { UniversalCreditCalculator } from './utils/calculator';
 import { useTextManager } from './hooks/useTextManager';
+import { initializeSkin } from './utils/skinManager';
+import Logo from './components/Logo';
 // import { formatCurrency } from './utils/formatters';
 
 function App() {
   const { getTextValue } = useTextManager();
   const [calculator, setCalculator] = useState(null);
+  
+  // Initialize skin system
+  useEffect(() => {
+    initializeSkin();
+  }, []);
   const [formData, setFormData] = useState({
     // Personal Details
     taxYear: '2025_26',
@@ -290,6 +297,7 @@ function App() {
     <div className="container">
       <header className="header">
         <div className="header-content">
+          <Logo />
           <div className="header-text">
             <h1>{getTextValue('Calculator.Header.Title', 'Universal Credit Calculator')}</h1>
             <p className="subtitle">{getTextValue('Calculator.Header.Subtitle', 'Calculate your Universal Credit entitlement for any tax year')}</p>

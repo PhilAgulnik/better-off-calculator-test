@@ -1,0 +1,5 @@
+[33m6e1a5ea[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m Add disability benefit rate selection options for PIP, DLA, and AA
+[33m14970e6[m Add comprehensive employment and disability fields for main person and partner
+[33mffdbc51[m Reorganize children section - group all information for each child together
+[33m0c4d3cc[m Fix children number input - allow text entry and handle empty values properly
+[33m91715e8[m Fix children number input - separate hasChildren state from children count
