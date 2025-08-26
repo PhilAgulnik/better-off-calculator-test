@@ -776,6 +776,14 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               </div>
             </>
           )}
+
+          {/* Minimum Income Floor Alert */}
+          {((formData.employmentType === 'self-employed' && formData.circumstances === 'single') ||
+           (formData.circumstances === 'couple' && ((formData.employmentType === 'self-employed' && formData.partnerEmploymentType !== 'self-employed') || (formData.employmentType !== 'self-employed' && formData.partnerEmploymentType === 'self-employed')))) && (
+            <div className="alert alert-info mif-alert" role="alert">
+              <strong>You might be affected by the Minimum Income Floor.</strong> Continue through the calculator and we'll tell you about it on the results page.
+            </div>
+          )}
         </div>
 
         {/* Employment and Disability Section - Partner (only show if couple) */}

@@ -349,6 +349,7 @@ function App() {
         {showResults && results && (
           <ResultsSection 
             results={results}
+            formData={formData}
             onPrint={handlePrint}
             onExport={handleExport}
           />
