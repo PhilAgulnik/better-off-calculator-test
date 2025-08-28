@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { formatCurrency } from '../utils/formatters';
 import BetterOffInWorkModule from './BetterOffInWorkModule';
+import { useTextManager } from '../hooks/useTextManager';
 
 function ResultsSection({ results, formData, onPrint, onExport }) {
+  const { getTextValue } = useTextManager();
   const { calculation, taxYear } = results;
   const [showBetterOffModule, setShowBetterOffModule] = useState(false);
   const [mifGracePeriod, setMifGracePeriod] = useState('');
@@ -31,22 +33,22 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
   // Calculate MIF status based on user selections
   const getMifStatus = () => {
     if (!mifGracePeriod || !mifGainful) {
-      return 'Select your situation above to see how MIF affects you';
+      return getTextValue('MIF.Status.SelectSituation', 'Select your situation above to see how MIF affects you');
     }
     
     if (mifGracePeriod === 'yes') {
-      return 'MIF does not apply - You are in your 12-month grace period. Your actual earnings will be used in the Universal Credit calculation.';
+      return getTextValue('MIF.Status.GracePeriod', 'MIF does not apply - You are in your 12-month grace period. Your actual earnings will be used in the Universal Credit calculation.');
     }
     
     if (mifGainful === 'no') {
-      return 'MIF does not apply - Your self-employment is not considered gainful. Your actual earnings will be used in the Universal Credit calculation.';
+      return getTextValue('MIF.Status.NotGainful', 'MIF does not apply - Your self-employment is not considered gainful. Your actual earnings will be used in the Universal Credit calculation.');
     }
     
     if (mifGracePeriod === 'no' && mifGainful === 'yes') {
-      return 'MIF applies - Your Universal Credit will be calculated using assumed minimum earnings (35 hours per week at National Living Wage), even if you earn less.';
+      return getTextValue('MIF.Status.Applies', 'MIF applies - Your Universal Credit will be calculated using assumed minimum earnings (35 hours per week at National Living Wage), even if you earn less.');
     }
     
-    return 'Select your situation above to see how MIF affects you';
+    return getTextValue('MIF.Status.SelectSituation', 'Select your situation above to see how MIF affects you');
   };
 
   // Calculate MIF amounts
@@ -163,64 +165,149 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
           </div>
         </div>
 
+        {/* Earnings Breakdown with Pension Contributions */}
+        {(formData.employmentType === 'employed' || (formData.circumstances === 'couple' && formData.partnerEmploymentType === 'employed')) && (
+          <div className="detailed-results">
+            <h3>Earnings Breakdown</h3>
+            <div className="breakdown-list">
+              {/* Main person earnings */}
+              {formData.employmentType === 'employed' && formData.monthlyEarnings > 0 && (
+                <>
+                  <div className="breakdown-item">
+                    <span className="label">Your Gross Earnings</span>
+                    <span className="value">{formatCurrency(formData.monthlyEarnings)}</span>
+                  </div>
+                  {formData.pensionType === 'amount' && formData.pensionAmount > 0 && (
+                    <div className="breakdown-item">
+                      <span className="label">Your Pension Contribution (Fixed)</span>
+                      <span className="value">-{formatCurrency(formData.pensionAmount)}</span>
+                    </div>
+                  )}
+                  {formData.pensionType === 'percentage' && formData.pensionPercentage > 0 && (
+                    <div className="breakdown-item">
+                      <span className="label">Your Pension Contribution ({formData.pensionPercentage}%)</span>
+                      <span className="value">-{formatCurrency((formData.monthlyEarnings * formData.pensionPercentage) / 100)}</span>
+                    </div>
+                  )}
+                  <div className="breakdown-item">
+                    <span className="label">Your Net Earnings</span>
+                    <span className="value">{formatCurrency(
+                      formData.monthlyEarnings - 
+                      (formData.pensionType === 'amount' ? formData.pensionAmount : 
+                       formData.pensionType === 'percentage' ? (formData.monthlyEarnings * formData.pensionPercentage) / 100 : 0)
+                    )}</span>
+                  </div>
+                </>
+              )}
+
+              {/* Partner earnings */}
+              {formData.circumstances === 'couple' && formData.partnerEmploymentType === 'employed' && formData.partnerMonthlyEarnings > 0 && (
+                <>
+                  <div className="breakdown-item">
+                    <span className="label">Partner's Gross Earnings</span>
+                    <span className="value">{formatCurrency(formData.partnerMonthlyEarnings)}</span>
+                  </div>
+                  {formData.partnerPensionType === 'amount' && formData.partnerPensionAmount > 0 && (
+                    <div className="breakdown-item">
+                      <span className="label">Partner's Pension Contribution (Fixed)</span>
+                      <span className="value">-{formatCurrency(formData.partnerPensionAmount)}</span>
+                    </div>
+                  )}
+                  {formData.partnerPensionType === 'percentage' && formData.partnerPensionPercentage > 0 && (
+                    <div className="breakdown-item">
+                      <span className="label">Partner's Pension Contribution ({formData.partnerPensionPercentage}%)</span>
+                      <span className="value">-{formatCurrency((formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100)}</span>
+                    </div>
+                  )}
+                  <div className="breakdown-item">
+                    <span className="label">Partner's Net Earnings</span>
+                    <span className="value">{formatCurrency(
+                      formData.partnerMonthlyEarnings - 
+                      (formData.partnerPensionType === 'amount' ? formData.partnerPensionAmount : 
+                       formData.partnerPensionType === 'percentage' ? (formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100 : 0)
+                    )}</span>
+                  </div>
+                </>
+              )}
+
+              {/* Total household earnings */}
+              {((formData.employmentType === 'employed' && formData.monthlyEarnings > 0) || 
+                (formData.circumstances === 'couple' && formData.partnerEmploymentType === 'employed' && formData.partnerMonthlyEarnings > 0)) && (
+                <div className="breakdown-item total">
+                  <span className="label">Total Net Earnings (after pension)</span>
+                  <span className="value">{formatCurrency(
+                    (formData.employmentType === 'employed' ? 
+                      formData.monthlyEarnings - 
+                      (formData.pensionType === 'amount' ? formData.pensionAmount : 
+                       formData.pensionType === 'percentage' ? (formData.monthlyEarnings * formData.pensionPercentage) / 100 : 0) : 0) +
+                    (formData.circumstances === 'couple' && formData.partnerEmploymentType === 'employed' ? 
+                      formData.partnerMonthlyEarnings - 
+                      (formData.partnerPensionType === 'amount' ? formData.partnerPensionAmount : 
+                       formData.partnerPensionType === 'percentage' ? (formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100 : 0) : 0)
+                  )}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Minimum Income Floor Panel */}
         {shouldShowMIFPanel() && (
           <div className="mif-panel">
             <h3>Minimum Income Floor (MIF)</h3>
             <div className="mif-content">
-              <p><strong>Add picture of MIF panel and include grace periods and gainful self-employment checks.</strong></p>
-              <p>The Minimum Income Floor may affect your Universal Credit calculation if you are self-employed.</p>
+              <p>{getTextValue('MIF.Description', 'The Minimum Income Floor may affect your Universal Credit calculation if you are self-employed.')}</p>
               <ul>
-                <li>You may have a grace period when you first become self-employed</li>
-                <li>The DWP will assess if your self-employment is gainful</li>
-                <li>MIF applies after the grace period ends</li>
+                <li>{getTextValue('MIF.GracePeriod.Bullet1', 'You may have a grace period when you first become self-employed')}</li>
+                <li>{getTextValue('MIF.GainfulAssessment.Bullet2', 'The DWP will assess if your self-employment is gainful')}</li>
+                <li>{getTextValue('MIF.AppliesAfterGrace.Bullet3', 'MIF applies after the grace period ends')}</li>
               </ul>
               
               <div className="mif-details-section">
-                <h4>How you might be affected by the Minimum Income Floor</h4>
-                <p>The Minimum Income Floor (MIF) is a rule that affects how your Universal Credit is calculated if you are self-employed. It assumes you earn at least the equivalent of working 35 hours per week at the National Living Wage.</p>
+                <h4>{getTextValue('MIF.DetailsSection.Title', 'How you might be affected by the Minimum Income Floor')}</h4>
+                <p>{getTextValue('MIF.DetailsSection.Description', 'The Minimum Income Floor (MIF) is a rule that affects how your Universal Credit is calculated if you are self-employed. It assumes you earn at least the equivalent of working 35 hours per week at the National Living Wage.')}</p>
                 
                 <div className="mif-table-container">
                   <table className="mif-table">
                     <thead>
                       <tr>
-                        <th>Your Situation</th>
-                        <th>How MIF Affects You</th>
-                        <th>What This Means</th>
+                        <th>{getTextValue('MIF.Table.YourSituation', 'Your Situation')}</th>
+                        <th>{getTextValue('MIF.Table.HowMIFAffectsYou', 'How MIF Affects You')}</th>
+                        <th>{getTextValue('MIF.Table.WhatThisMeans', 'What This Means')}</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td><strong>New to self-employment</strong></td>
-                        <td>12-month grace period</td>
-                        <td>Your actual earnings are used for the first 12 months</td>
+                        <td><strong>{getTextValue('MIF.Table.NewSelfEmployed.Situation', 'New to self-employment')}</strong></td>
+                        <td>{getTextValue('MIF.Table.NewSelfEmployed.Affect', '12-month grace period')}</td>
+                        <td>{getTextValue('MIF.Table.NewSelfEmployed.Means', 'Your actual earnings are used for the first 12 months')}</td>
                       </tr>
                       <tr>
-                        <td><strong>Established self-employment</strong></td>
-                        <td>MIF may apply</td>
-                        <td>DWP assumes minimum earnings even if you earn less</td>
+                        <td><strong>{getTextValue('MIF.Table.EstablishedSelfEmployed.Situation', 'Established self-employment')}</strong></td>
+                        <td>{getTextValue('MIF.Table.EstablishedSelfEmployed.Affect', 'MIF may apply')}</td>
+                        <td>{getTextValue('MIF.Table.EstablishedSelfEmployed.Means', 'DWP assumes minimum earnings even if you earn less')}</td>
                       </tr>
                       <tr>
-                        <td><strong>Gainful self-employment</strong></td>
-                        <td>MIF applies</td>
-                        <td>Your Universal Credit is calculated using assumed minimum earnings</td>
+                        <td><strong>{getTextValue('MIF.Table.GainfulSelfEmployed.Situation', 'Gainful self-employment')}</strong></td>
+                        <td>{getTextValue('MIF.Table.GainfulSelfEmployed.Affect', 'MIF applies')}</td>
+                        <td>{getTextValue('MIF.Table.GainfulSelfEmployed.Means', 'Your Universal Credit is calculated using assumed minimum earnings')}</td>
                       </tr>
                       <tr>
-                        <td><strong>Not gainful self-employment</strong></td>
-                        <td>MIF does not apply</td>
-                        <td>Your actual earnings are used in the calculation</td>
+                        <td><strong>{getTextValue('MIF.Table.NotGainfulSelfEmployed.Situation', 'Not gainful self-employment')}</strong></td>
+                        <td>{getTextValue('MIF.Table.NotGainfulSelfEmployed.Affect', 'MIF does not apply')}</td>
+                        <td>{getTextValue('MIF.Table.NotGainfulSelfEmployed.Means', 'Your actual earnings are used in the calculation')}</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
                 
                 <div className="mif-calculator-section">
-                  <h5>MIF Calculator</h5>
-                  <p>Use this calculator to see how the Minimum Income Floor might affect your Universal Credit:</p>
+                  <h5>{getTextValue('MIF.CalculatorSection.Title', 'MIF Calculator')}</h5>
+                  <p>{getTextValue('MIF.CalculatorSection.Description', 'Use this calculator to see how the Minimum Income Floor might affect your Universal Credit:')}</p>
                   
                   <div className="mif-calculator-form">
                     <div className="form-group">
-                      <label>Are you in your first 12 months of self-employment?</label>
+                      <label>{getTextValue('MIF.GracePeriodQuestion.Label', 'Are you in your first 12 months of self-employment?')}</label>
                       <div className="radio-group">
                         <label className="radio-label">
                           <input 
@@ -231,7 +318,7 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                             onChange={(e) => setMifGracePeriod(e.target.value)}
                           />
                           <span className="radio-custom"></span>
-                          Yes - I'm in my grace period
+                          {getTextValue('MIF.GracePeriodQuestion.Yes', 'Yes - I\'m in my grace period')}
                         </label>
                         <label className="radio-label">
                           <input 
@@ -242,13 +329,13 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                             onChange={(e) => setMifGracePeriod(e.target.value)}
                           />
                           <span className="radio-custom"></span>
-                          No - I've been self-employed for over 12 months
+                          {getTextValue('MIF.GracePeriodQuestion.No', 'No - I\'ve been self-employed for over 12 months')}
                         </label>
                       </div>
                     </div>
                     
                     <div className="form-group">
-                      <label>Is your self-employment gainful?</label>
+                      <label>{getTextValue('MIF.GainfulQuestion.Label', 'Is your self-employment gainful?')}</label>
                       <div className="radio-group">
                         <label className="radio-label">
                           <input 
@@ -259,7 +346,7 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                             onChange={(e) => setMifGainful(e.target.value)}
                           />
                           <span className="radio-custom"></span>
-                          Yes - I work regularly and expect to make a profit
+                          {getTextValue('MIF.GainfulQuestion.Yes', 'Yes - I work regularly and expect to make a profit')}
                         </label>
                         <label className="radio-label">
                           <input 
@@ -270,14 +357,14 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                             onChange={(e) => setMifGainful(e.target.value)}
                           />
                           <span className="radio-custom"></span>
-                          No - I don't work regularly or expect to make a profit
+                          {getTextValue('MIF.GainfulQuestion.No', 'No - I don\'t work regularly or expect to make a profit')}
                         </label>
                       </div>
                     </div>
                     
                     <div className="mif-result">
                       <div className="result-box">
-                        <h6>MIF Status</h6>
+                        <h6>{getTextValue('MIF.ResultBox.Title', 'MIF Status')}</h6>
                         <div className="mif-status">{getMifStatus()}</div>
                       </div>
                     </div>
@@ -285,12 +372,12 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                 </div>
                 
                 <div className="mif-info-box">
-                  <h5>Important Information</h5>
+                  <h5>{getTextValue('MIF.InfoBox.Title', 'Important Information')}</h5>
                   <ul>
-                    <li><strong>Grace Period:</strong> You have 12 months from when you first become self-employed before MIF can apply</li>
-                    <li><strong>Gainful Self-employment:</strong> The DWP will assess whether your self-employment is regular and expected to make a profit</li>
-                    <li><strong>MIF Rates:</strong> The assumed minimum earnings are based on working 35 hours per week at the National Living Wage</li>
-                    <li><strong>Appeals:</strong> You can challenge a decision that MIF applies to your case</li>
+                    <li><strong>{getTextValue('MIF.InfoBox.GracePeriod', 'Grace Period: You have 12 months from when you first become self-employed before MIF can apply')}</strong></li>
+                    <li><strong>{getTextValue('MIF.InfoBox.GainfulSelfEmployment', 'Gainful Self-employment: The DWP will assess whether your self-employment is regular and expected to make a profit')}</strong></li>
+                    <li><strong>{getTextValue('MIF.InfoBox.MIFRates', 'MIF Rates: The assumed minimum earnings are based on working 35 hours per week at the National Living Wage')}</strong></li>
+                    <li><strong>{getTextValue('MIF.InfoBox.Appeals', 'Appeals: You can challenge a decision that MIF applies to your case')}</strong></li>
                   </ul>
                 </div>
               </div>
@@ -298,11 +385,11 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
               {/* MIF Calculation Panel - Only show if MIF applies */}
               {mifGracePeriod === 'no' && mifGainful === 'yes' && (
                 <div className="mif-calculation-panel">
-                  <h4>Your Minimum Income Floor Calculation</h4>
-                  <p>Based on your claimant commitment of <strong>{claimantHours} hours per week</strong>, we estimate your Minimum Income Floor is <strong>£{calculateMifAmounts().mifWeekly} per week</strong>.</p>
+                  <h4>{getTextValue('MIF.CalculationPanel.Title', 'Your Minimum Income Floor Calculation')}</h4>
+                  <p>{getTextValue('MIF.CalculationPanel.Description', 'Based on your claimant commitment of {claimantHours} hours per week, we estimate your Minimum Income Floor is £{mifWeekly} per week.').replace('{claimantHours}', claimantHours).replace('{mifWeekly}', calculateMifAmounts().mifWeekly)}</p>
                   
                   <div className="mif-hours-input">
-                    <label>How many hours a week must you work according to your claimant commitment?</label>
+                    <label>{getTextValue('MIF.HoursInput.Label', 'How many hours a week must you work according to your claimant commitment?')}</label>
                     <div className="hours-input-group">
                       <input
                         type="number"
@@ -312,25 +399,25 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                         onChange={(e) => setClaimantHours(parseInt(e.target.value) || 35)}
                         className="hours-input"
                       />
-                      <span className="hours-label">hours per week</span>
+                      <span className="hours-label">{getTextValue('MIF.HoursInput.Label2', 'hours per week')}</span>
                     </div>
                   </div>
                   
                   <div className="mif-comparison-table">
-                    <h5>How MIF affects your Universal Credit</h5>
+                    <h5>{getTextValue('MIF.ComparisonTable.Title', 'How MIF affects your Universal Credit')}</h5>
                     <div className="table-container">
                       <table className="comparison-table">
                         <thead>
                           <tr>
-                            <th>Your Benefits</th>
-                            <th>Without MIF</th>
-                            <th>With MIF</th>
-                            <th>Impact</th>
+                            <th>{getTextValue('MIF.ComparisonTable.YourBenefits', 'Your Benefits')}</th>
+                            <th>{getTextValue('MIF.ComparisonTable.WithoutMIF', 'Without MIF')}</th>
+                            <th>{getTextValue('MIF.ComparisonTable.WithMIF', 'With MIF')}</th>
+                            <th>{getTextValue('MIF.ComparisonTable.Impact', 'Impact')}</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td><strong>Gross Earnings</strong></td>
+                            <td><strong>{getTextValue('MIF.ComparisonTable.GrossEarnings', 'Gross Earnings')}</strong></td>
                             <td>£{calculateUCComparison().withoutMif.grossEarnings.toFixed(2)}</td>
                             <td>£{calculateUCComparison().withMif.grossEarnings.toFixed(2)}</td>
                             <td className={calculateUCComparison().impact.grossEarnings >= 0 ? 'positive' : 'negative'}>
@@ -338,7 +425,7 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                             </td>
                           </tr>
                           <tr>
-                            <td><strong>Net Earnings</strong></td>
+                            <td><strong>{getTextValue('MIF.ComparisonTable.NetEarnings', 'Net Earnings')}</strong></td>
                             <td>£{calculateUCComparison().withoutMif.netEarnings.toFixed(2)}</td>
                             <td>£{calculateUCComparison().withMif.netEarnings.toFixed(2)}</td>
                             <td className={calculateUCComparison().impact.netEarnings >= 0 ? 'positive' : 'negative'}>
@@ -346,7 +433,7 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                             </td>
                           </tr>
                           <tr>
-                            <td><strong>Universal Credit</strong></td>
+                            <td><strong>{getTextValue('MIF.ComparisonTable.UniversalCredit', 'Universal Credit')}</strong></td>
                             <td>£{calculateUCComparison().withoutMif.universalCredit.toFixed(2)}</td>
                             <td>£{calculateUCComparison().withMif.universalCredit.toFixed(2)}</td>
                             <td className={calculateUCComparison().impact.universalCredit >= 0 ? 'positive' : 'negative'}>
@@ -354,7 +441,7 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                             </td>
                           </tr>
                           <tr>
-                            <td><strong>Total Benefits</strong></td>
+                            <td><strong>{getTextValue('MIF.ComparisonTable.TotalBenefits', 'Total Benefits')}</strong></td>
                             <td>£{calculateUCComparison().withoutMif.totalBenefits.toFixed(2)}</td>
                             <td>£{calculateUCComparison().withMif.totalBenefits.toFixed(2)}</td>
                             <td className={calculateUCComparison().impact.totalBenefits >= 0 ? 'positive' : 'negative'}>

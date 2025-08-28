@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
 import { UniversalCreditCalculator } from '../utils/calculator';
 
-function TestingModule({ isVisible, onToggleVisibility }) {
-  const [testFile, setTestFile] = useState(null);
-  const [testResults, setTestResults] = useState(null);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [comparisonResults, setComparisonResults] = useState(null);
+function TestingModule({ 
+  isVisible, 
+  onToggleVisibility, 
+  testFile: externalTestFile, 
+  setTestFile: externalSetTestFile,
+  testResults: externalTestResults,
+  setTestResults: externalSetTestResults,
+  isProcessing: externalIsProcessing,
+  setIsProcessing: externalSetIsProcessing
+}) {
+  // Use external state if provided, otherwise use internal state
+  const [internalTestFile, setInternalTestFile] = useState(null);
+  const [internalTestResults, setInternalTestResults] = useState(null);
+  const [internalIsProcessing, setInternalIsProcessing] = useState(false);
+  
+  const testFile = externalTestFile !== undefined ? externalTestFile : internalTestFile;
+  const setTestFile = externalSetTestFile || setInternalTestFile;
+  const testResults = externalTestResults !== undefined ? externalTestResults : internalTestResults;
+  const setTestResults = externalSetTestResults || setInternalTestResults;
+  const isProcessing = externalIsProcessing !== undefined ? externalIsProcessing : internalIsProcessing;
+  const setIsProcessing = externalSetIsProcessing || setInternalIsProcessing;
+  
+
 
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -211,18 +229,9 @@ function TestingModule({ isVisible, onToggleVisibility }) {
   if (!isVisible) return null;
 
   return (
-    <section className="testing-module">
-      <div className="card">
-        <div className="module-header">
-          <h3>Calculator Testing Module</h3>
-          <button 
-            type="button" 
-            className="btn btn-outline btn-sm"
-            onClick={onToggleVisibility}
-          >
-            Close
-          </button>
-        </div>
+    <div className="testing-module">
+      <div className="admin-section">
+        <h3>Calculator Testing Module</h3>
 
         <div className="module-description">
           <p>Upload a CSV file with test cases to compare your calculator results with expected outputs.</p>
@@ -311,7 +320,7 @@ function TestingModule({ isVisible, onToggleVisibility }) {
           </div>
         )}
       </div>
-    </section>
+    </div>
   );
 }
 

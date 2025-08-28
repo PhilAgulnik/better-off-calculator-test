@@ -5,11 +5,15 @@
     /* Colors */
     --primary-color: #2563eb;
     --primary-hover: #1d4ed8;
+    --primary-color-rgb: 37, 99, 235;
+    --primary-hover-rgb: 29, 78, 216;
+    --primary-bg: #eff6ff;
     --secondary-color: #64748b;
     --accent-color: #059669;
     --success-color: #059669;
     --warning-color: #d97706;
     --error-color: #dc2626;
+    --danger-color: #dc2626;
     --info-color: #0891b2;
     
     /* Enhanced Skin Colors */
@@ -89,38 +93,40 @@ html {
 }
 
 body {
-    font-family: var(--font-family);
+    font-family: "GDS Transport", Arial, sans-serif;
     font-size: var(--font-size-base);
-    line-height: 1.6;
-    color: var(--gray-800);
-    background-color: var(--gray-50);
+    line-height: 1.4;
+    color: #0b0c0c;
+    background-color: #f8f9fa;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Container */
+/* Container - GOV.UK Design */
 .container {
-    max-width: 1400px;
+    max-width: 960px;
     margin: 0 auto;
-    padding: 0 var(--spacing-4);
+    padding: 0 15px;
 }
 
-/* Header */
+/* Header - GOV.UK Design with Skin Colors */
 .header {
-    padding: var(--spacing-12) 0 var(--spacing-8);
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover) 100%);
+    padding: var(--spacing-8) 0 var(--spacing-6);
+    background: rgba(var(--primary-color-rgb), 0.85);
     color: var(--white);
     margin-bottom: var(--spacing-8);
-    border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
+    border-bottom: 3px solid rgba(var(--primary-hover-rgb), 0.9);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: var(--max-width);
+    max-width: 960px;
     margin: 0 auto;
-    padding: 0 var(--spacing-6);
+    padding: 0 15px;
     gap: var(--spacing-6);
 }
 
@@ -135,12 +141,13 @@ body {
 
 .admin-toggle {
     background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
     color: var(--white);
-    font-weight: 500;
+    font-weight: 600;
     padding: var(--spacing-2) var(--spacing-4);
-    border-radius: var(--radius-md);
+    border-radius: 0;
     transition: var(--transition-fast);
+    font-family: "GDS Transport", Arial, sans-serif;
 }
 
 .admin-toggle:hover {
@@ -174,28 +181,28 @@ body {
     margin-bottom: var(--spacing-12);
 }
 
-/* Cards */
+/* Cards - GOV.UK Design */
 .card {
     background: var(--white);
-    border-radius: var(--radius-xl);
+    border-radius: 0;
     padding: var(--spacing-8);
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--gray-200);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 1px solid #b1b4b6;
     transition: var(--transition-normal);
+    margin-bottom: var(--spacing-6);
 }
 
 .card:hover {
-    box-shadow: var(--shadow-xl);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .card h2 {
     font-size: var(--font-size-2xl);
-    font-weight: 600;
-    color: var(--gray-900);
+    font-weight: 700;
+    color: #0b0c0c;
     margin-bottom: var(--spacing-6);
     padding-bottom: var(--spacing-4);
-    border-bottom: 2px solid var(--gray-100);
+    border-bottom: 3px solid #00703c;
 }
 
 .card h3 {
@@ -205,36 +212,36 @@ body {
     margin-bottom: var(--spacing-4);
 }
 
-/* Form Styles */
+/* Form Styles - GOV.UK Design */
 .form-group {
     margin-bottom: var(--spacing-6);
 }
 
 .form-group label {
     display: block;
-    font-weight: 500;
-    color: var(--gray-700);
+    font-weight: 600;
+    color: #0b0c0c;
     margin-bottom: var(--spacing-2);
-    font-size: var(--font-size-sm);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    font-size: 1.1875rem;
+    line-height: 1.4;
 }
 
 .form-control {
     width: 100%;
     padding: var(--spacing-3) var(--spacing-4);
-    border: 2px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    font-size: var(--font-size-base);
+    border: 2px solid #0b0c0c;
+    border-radius: 0;
+    font-size: 1.1875rem;
     transition: var(--transition-fast);
     background-color: var(--white);
-    color: var(--gray-800);
+    color: #0b0c0c;
+    font-family: "GDS Transport", Arial, sans-serif;
 }
 
 .form-control:focus {
     outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+    border-color: #00703c;
+    box-shadow: 0 0 0 3px #00703c;
 }
 
 .form-control:invalid {
@@ -260,35 +267,526 @@ body {
     padding-left: calc(var(--spacing-4) + 1rem);
 }
 
-/* Alert Styles */
-.alert {
-    padding: var(--spacing-4);
-    margin: var(--spacing-4) 0;
+/* Input with Suffix */
+.input-with-suffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-suffix .suffix {
+    position: absolute;
+    right: var(--spacing-4);
+    color: var(--gray-500);
+    font-weight: 500;
+    z-index: 1;
+}
+
+.input-with-suffix .form-control {
+    padding-right: calc(var(--spacing-4) + 1rem);
+}
+
+/* Monthly Profit Tool Styles */
+.monthly-profit-tool {
+    padding: var(--spacing-6) 0;
+}
+
+.monthly-profit-tool .info-section {
+    background: var(--info-bg);
+    border: 1px solid var(--info-border);
     border-radius: var(--radius-md);
-    border: 1px solid transparent;
-    font-size: var(--font-size-base);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.monthly-profit-tool .info-section p {
+    margin: 0;
+    color: var(--info-text);
+    font-size: 0.95rem;
     line-height: 1.5;
 }
 
-.alert-info {
-    color: #0c4a6e;
-    background-color: #dbeafe;
-    border-color: #93c5fd;
+.monthly-profit-tool .form-section {
+    margin-bottom: var(--spacing-6);
 }
 
-.alert-info strong {
+.monthly-profit-tool .calendar-section {
+    margin-top: var(--spacing-6);
+}
+
+/* Assessment Period Calendar */
+.assessment-period-calendar {
+    margin-top: var(--spacing-4);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Calendar Header */
+.calendar-header {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.calendar-header h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-4);
+}
+
+/* Navigation Buttons */
+.calendar-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-4);
+}
+
+.nav-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3) var(--spacing-4);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.nav-btn:hover:not(:disabled) {
+    background: var(--primary-hover);
+}
+
+.nav-btn:disabled {
+    background: var(--gray-300);
+    cursor: not-allowed;
+}
+
+/* Current Period Display */
+.current-period {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-4);
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: var(--spacing-6);
+}
+
+.progress-segment {
+    width: 20px;
+    height: 4px;
+    background: var(--gray-300);
+    border-radius: 2px;
+}
+
+.progress-segment.completed {
+    background: var(--primary-color);
+}
+
+.progress-segment.current {
+    background: var(--primary-color);
+}
+
+/* Two Month Calendar */
+.two-month-calendar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-6);
+}
+
+.month-calendar {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-4);
+}
+
+.month-calendar h3 {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-4);
+}
+
+/* Calendar Grid */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 1px;
+}
+
+.day-header {
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gray-600);
+    padding: var(--spacing-2);
+    background: var(--gray-50);
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-color);
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.calendar-day:hover {
+    background: var(--gray-50);
+}
+
+.calendar-day.other-month {
+    color: var(--gray-400);
+    background: var(--gray-50);
+}
+
+.calendar-day.assessment-period {
+    background: var(--primary-bg);
+    color: var(--primary-color);
     font-weight: 600;
 }
 
-.mif-alert {
-    background-color: #dbeafe;
-    border-left: 4px solid #2563eb;
+.calendar-day.period-start {
+    background: var(--primary-color);
+    color: var(--white);
+    font-weight: bold;
+}
+
+.calendar-day.period-end {
+    background: var(--primary-color);
+    color: var(--white);
+    font-weight: bold;
+}
+
+.calendar-day.today {
+    background: var(--warning-color);
+    color: var(--white);
+    font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .two-month-calendar {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+    
+    .calendar-navigation {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+    
+    .nav-btn {
+        width: 100%;
+    }
+}
+
+/* Monthly Reporting Form */
+.monthly-reporting-form {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-6);
+    margin-top: var(--spacing-6);
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-6);
+    padding-bottom: var(--spacing-4);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.form-header h2 {
+    margin: 0 0 var(--spacing-2) 0;
+    color: var(--text-color);
+}
+
+.form-header p {
+    margin: 0 0 0.5rem 0;
+    color: var(--gray-600);
+    font-size: 0.9rem;
+}
+
+/* Form Sections */
+.form-section {
+    margin-bottom: var(--spacing-6);
+    padding: var(--spacing-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--white);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: var(--spacing-4);
+}
+
+.section-indicator {
+    width: 4px;
+    height: 20px;
+    background: var(--primary-color);
+    margin-right: var(--spacing-3);
+    border-radius: 2px;
+}
+
+.section-header h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+}
+
+.action-btn {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-2) var(--spacing-4);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.action-btn:hover {
+    background: var(--primary-hover);
+}
+
+/* Income and Expenses Inputs */
+.income-inputs,
+.expenses-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+}
+
+.input-with-prefix {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 200px;
+}
+
+.input-with-prefix .prefix {
+    position: absolute;
+    left: var(--spacing-3);
+    color: var(--gray-500);
+    font-weight: 500;
+    z-index: 1;
+}
+
+.input-with-prefix .form-control {
+    width: 100%;
+    padding: var(--spacing-2) var(--spacing-3);
+    padding-left: calc(var(--spacing-3) + 1rem);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background: var(--white);
+}
+
+.input-with-prefix .form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.input-label {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    font-weight: 500;
+    min-width: 120px;
+}
+
+/* Input with Suffix */
+.input-with-suffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    max-width: 200px;
+}
+
+.input-with-suffix .form-control {
+    width: 100%;
+    padding: var(--spacing-2) var(--spacing-3);
+    padding-right: calc(var(--spacing-3) + 3rem);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background: var(--white);
+}
+
+.input-with-suffix .form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.input-with-suffix .suffix {
+    position: absolute;
+    right: var(--spacing-3);
+    color: var(--gray-500);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.summary-section {
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.summary-section h3 {
+    margin: 0 0 var(--spacing-4) 0;
+    color: var(--text-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.summary-grid {
+    display: grid;
+    gap: var(--spacing-3);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-3);
+    background: var(--white);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+}
+
+.summary-item.total {
+    border-color: var(--primary-color);
+    background: var(--primary-bg);
+    font-weight: 600;
+}
+
+.summary-item .label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.summary-item .value {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.summary-item .value.income {
+    color: var(--success-color);
+}
+
+.summary-item .value.expense {
+    color: var(--danger-color);
+}
+
+.summary-item .value.profit {
+    color: var(--success-color);
+}
+
+.summary-item .value.loss {
+    color: var(--danger-color);
+}
+
+.form-actions {
+    display: flex;
+    gap: var(--spacing-3);
+    justify-content: flex-end;
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .form-sections {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-4);
+    }
+    
+    .calendar-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-header {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+}
+
+/* Alert Styles - GOV.UK Design */
+.alert {
     padding: var(--spacing-4);
     margin: var(--spacing-4) 0;
-    border-radius: var(--radius-md);
-    color: #0c4a6e;
-    font-size: var(--font-size-base);
-    line-height: 1.5;
+    border-radius: 0;
+    border: 1px solid #b1b4b6;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.alert-info {
+    color: #0b0c0c;
+    background-color: #f8f9fa;
+    border-color: #b1b4b6;
+}
+
+.alert-info strong {
+    font-weight: 700;
+}
+
+.mif-alert {
+    background-color: #f8f9fa;
+    border-left: 3px solid #00703c;
+    padding: var(--spacing-4);
+    margin: var(--spacing-4) 0;
+    border-radius: 0;
+    color: #0b0c0c;
+    font-size: 1rem;
+    line-height: 1.4;
 }
 
 .mif-alert strong {
@@ -405,10 +903,10 @@ body {
 
 .btn {
     padding: var(--spacing-3) var(--spacing-6);
-    border: none;
-    border-radius: var(--radius-lg);
-    font-size: var(--font-size-base);
-    font-weight: 500;
+    border: 2px solid;
+    border-radius: 0;
+    font-size: 1.1875rem;
+    font-weight: 600;
     cursor: pointer;
     transition: var(--transition-fast);
     text-decoration: none;
@@ -416,28 +914,29 @@ body {
     align-items: center;
     justify-content: center;
     min-height: 44px;
+    font-family: "GDS Transport", Arial, sans-serif;
+    min-width: 120px;
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
+    background-color: #00703c;
     color: var(--white);
+    border-color: #00703c;
 }
 
 .btn-primary:hover {
-    background-color: var(--primary-hover);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    background-color: #004a2a;
+    border-color: #004a2a;
 }
 
 .btn-secondary {
-    background-color: var(--secondary-color);
-    color: var(--white);
+    background-color: white;
+    color: #00703c;
+    border-color: #00703c;
 }
 
 .btn-secondary:hover {
-    background-color: var(--gray-600);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    background-color: #f8f9fa;
 }
 
 .btn-outline {
@@ -481,16 +980,17 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: var(--spacing-3) var(--spacing-4);
-    background-color: var(--gray-50);
-    border-radius: var(--radius-md);
-    border-left: 4px solid var(--gray-200);
+    background-color: white;
+    border-radius: 0;
+    border: 1px solid #b1b4b6;
+    margin-bottom: var(--spacing-2);
 }
 
 .breakdown-item.total {
-    background-color: var(--primary-color);
+    background-color: #00703c;
     color: var(--white);
-    border-left-color: var(--primary-hover);
-    font-weight: 600;
+    border-color: #00703c;
+    font-weight: 700;
 }
 
 .breakdown-item.deduction {
@@ -1448,4 +1948,524 @@ body {
     width: 100%;
     max-width: 120px;
   }
+}
+
+/* Self-Employment Accounts Page */
+.self-employment-accounts-page {
+  padding: var(--spacing-8) 0;
+  min-height: 100vh;
+  background: var(--background-color);
+}
+
+.self-employment-accounts-page .container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-6);
+}
+
+.self-employment-accounts-page .card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--spacing-8);
+}
+
+.self-employment-accounts-page h1 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-6);
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.self-employment-accounts-page .description {
+  font-size: 1.125rem;
+  color: var(--text-color);
+  margin-bottom: var(--spacing-8);
+  line-height: 1.6;
+}
+
+.features-section {
+  margin: var(--spacing-8) 0;
+}
+
+.features-section h2 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-6);
+  font-size: 1.875rem;
+  font-weight: 600;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-6);
+  margin-top: var(--spacing-6);
+}
+
+.feature-card {
+  background: var(--white);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-md);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-4);
+  text-align: center;
+}
+
+.feature-card h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-3);
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.feature-card p {
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-4);
+  text-align: center;
+}
+
+.coming-soon {
+  position: absolute;
+  top: var(--spacing-4);
+  right: var(--spacing-4);
+  background: var(--gray-500);
+  color: var(--white);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.feature-action {
+  margin-top: var(--spacing-4);
+  text-align: center;
+}
+
+.cta-section {
+  text-align: center;
+  margin-top: var(--spacing-8);
+  padding-top: var(--spacing-8);
+  border-top: 1px solid var(--border-color);
+}
+
+.cta-section .btn {
+  margin-bottom: var(--spacing-4);
+}
+
+.cta-note {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+.sign-up-form {
+  margin-top: var(--spacing-6);
+  padding: var(--spacing-6);
+  background: #f8f9fa;
+  border: 1px solid #b1b4b6;
+  border-radius: 0;
+}
+
+.sign-up-form .form-group {
+  margin-bottom: var(--spacing-4);
+}
+
+.sign-up-form .form-actions {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: center;
+}
+
+.success-message {
+  margin-top: var(--spacing-6);
+  padding: var(--spacing-4);
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  border-radius: 0;
+  color: #155724;
+}
+
+.success-message p {
+  margin-bottom: var(--spacing-3);
+  font-weight: 600;
+}
+
+/* Self-Assessment Tax Form Styles - GOV.UK Design System */
+.self-assessment-tax-form {
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 0;
+  font-family: "GDS Transport", Arial, sans-serif;
+}
+
+.self-assessment-tax-form .container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.self-assessment-tax-form .card {
+  background: white;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+.self-assessment-tax-form h1 {
+  color: #0b0c0c;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 2rem 0 1rem 0;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.self-assessment-tax-form .description {
+  color: #0b0c0c;
+  font-size: 1.1875rem;
+  text-align: left;
+  margin-bottom: 2rem;
+  line-height: 1.4;
+}
+
+/* GOV.UK Progress Bar */
+.self-assessment-tax-form .progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0 3rem 0;
+  position: relative;
+  background: #f8f9fa;
+  border: 1px solid #b1b4b6;
+  border-radius: 4px;
+  padding: 0;
+}
+
+.self-assessment-tax-form .progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  position: relative;
+  padding: 1rem 0.5rem;
+  background: #f8f9fa;
+  border-right: 1px solid #b1b4b6;
+}
+
+.self-assessment-tax-form .progress-step:last-child {
+  border-right: none;
+}
+
+.self-assessment-tax-form .step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #b1b4b6;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.self-assessment-tax-form .progress-step.active .step-number {
+  background: #00703c;
+}
+
+.self-assessment-tax-form .progress-step.completed .step-number {
+  background: #00703c;
+}
+
+.self-assessment-tax-form .step-label {
+  font-size: 0.875rem;
+  color: #505a5f;
+  text-align: center;
+  transition: all 0.3s ease;
+  font-weight: 400;
+}
+
+.self-assessment-tax-form .progress-step.active .step-label {
+  color: #0b0c0c;
+  font-weight: 600;
+}
+
+.self-assessment-tax-form .progress-step.completed .step-label {
+  color: #00703c;
+  font-weight: 600;
+}
+
+/* GOV.UK Form Styles */
+.self-assessment-tax-form .form-section {
+  margin-bottom: 3rem;
+}
+
+.self-assessment-tax-form .form-section h3 {
+  color: #0b0c0c;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid #00703c;
+  padding-bottom: 0.5rem;
+}
+
+.self-assessment-tax-form .form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.self-assessment-tax-form .form-group {
+  margin-bottom: 2rem;
+}
+
+.self-assessment-tax-form .form-group label {
+  display: block;
+  font-weight: 600;
+  color: #0b0c0c;
+  margin-bottom: 0.5rem;
+  font-size: 1.1875rem;
+  line-height: 1.4;
+}
+
+.self-assessment-tax-form .form-group .help-text {
+  color: #505a5f;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+.self-assessment-tax-form .form-group .help-link {
+  color: #00703c;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-left: 0.5rem;
+}
+
+.self-assessment-tax-form .form-group .help-link:hover {
+  color: #004a2a;
+}
+
+.self-assessment-tax-form .form-group input,
+.self-assessment-tax-form .form-group select,
+.self-assessment-tax-form .form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #0b0c0c;
+  border-radius: 0;
+  font-size: 1.1875rem;
+  transition: border-color 0.3s ease;
+  font-family: "GDS Transport", Arial, sans-serif;
+}
+
+.self-assessment-tax-form .form-group input:focus,
+.self-assessment-tax-form .form-group select:focus,
+.self-assessment-tax-form .form-group textarea:focus {
+  outline: none;
+  border-color: #00703c;
+  box-shadow: 0 0 0 3px #00703c;
+}
+
+.self-assessment-tax-form .form-group input.error,
+.self-assessment-tax-form .form-group select.error,
+.self-assessment-tax-form .form-group textarea.error {
+  border-color: #d4351c;
+}
+
+.self-assessment-tax-form .form-group .error-message {
+  color: #d4351c;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.self-assessment-tax-form .form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.self-assessment-tax-form .form-group .checkbox-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.self-assessment-tax-form .form-group .checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin-top: 0.25rem;
+}
+
+.self-assessment-tax-form .form-group .checkbox-group label {
+  margin: 0;
+  font-weight: 400;
+}
+
+/* GOV.UK Button Styles */
+.self-assessment-tax-form .form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #b1b4b6;
+}
+
+.self-assessment-tax-form .btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid;
+  border-radius: 0;
+  font-size: 1.1875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+  font-family: "GDS Transport", Arial, sans-serif;
+  min-width: 120px;
+}
+
+.self-assessment-tax-form .btn-primary {
+  background: #00703c;
+  color: white;
+  border-color: #00703c;
+}
+
+.self-assessment-tax-form .btn-primary:hover {
+  background: #004a2a;
+  border-color: #004a2a;
+}
+
+.self-assessment-tax-form .btn-primary:disabled {
+  background: #b1b4b6;
+  border-color: #b1b4b6;
+  cursor: not-allowed;
+}
+
+.self-assessment-tax-form .btn-secondary {
+  background: white;
+  color: #00703c;
+  border-color: #00703c;
+}
+
+.self-assessment-tax-form .btn-secondary:hover {
+  background: #f8f9fa;
+}
+
+.self-assessment-tax-form .loading {
+  text-align: center;
+  padding: 2rem;
+  color: #505a5f;
+  font-size: 1.1875rem;
+}
+
+/* GOV.UK Results Styles */
+.self-assessment-tax-form .calculation-results {
+  background: #f8f9fa;
+  border: 1px solid #b1b4b6;
+  border-radius: 0;
+  padding: 2rem;
+  margin-top: 2rem;
+}
+
+.self-assessment-tax-form .result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.self-assessment-tax-form .result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 0;
+  border: 1px solid #b1b4b6;
+}
+
+.self-assessment-tax-form .result-item.total {
+  background: #00703c;
+  color: white;
+  font-weight: bold;
+  border-color: #00703c;
+}
+
+.self-assessment-tax-form .result-item label {
+  font-weight: 600;
+  margin: 0;
+  font-size: 1rem;
+}
+
+.self-assessment-tax-form .result-item span {
+  font-weight: 600;
+  font-size: 1.125rem;
+}
+
+.self-assessment-tax-form .payments-on-account {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #b1b4b6;
+}
+
+.self-assessment-tax-form .payments-on-account h4 {
+  color: #0b0c0c;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* GOV.UK Help Panel */
+.self-assessment-tax-form .help-panel {
+  background: #f8f9fa;
+  border: 1px solid #b1b4b6;
+  border-radius: 0;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.self-assessment-tax-form .help-panel h4 {
+  color: #0b0c0c;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+}
+
+.self-assessment-tax-form .help-panel p {
+  color: #0b0c0c;
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.4;
+}
+
+.self-assessment-tax-form .help-panel ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.self-assessment-tax-form .help-panel li {
+  color: #0b0c0c;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.4;
 }

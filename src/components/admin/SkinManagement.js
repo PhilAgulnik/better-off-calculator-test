@@ -166,11 +166,13 @@ function SkinManagement() {
                 <div 
                   className="skin-header" 
                   style={{ 
-                    background: `linear-gradient(135deg, ${skin.gradientStart} 0%, ${skin.gradientEnd} 100%)`,
+                    background: `linear-gradient(135deg, rgba(${skin.primaryColorRgb || '59, 130, 246'}, 0.85) 0%, rgba(${skin.primaryHoverRgb || '37, 99, 235'}, 0.85) 100%)`,
                     padding: '20px',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)'
                   }}
                 >
                   <LogoComponent skin={skin} />

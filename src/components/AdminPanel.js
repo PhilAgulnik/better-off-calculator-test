@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import TextManagement from './admin/TextManagement';
 import SkinManagement from './admin/SkinManagement';
+import TestingModule from './TestingModule';
 import './admin/AdminPanel.css';
 
 function AdminPanel({ isVisible = false, onToggleVisibility }) {
   const [activeTab, setActiveTab] = useState('text-management');
   const [editorName, setEditorName] = useState('');
+  const [testFile, setTestFile] = useState(null);
+  const [testResults, setTestResults] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   if (!isVisible) {
     return null;
@@ -53,6 +57,12 @@ function AdminPanel({ isVisible = false, onToggleVisibility }) {
         >
           Rates Management
         </button>
+        <button 
+          className={`tab-button ${activeTab === 'testing-module' ? 'active' : ''}`}
+          onClick={() => setActiveTab('testing-module')}
+        >
+          Testing Module
+        </button>
       </div>
 
       <div className="admin-content">
@@ -73,6 +83,18 @@ function AdminPanel({ isVisible = false, onToggleVisibility }) {
             <h3>Rates Management</h3>
             <p>Rates management will be implemented here.</p>
           </div>
+        )}
+        {activeTab === 'testing-module' && (
+          <TestingModule 
+            isVisible={true}
+            onToggleVisibility={() => setActiveTab('text-management')}
+            testFile={testFile}
+            setTestFile={setTestFile}
+            testResults={testResults}
+            setTestResults={setTestResults}
+            isProcessing={isProcessing}
+            setIsProcessing={setIsProcessing}
+          />
         )}
       </div>
     </div>

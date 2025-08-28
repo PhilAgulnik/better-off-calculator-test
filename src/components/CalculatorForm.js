@@ -1,7 +1,10 @@
 import React from 'react';
 import CarerModule from './CarerModule';
+import { useTextManager } from '../hooks/useTextManager';
 
 function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }) {
+  const { getTextValue } = useTextManager();
+  
   const handleInputChange = (field, value) => {
     onFormChange(field, value);
   };
@@ -385,21 +388,94 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 </div>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="childcareCosts">Childcare Costs</label>
-                <div className="input-with-prefix">
-                  <span className="prefix">£</span>
-                  <input 
-                    type="number" 
-                    id="childcareCosts" 
-                    className="form-control" 
-                    min="0" 
-                    step="0.01" 
-                    value={formData.childcareCosts}
-                    onChange={(e) => handleInputChange('childcareCosts', parseFloat(e.target.value) || 0)}
-                  />
+                       {/* Pension Contributions - only show for employed */}
+         {formData.employmentType === 'employed' && (
+           <div className="form-group">
+             <label>Pension Contributions</label>
+             <div className="radio-group">
+               <label className="radio-label">
+                 <input
+                   type="radio"
+                   name="pensionType"
+                   value="amount"
+                   checked={formData.pensionType === 'amount'}
+                   onChange={(e) => handleInputChange('pensionType', e.target.value)}
+                 />
+                 <span className="radio-custom"></span>
+                 Fixed Amount
+               </label>
+               <label className="radio-label">
+                 <input
+                   type="radio"
+                   name="pensionType"
+                   value="percentage"
+                   checked={formData.pensionType === 'percentage'}
+                   onChange={(e) => handleInputChange('pensionType', e.target.value)}
+                 />
+                 <span className="radio-custom"></span>
+                 Percentage of Gross
+               </label>
+             </div>
+
+                           {formData.pensionType === 'amount' && (
+                <div className="form-group">
+                  <label htmlFor="pensionAmount">Pension Amount (per month)</label>
+                  <div className="input-with-prefix">
+                    <span className="prefix">£</span>
+                    <input
+                      type="number"
+                      id="pensionAmount"
+                      className="form-control"
+                      min="0"
+                      step="0.01"
+                      value={formData.pensionAmount || ''}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === '') {
+                          handleInputChange('pensionAmount', 0);
+                        } else {
+                          handleInputChange('pensionAmount', parseFloat(value) || 0);
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
+
+                           {formData.pensionType === 'percentage' && (
+                <div className="form-group">
+                  <label htmlFor="pensionPercentage">Pension Percentage</label>
+                  <div className="input-with-suffix">
+                    <input
+                      type="number"
+                      id="pensionPercentage"
+                      className="form-control"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      value={formData.pensionPercentage || ''}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === '') {
+                          handleInputChange('pensionPercentage', 0);
+                        } else {
+                          handleInputChange('pensionPercentage', parseFloat(value) || 0);
+                        }
+                      }}
+                    />
+                    <span className="suffix">%</span>
+                  </div>
+                  {formData.monthlyEarnings > 0 && (
+                    <div className="help-text">
+                      {formData.pensionPercentage}% of £{formData.monthlyEarnings.toLocaleString()} = £{((formData.monthlyEarnings * formData.pensionPercentage) / 100).toFixed(2)} per month
+                    </div>
+                  )}
+                </div>
+              )}
+           </div>
+         )}
+
+              
             </>
           )}
 
@@ -782,6 +858,10 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
            (formData.circumstances === 'couple' && ((formData.employmentType === 'self-employed' && formData.partnerEmploymentType !== 'self-employed') || (formData.employmentType !== 'self-employed' && formData.partnerEmploymentType === 'self-employed')))) && (
             <div className="alert alert-info mif-alert" role="alert">
               <strong>You might be affected by the Minimum Income Floor.</strong> Continue through the calculator and we'll tell you about it on the results page.
+              <br /><br />
+              {getTextValue('MIF.SelfEmploymentAccounts.Info', 'Self-employed people have to fill in a monthly form to report their income to DWP. Our new self-employment accounts can help fill in this form and also ensure you claim all relevant allowances in Universal Credit. We can even help you fill out your annual income tax self-assessment form. Go to our self-employment accounts page to see how we can help and to sign up for the new service.')}
+              <br /><br />
+              <a href="/self-employment-accounts" className="btn btn-primary btn-sm">Go to Self-Employment Accounts</a>
             </div>
           )}
         </div>
@@ -832,21 +912,110 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
 
             {/* Show partner employment fields only if working */}
             {(formData.partnerEmploymentType === 'employed' || formData.partnerEmploymentType === 'self-employed') && (
-              <div className="form-group">
-                <label htmlFor="partnerMonthlyEarnings">Partner's Monthly Earnings</label>
-                <div className="input-with-prefix">
-                  <span className="prefix">£</span>
-                  <input 
-                    type="number" 
-                    id="partnerMonthlyEarnings" 
-                    className="form-control" 
-                    min="0" 
-                    step="0.01" 
-                    value={formData.partnerMonthlyEarnings}
-                    onChange={(e) => handleInputChange('partnerMonthlyEarnings', parseFloat(e.target.value) || 0)}
-                  />
+              <>
+                <div className="form-group">
+                  <label htmlFor="partnerMonthlyEarnings">Partner's Monthly Earnings</label>
+                  <div className="input-with-prefix">
+                    <span className="prefix">£</span>
+                    <input 
+                      type="number" 
+                      id="partnerMonthlyEarnings" 
+                      className="form-control" 
+                      min="0" 
+                      step="0.01" 
+                      value={formData.partnerMonthlyEarnings}
+                      onChange={(e) => handleInputChange('partnerMonthlyEarnings', parseFloat(e.target.value) || 0)}
+                    />
+                  </div>
                 </div>
-              </div>
+
+                         {/* Partner Pension Contributions - only show for employed */}
+         {formData.partnerEmploymentType === 'employed' && (
+           <div className="form-group">
+             <label>Partner's Pension Contributions</label>
+             <div className="radio-group">
+               <label className="radio-label">
+                 <input
+                   type="radio"
+                   name="partnerPensionType"
+                   value="amount"
+                   checked={formData.partnerPensionType === 'amount'}
+                   onChange={(e) => handleInputChange('partnerPensionType', e.target.value)}
+                 />
+                 <span className="radio-custom"></span>
+                 Fixed Amount
+               </label>
+               <label className="radio-label">
+                 <input
+                   type="radio"
+                   name="partnerPensionType"
+                   value="percentage"
+                   checked={formData.partnerPensionType === 'percentage'}
+                   onChange={(e) => handleInputChange('partnerPensionType', e.target.value)}
+                 />
+                 <span className="radio-custom"></span>
+                 Percentage of Gross
+               </label>
+             </div>
+
+                           {formData.partnerPensionType === 'amount' && (
+                <div className="form-group">
+                  <label htmlFor="partnerPensionAmount">Partner's Pension Amount (per month)</label>
+                  <div className="input-with-prefix">
+                    <span className="prefix">£</span>
+                    <input
+                      type="number"
+                      id="partnerPensionAmount"
+                      className="form-control"
+                      min="0"
+                      step="0.01"
+                      value={formData.partnerPensionAmount || ''}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === '') {
+                          handleInputChange('partnerPensionAmount', 0);
+                        } else {
+                          handleInputChange('partnerPensionAmount', parseFloat(value) || 0);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
+                           {formData.partnerPensionType === 'percentage' && (
+                <div className="form-group">
+                  <label htmlFor="partnerPensionPercentage">Partner's Pension Percentage</label>
+                  <div className="input-with-suffix">
+                    <input
+                      type="number"
+                      id="partnerPensionPercentage"
+                      className="form-control"
+                      min="0"
+                      max="100"
+                      step="0.1"
+                      value={formData.partnerPensionPercentage || ''}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (value === '') {
+                          handleInputChange('partnerPensionPercentage', 0);
+                        } else {
+                          handleInputChange('partnerPensionPercentage', parseFloat(value) || 0);
+                        }
+                      }}
+                    />
+                    <span className="suffix">%</span>
+                  </div>
+                  {formData.partnerMonthlyEarnings > 0 && (
+                    <div className="help-text">
+                      {formData.partnerPensionPercentage}% of £{formData.partnerMonthlyEarnings.toLocaleString()} = £{((formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100).toFixed(2)} per month
+                    </div>
+                  )}
+                </div>
+              )}
+           </div>
+         )}
+              </>
             )}
 
             {/* Partner Disability Status */}
@@ -1265,39 +1434,58 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           </div>
         </div>
 
-        {/* Show children fields only if they have children */}
-        {formData.hasChildren && (
-          <>
-            <div className="form-group">
-              <label htmlFor="children">Number of Children</label>
-              <input 
-                type="number" 
-                id="children" 
-                className="form-control" 
-                min="1" 
-                max="10" 
-                value={formData.children}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (value === '') {
-                    // Allow empty input while typing
-                    handleInputChange('children', '');
-                  } else {
-                    const numValue = parseInt(value);
-                    if (!isNaN(numValue) && numValue >= 1 && numValue <= 10) {
-                      handleInputChange('children', numValue);
-                    }
-                  }
-                }}
-                onBlur={(e) => {
-                  // Ensure minimum value when input loses focus
-                  const value = e.target.value;
-                  if (value === '' || parseInt(value) < 1) {
-                    handleInputChange('children', 1);
-                  }
-                }}
-              />
-            </div>
+                 {/* Show children fields only if they have children */}
+         {formData.hasChildren && (
+           <>
+             <div className="form-group">
+               <label htmlFor="children">Number of Children</label>
+               <input 
+                 type="number" 
+                 id="children" 
+                 className="form-control" 
+                 min="1" 
+                 max="10" 
+                 value={formData.children}
+                 onChange={(e) => {
+                   const value = e.target.value;
+                   if (value === '') {
+                     // Allow empty input while typing
+                     handleInputChange('children', '');
+                   } else {
+                     const numValue = parseInt(value);
+                     if (!isNaN(numValue) && numValue >= 1 && numValue <= 10) {
+                       handleInputChange('children', numValue);
+                     }
+                   }
+                 }}
+                 onBlur={(e) => {
+                   // Ensure minimum value when input loses focus
+                   const value = e.target.value;
+                   if (value === '' || parseInt(value) < 1) {
+                     handleInputChange('children', 1);
+                   }
+                 }}
+               />
+             </div>
+
+             <div className="form-group">
+               <label htmlFor="childcareCosts">Monthly Childcare Costs</label>
+               <div className="input-with-prefix">
+                 <span className="prefix">£</span>
+                 <input 
+                   type="number" 
+                   id="childcareCosts" 
+                   className="form-control" 
+                   min="0" 
+                   step="0.01" 
+                   value={formData.childcareCosts}
+                   onChange={(e) => handleInputChange('childcareCosts', parseFloat(e.target.value) || 0)}
+                 />
+               </div>
+               <div className="help-text">
+                 Enter the total monthly cost of childcare for all your children. Universal Credit can help with up to 85% of childcare costs.
+               </div>
+             </div>
 
             {/* Individual child information - grouped by child */}
             <div className="form-group">

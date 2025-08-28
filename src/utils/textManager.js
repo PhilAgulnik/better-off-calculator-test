@@ -920,6 +920,534 @@ const defaultTextBlocks = [
     siteMode: 'ComprehensiveCalc',
     editHistory: 'Not changed',
     editorName: ''
+  },
+  // MIF (Minimum Income Floor) Text Blocks
+  {
+    key: 'MIF.Description',
+    english: 'The Minimum Income Floor may affect your Universal Credit calculation if you are self-employed.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.GracePeriod.Bullet1',
+    english: 'You may have a grace period when you first become self-employed',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.GainfulAssessment.Bullet2',
+    english: 'The DWP will assess if your self-employment is gainful',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.AppliesAfterGrace.Bullet3',
+    english: 'MIF applies after the grace period ends',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.DetailsSection.Title',
+    english: 'How you might be affected by the Minimum Income Floor',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.DetailsSection.Description',
+    english: 'The Minimum Income Floor (MIF) is a rule that affects how your Universal Credit is calculated if you are self-employed. It assumes you earn at least the equivalent of working 35 hours per week at the National Living Wage.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.YourSituation',
+    english: 'Your Situation',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.HowMIFAffectsYou',
+    english: 'How MIF Affects You',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.WhatThisMeans',
+    english: 'What This Means',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.NewSelfEmployed.Situation',
+    english: 'New to self-employment',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.NewSelfEmployed.Affect',
+    english: '12-month grace period',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.NewSelfEmployed.Means',
+    english: 'Your actual earnings are used for the first 12 months',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.EstablishedSelfEmployed.Situation',
+    english: 'Established self-employment',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.EstablishedSelfEmployed.Affect',
+    english: 'MIF may apply',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.EstablishedSelfEmployed.Means',
+    english: 'DWP assumes minimum earnings even if you earn less',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.GainfulSelfEmployed.Situation',
+    english: 'Gainful self-employment',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.GainfulSelfEmployed.Affect',
+    english: 'MIF applies',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.GainfulSelfEmployed.Means',
+    english: 'Your Universal Credit is calculated using assumed minimum earnings',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.NotGainfulSelfEmployed.Situation',
+    english: 'Not gainful self-employment',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.NotGainfulSelfEmployed.Affect',
+    english: 'MIF does not apply',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Table.NotGainfulSelfEmployed.Means',
+    english: 'Your actual earnings are used in the calculation',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.CalculatorSection.Title',
+    english: 'MIF Calculator',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.CalculatorSection.Description',
+    english: 'Use this calculator to see how the Minimum Income Floor might affect your Universal Credit:',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.GracePeriodQuestion.Label',
+    english: 'Are you in your first 12 months of self-employment?',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.GracePeriodQuestion.Yes',
+    english: 'Yes - I\'m in my grace period',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.GracePeriodQuestion.No',
+    english: 'No - I\'ve been self-employed for over 12 months',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.GainfulQuestion.Label',
+    english: 'Is your self-employment gainful?',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.GainfulQuestion.Yes',
+    english: 'Yes - I work regularly and expect to make a profit',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.GainfulQuestion.No',
+    english: 'No - I don\'t work regularly or expect to make a profit',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ResultBox.Title',
+    english: 'MIF Status',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.InfoBox.Title',
+    english: 'Important Information',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.InfoBox.GracePeriod',
+    english: 'Grace Period: You have 12 months from when you first become self-employed before MIF can apply',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.InfoBox.GainfulSelfEmployment',
+    english: 'Gainful Self-employment: The DWP will assess whether your self-employment is regular and expected to make a profit',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.InfoBox.MIFRates',
+    english: 'MIF Rates: The assumed minimum earnings are based on working 35 hours per week at the National Living Wage',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.InfoBox.Appeals',
+    english: 'Appeals: You can challenge a decision that MIF applies to your case',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.CalculationPanel.Title',
+    english: 'Your Minimum Income Floor Calculation',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.CalculationPanel.Description',
+    english: 'Based on your claimant commitment of {claimantHours} hours per week, we estimate your Minimum Income Floor is £{mifWeekly} per week.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.HoursInput.Label',
+    english: 'How many hours a week must you work according to your claimant commitment?',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.HoursInput.Label2',
+    english: 'hours per week',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.Title',
+    english: 'How MIF affects your Universal Credit',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.YourBenefits',
+    english: 'Your Benefits',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.WithoutMIF',
+    english: 'Without MIF',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.WithMIF',
+    english: 'With MIF',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.Impact',
+    english: 'Impact',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.GrossEarnings',
+    english: 'Gross Earnings',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.NetEarnings',
+    english: 'Net Earnings',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.UniversalCredit',
+    english: 'Universal Credit',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.ComparisonTable.TotalBenefits',
+    english: 'Total Benefits',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Status.SelectSituation',
+    english: 'Select your situation above to see how MIF affects you',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Status.GracePeriod',
+    english: 'MIF does not apply - You are in your 12-month grace period. Your actual earnings will be used in the Universal Credit calculation.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Status.NotGainful',
+    english: 'MIF does not apply - Your self-employment is not considered gainful. Your actual earnings will be used in the Universal Credit calculation.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'MIF.Status.Applies',
+    english: 'MIF applies - Your Universal Credit will be calculated using assumed minimum earnings (35 hours per week at National Living Wage), even if you earn less.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  // Self-Employment Accounts Text
+  {
+    key: 'MIF.SelfEmploymentAccounts.Info',
+    english: 'Self-employed people have to fill in a monthly form to report their income to DWP. Our new self-employment accounts can help fill in this form and also ensure you claim all relevant allowances in Universal Credit. We can even help you fill out your annual income tax self-assessment form. Go to our self-employment accounts page to see how we can help and to sign up for the new service.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Page.Title',
+    english: 'Self-Employment Accounts',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Page.Description',
+    english: 'Our comprehensive self-employment accounts service helps you manage your Universal Credit reporting and tax obligations.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.Title',
+    english: 'Features',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.MonthlyReporting',
+    english: 'Monthly Universal Credit income reporting to DWP',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.AllowanceOptimization',
+    english: 'Ensure you claim all relevant Universal Credit allowances',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.TaxSelfAssessment',
+    english: 'Complete self-assessment tax form with step-by-step guidance, automatic calculations, and HMRC submission preparation. Includes personal details, business income, expenses tracking, capital allowances, and real-time tax calculations. Our comprehensive tax form handles all aspects of self-employment tax returns including income tax, National Insurance (Class 2 and Class 4), and payments on account calculations.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.ExpenseTracking',
+    english: 'Track business expenses and deductions',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.ProfitCalculation',
+    english: 'Accurate profit and loss calculations',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.DeadlineReminders',
+    english: 'Important deadline reminders for reporting and tax',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.ExpertSupport',
+    english: 'Expert support and guidance throughout the year',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfEmploymentAccounts.Features.OnlinePortal',
+    english: 'Secure online portal for all your self-employment needs',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  // Self-Assessment Tax Form specific text blocks
+  {
+    key: 'SelfAssessmentTaxForm.Title',
+    english: 'Self-Assessment Tax Form',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Description',
+    english: 'Complete your self-assessment tax return for the 2024-25 tax year. This form will help you calculate your tax liability and prepare for submission to HMRC.',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Steps.PersonalDetails',
+    english: 'Personal Details',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Steps.BusinessIncome',
+    english: 'Business Income',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Steps.Expenses',
+    english: 'Expenses',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Steps.CapitalAllowances',
+    english: 'Capital Allowances',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Steps.Calculation',
+    english: 'Calculation',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Buttons.Previous',
+    english: 'Previous',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Buttons.Next',
+    english: 'Next',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Buttons.CalculateTax',
+    english: 'Calculate Tax',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
+  },
+  {
+    key: 'SelfAssessmentTaxForm.Buttons.Calculating',
+    english: 'Calculating...',
+    siteMode: 'ComprehensiveCalc',
+    editHistory: 'Not changed',
+    editorName: ''
   }
 ];
 

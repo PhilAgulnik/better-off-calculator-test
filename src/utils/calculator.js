@@ -314,15 +314,63 @@ export class UniversalCreditCalculator {
   }
 
   calculateEarningsReduction(input, rates, totalElements) {
-    const { monthlyEarnings, circumstances } = input;
+    const { 
+      monthlyEarnings, 
+      partnerMonthlyEarnings,
+      circumstances,
+      employmentType,
+      partnerEmploymentType,
+      pensionType,
+      pensionAmount,
+      pensionPercentage,
+      partnerPensionType,
+      partnerPensionAmount,
+      partnerPensionPercentage
+    } = input;
+    
+    // Calculate total earnings
+    let totalEarnings = 0;
+    let totalPensionDeductions = 0;
+    
+    // Main person earnings and pension
+    if (employmentType === 'employed' && monthlyEarnings > 0) {
+      totalEarnings += monthlyEarnings;
+      
+      // Calculate pension deduction for main person
+      if (pensionType === 'amount') {
+        totalPensionDeductions += pensionAmount;
+      } else if (pensionType === 'percentage') {
+        totalPensionDeductions += (monthlyEarnings * pensionPercentage) / 100;
+      }
+    } else if (employmentType === 'self-employed' && monthlyEarnings > 0) {
+      totalEarnings += monthlyEarnings;
+    }
+    
+    // Partner earnings and pension
+    if (circumstances === 'couple' && partnerEmploymentType === 'employed' && partnerMonthlyEarnings > 0) {
+      totalEarnings += partnerMonthlyEarnings;
+      
+      // Calculate pension deduction for partner
+      if (partnerPensionType === 'amount') {
+        totalPensionDeductions += partnerPensionAmount;
+      } else if (partnerPensionType === 'percentage') {
+        totalPensionDeductions += (partnerMonthlyEarnings * partnerPensionPercentage) / 100;
+      }
+    } else if (circumstances === 'couple' && partnerEmploymentType === 'self-employed' && partnerMonthlyEarnings > 0) {
+      totalEarnings += partnerMonthlyEarnings;
+    }
+    
+    // Net earnings after pension deductions
+    const netEarnings = totalEarnings - totalPensionDeductions;
+    
     const workAllowance = rates.workAllowance[circumstances].withHousing;
     const taperRate = rates.taperRate;
     
-    if (monthlyEarnings <= workAllowance) {
+    if (netEarnings <= workAllowance) {
       return 0;
     }
     
-    const excessEarnings = monthlyEarnings - workAllowance;
+    const excessEarnings = netEarnings - workAllowance;
     return excessEarnings * taperRate;
   }
 
