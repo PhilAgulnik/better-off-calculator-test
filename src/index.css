@@ -858,12 +858,12 @@ body {
     border-radius: 50%;
 }
 
-/* Default option styling */
+/* Default option styling - subtle */
 .radio-label.default-option {
-    background-color: var(--primary-bg);
-    border-color: var(--primary-color);
+    background-color: rgba(37, 99, 235, 0.05);
+    border-color: rgba(37, 99, 235, 0.2);
     color: var(--primary-color);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .radio-label.default-option .radio-custom {
@@ -881,20 +881,6 @@ body {
     height: 8px;
     background-color: var(--white);
     border-radius: 50%;
-}
-
-.radio-label.default-option::after {
-    content: 'Default';
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background-color: var(--primary-color);
-    color: var(--white);
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 2px 6px;
-    border-radius: var(--radius-sm);
-    line-height: 1;
 }
 
 /* Selected option styling */
