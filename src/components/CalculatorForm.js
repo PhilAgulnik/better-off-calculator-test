@@ -483,6 +483,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           <div className="form-group">
             <label>Are you sick or disabled?</label>
             <div className="radio-group">
+              <label className={`radio-label ${formData.isDisabled === 'no' ? 'default-option' : ''}`}>
+                <input 
+                  type="radio" 
+                  name="isDisabled" 
+                  value="no" 
+                  checked={formData.isDisabled === 'no'}
+                  onChange={(e) => handleInputChange('isDisabled', e.target.value)}
+                />
+                <span className="radio-custom"></span>
+                <span>No</span>
+              </label>
               <label className="radio-label">
                 <input 
                   type="radio" 
@@ -494,17 +505,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 <span className="radio-custom"></span>
                 Yes
               </label>
-                          <label className={`radio-label ${formData.isDisabled === 'no' ? 'default-option' : ''}`}>
-              <input 
-                type="radio" 
-                name="isDisabled" 
-                value="no" 
-                checked={formData.isDisabled === 'no'}
-                onChange={(e) => handleInputChange('isDisabled', e.target.value)}
-              />
-              <span className="radio-custom"></span>
-              <span>No</span>
-            </label>
             </div>
           </div>
 
@@ -518,23 +518,23 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                     <input 
                       type="radio" 
                       name="claimsDisabilityBenefits" 
-                      value="yes" 
-                      checked={formData.claimsDisabilityBenefits === 'yes'}
-                      onChange={(e) => handleInputChange('claimsDisabilityBenefits', e.target.value)}
-                    />
-                    <span className="radio-custom"></span>
-                    Yes
-                  </label>
-                  <label className="radio-label">
-                    <input 
-                      type="radio" 
-                      name="claimsDisabilityBenefits" 
                       value="no" 
                       checked={formData.claimsDisabilityBenefits === 'no'}
                       onChange={(e) => handleInputChange('claimsDisabilityBenefits', e.target.value)}
                     />
                     <span className="radio-custom"></span>
                     No
+                  </label>
+                  <label className="radio-label">
+                    <input 
+                      type="radio" 
+                      name="claimsDisabilityBenefits" 
+                      value="yes" 
+                      checked={formData.claimsDisabilityBenefits === 'yes'}
+                      onChange={(e) => handleInputChange('claimsDisabilityBenefits', e.target.value)}
+                    />
+                    <span className="radio-custom"></span>
+                    Yes
                   </label>
                 </div>
               </div>
@@ -815,6 +815,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               <div className="form-group">
                 <label>Do you qualify for Limited Capability for Work and Work-Related Activity (LCWRA)?</label>
                 <div className="radio-group">
+                  <label className={`radio-label ${formData.hasLCWRA === 'no' ? 'default-option' : ''}`}>
+                    <input 
+                      type="radio" 
+                      name="hasLCWRA" 
+                      value="no" 
+                      checked={formData.hasLCWRA === 'no'}
+                      onChange={(e) => handleInputChange('hasLCWRA', e.target.value)}
+                    />
+                    <span className="radio-custom"></span>
+                    <span>No</span>
+                  </label>
                   <label className="radio-label">
                     <input 
                       type="radio" 
@@ -826,17 +837,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                     <span className="radio-custom"></span>
                     Yes
                   </label>
-                                     <label className={`radio-label ${formData.hasLCWRA === 'no' ? 'default-option' : ''}`}>
-                     <input 
-                       type="radio" 
-                       name="hasLCWRA" 
-                       value="no" 
-                       checked={formData.hasLCWRA === 'no'}
-                       onChange={(e) => handleInputChange('hasLCWRA', e.target.value)}
-                     />
-                     <span className="radio-custom"></span>
-                     <span>No</span>
-                   </label>
                   <label className="radio-label">
                     <input 
                       type="radio" 
@@ -1022,17 +1022,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             <div className="form-group">
               <label>Is your partner sick or disabled?</label>
               <div className="radio-group">
-                <label className="radio-label">
-                  <input 
-                    type="radio" 
-                    name="partnerIsDisabled" 
-                    value="yes" 
-                    checked={formData.partnerIsDisabled === 'yes'}
-                    onChange={(e) => handleInputChange('partnerIsDisabled', e.target.value)}
-                  />
-                  <span className="radio-custom"></span>
-                  Yes
-                </label>
                 <label className={`radio-label ${formData.partnerIsDisabled === 'no' ? 'default-option' : ''}`}>
                   <input 
                     type="radio" 
@@ -1043,6 +1032,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                   />
                   <span className="radio-custom"></span>
                   <span>No</span>
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="partnerIsDisabled" 
+                    value="yes" 
+                    checked={formData.partnerIsDisabled === 'yes'}
+                    onChange={(e) => handleInputChange('partnerIsDisabled', e.target.value)}
+                  />
+                  <span className="radio-custom"></span>
+                  Yes
                 </label>
               </div>
             </div>
@@ -1057,23 +1057,23 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                       <input 
                         type="radio" 
                         name="partnerClaimsDisabilityBenefits" 
-                        value="yes" 
-                        checked={formData.partnerClaimsDisabilityBenefits === 'yes'}
-                        onChange={(e) => handleInputChange('partnerClaimsDisabilityBenefits', e.target.value)}
-                      />
-                      <span className="radio-custom"></span>
-                      Yes
-                    </label>
-                    <label className="radio-label">
-                      <input 
-                        type="radio" 
-                        name="partnerClaimsDisabilityBenefits" 
                         value="no" 
                         checked={formData.partnerClaimsDisabilityBenefits === 'no'}
                         onChange={(e) => handleInputChange('partnerClaimsDisabilityBenefits', e.target.value)}
                       />
                       <span className="radio-custom"></span>
                       No
+                    </label>
+                    <label className="radio-label">
+                      <input 
+                        type="radio" 
+                        name="partnerClaimsDisabilityBenefits" 
+                        value="yes" 
+                        checked={formData.partnerClaimsDisabilityBenefits === 'yes'}
+                        onChange={(e) => handleInputChange('partnerClaimsDisabilityBenefits', e.target.value)}
+                      />
+                      <span className="radio-custom"></span>
+                      Yes
                     </label>
                   </div>
                 </div>
@@ -1354,6 +1354,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 <div className="form-group">
                   <label>Does your partner qualify for Limited Capability for Work and Work-Related Activity (LCWRA)?</label>
                   <div className="radio-group">
+                    <label className={`radio-label ${formData.partnerHasLCWRA === 'no' ? 'default-option' : ''}`}>
+                      <input 
+                        type="radio" 
+                        name="partnerHasLCWRA" 
+                        value="no" 
+                        checked={formData.partnerHasLCWRA === 'no'}
+                        onChange={(e) => handleInputChange('partnerHasLCWRA', e.target.value)}
+                      />
+                      <span className="radio-custom"></span>
+                      <span>No</span>
+                    </label>
                     <label className="radio-label">
                       <input 
                         type="radio" 
@@ -1365,17 +1376,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                       <span className="radio-custom"></span>
                       Yes
                     </label>
-                                         <label className={`radio-label ${formData.partnerHasLCWRA === 'no' ? 'default-option' : ''}`}>
-                       <input 
-                         type="radio" 
-                         name="partnerHasLCWRA" 
-                         value="no" 
-                         checked={formData.partnerHasLCWRA === 'no'}
-                         onChange={(e) => handleInputChange('partnerHasLCWRA', e.target.value)}
-                       />
-                       <span className="radio-custom"></span>
-                       <span>No</span>
-                     </label>
                     <label className="radio-label">
                       <input 
                         type="radio" 
@@ -1573,23 +1573,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                         <input 
                           type="radio" 
                           name={`childDisability${index}`} 
-                          value="yes" 
-                          checked={formData.childDisabilities[index]?.hasDisability === true}
-                          onChange={(e) => {
-                            const newChildDisabilities = [...(formData.childDisabilities || [])];
-                            if (!newChildDisabilities[index]) newChildDisabilities[index] = {};
-                            newChildDisabilities[index].childIndex = index;
-                            newChildDisabilities[index].hasDisability = true;
-                            handleInputChange('childDisabilities', newChildDisabilities);
-                          }}
-                        />
-                        <span className="radio-custom"></span>
-                        Yes
-                      </label>
-                      <label className="radio-label">
-                        <input 
-                          type="radio" 
-                          name={`childDisability${index}`} 
                           value="no" 
                           checked={formData.childDisabilities[index]?.hasDisability === false}
                           onChange={(e) => {
@@ -1606,6 +1589,23 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                         <span className="radio-custom"></span>
                         No
                       </label>
+                      <label className="radio-label">
+                        <input 
+                          type="radio" 
+                          name={`childDisability${index}`} 
+                          value="yes" 
+                          checked={formData.childDisabilities[index]?.hasDisability === true}
+                          onChange={(e) => {
+                            const newChildDisabilities = [...(formData.childDisabilities || [])];
+                            if (!newChildDisabilities[index]) newChildDisabilities[index] = {};
+                            newChildDisabilities[index].childIndex = index;
+                            newChildDisabilities[index].hasDisability = true;
+                            handleInputChange('childDisabilities', newChildDisabilities);
+                          }}
+                        />
+                        <span className="radio-custom"></span>
+                        Yes
+                      </label>
                     </div>
                   </div>
 
@@ -1615,21 +1615,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                       <div className="form-group">
                         <label>Does Child {index + 1} claim Disability Living Allowance (DLA)?</label>
                         <div className="radio-group">
-                          <label className="radio-label">
-                            <input 
-                              type="radio" 
-                              name={`childDLA${index}`} 
-                              value="yes" 
-                              checked={formData.childDisabilities[index]?.claimsDLA === true}
-                              onChange={(e) => {
-                                const newChildDisabilities = [...(formData.childDisabilities || [])];
-                                newChildDisabilities[index].claimsDLA = true;
-                                handleInputChange('childDisabilities', newChildDisabilities);
-                              }}
-                            />
-                            <span className="radio-custom"></span>
-                            Yes
-                          </label>
                           <label className="radio-label">
                             <input 
                               type="radio" 
@@ -1646,6 +1631,21 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                             />
                             <span className="radio-custom"></span>
                             No
+                          </label>
+                          <label className="radio-label">
+                            <input 
+                              type="radio" 
+                              name={`childDLA${index}`} 
+                              value="yes" 
+                              checked={formData.childDisabilities[index]?.claimsDLA === true}
+                              onChange={(e) => {
+                                const newChildDisabilities = [...(formData.childDisabilities || [])];
+                                newChildDisabilities[index].claimsDLA = true;
+                                handleInputChange('childDisabilities', newChildDisabilities);
+                              }}
+                            />
+                            <span className="radio-custom"></span>
+                            Yes
                           </label>
                         </div>
                       </div>
@@ -1756,6 +1756,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           <div className="form-group">
             <label>Do you care for someone who is sick or disabled?</label>
             <div className="radio-group">
+              <label className={`radio-label ${formData.isCarer === 'no' ? 'default-option' : ''}`}>
+                <input 
+                  type="radio" 
+                  name="isCarer" 
+                  value="no" 
+                  checked={formData.isCarer === 'no'}
+                  onChange={(e) => handleInputChange('isCarer', e.target.value)}
+                />
+                <span className="radio-custom"></span>
+                <span>No</span>
+              </label>
               <label className="radio-label">
                 <input 
                   type="radio" 
@@ -1767,17 +1778,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 <span className="radio-custom"></span>
                 Yes
               </label>
-                          <label className={`radio-label ${formData.isCarer === 'no' ? 'default-option' : ''}`}>
-              <input 
-                type="radio" 
-                name="isCarer" 
-                value="no" 
-                checked={formData.isCarer === 'no'}
-                onChange={(e) => handleInputChange('isCarer', e.target.value)}
-              />
-              <span className="radio-custom"></span>
-              <span>No</span>
-            </label>
             </div>
           </div>
 
@@ -1785,17 +1785,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             <div className="form-group">
               <label>Does your partner care for someone who is sick or disabled?</label>
               <div className="radio-group">
-                <label className="radio-label">
-                  <input 
-                    type="radio" 
-                    name="isPartnerCarer" 
-                    value="yes" 
-                    checked={formData.isPartnerCarer === 'yes'}
-                    onChange={(e) => handleInputChange('isPartnerCarer', e.target.value)}
-                  />
-                  <span className="radio-custom"></span>
-                  Yes
-                </label>
                 <label className={`radio-label ${formData.isPartnerCarer === 'no' ? 'default-option' : ''}`}>
                   <input 
                     type="radio" 
@@ -1806,6 +1795,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                   />
                   <span className="radio-custom"></span>
                   <span>No</span>
+                </label>
+                <label className="radio-label">
+                  <input 
+                    type="radio" 
+                    name="isPartnerCarer" 
+                    value="yes" 
+                    checked={formData.isPartnerCarer === 'yes'}
+                    onChange={(e) => handleInputChange('isPartnerCarer', e.target.value)}
+                  />
+                  <span className="radio-custom"></span>
+                  Yes
                 </label>
               </div>
             </div>
