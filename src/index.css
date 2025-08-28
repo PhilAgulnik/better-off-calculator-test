@@ -813,10 +813,16 @@ body {
     font-weight: 500;
     color: var(--gray-700);
     transition: var(--transition-fast);
+    padding: var(--spacing-2) var(--spacing-3);
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    position: relative;
 }
 
 .radio-label:hover {
     color: var(--primary-color);
+    background-color: var(--gray-50);
+    border-color: var(--gray-200);
 }
 
 .radio-label input[type="radio"] {
@@ -831,11 +837,13 @@ body {
     margin-right: var(--spacing-2);
     position: relative;
     transition: var(--transition-fast);
+    background-color: var(--white);
 }
 
 .radio-label input[type="radio"]:checked + .radio-custom {
     border-color: var(--primary-color);
     background-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 .radio-label input[type="radio"]:checked + .radio-custom::after {
@@ -848,6 +856,63 @@ body {
     height: 8px;
     background-color: var(--white);
     border-radius: 50%;
+}
+
+/* Default option styling */
+.radio-label.default-option {
+    background-color: var(--primary-bg);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.radio-label.default-option .radio-custom {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+}
+
+.radio-label.default-option .radio-custom::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: var(--white);
+    border-radius: 50%;
+}
+
+.radio-label.default-option::after {
+    content: 'Default';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    line-height: 1;
+}
+
+/* Selected option styling */
+.radio-label input[type="radio"]:checked ~ span {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.radio-label input[type="radio"]:checked ~ span {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.radio-label input[type="radio"]:checked {
+    background-color: var(--primary-bg);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
 /* Checkboxes */
