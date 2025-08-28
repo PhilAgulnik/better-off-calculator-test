@@ -105,6 +105,8 @@ function CalculatorPage() {
     savings: 0,
     otherIncome: 0,
     otherBenefits: 0,
+    hasOtherBenefits: 'no',
+    otherBenefitsList: [],
     
     // Partner capital and other income
     partnerSavings: 0,

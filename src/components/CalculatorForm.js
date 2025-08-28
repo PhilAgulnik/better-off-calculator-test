@@ -1834,70 +1834,403 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           )}
         </div>
 
-        {/* Other Benefits */}
-        <div className="form-group">
-          <label htmlFor="otherBenefits">Other Benefits</label>
-          <div className="input-with-period">
-            <div className="input-with-prefix">
-              <span className="prefix">£</span>
-              <input 
-                type="number" 
-                id="otherBenefits" 
-                className="form-control" 
-                min="0" 
-                step="0.01" 
-                value={formData.otherBenefits}
-                onChange={(e) => handleInputChange('otherBenefits', parseFloat(e.target.value) || 0)}
-              />
-            </div>
-            <div className="radio-group">
-              <label className="radio-label">
-                <input 
-                  type="radio" 
-                  name="otherBenefitsPeriod" 
-                  value="weekly" 
-                  checked={formData.otherBenefitsPeriod === 'weekly'}
-                  onChange={(e) => handleInputChange('otherBenefitsPeriod', e.target.value)}
-                />
-                <span className="radio-custom"></span>
-                per week
-              </label>
-              <label className="radio-label">
-                <input 
-                  type="radio" 
-                  name="otherBenefitsPeriod" 
-                  value="fortnightly" 
-                  checked={formData.otherBenefitsPeriod === 'fortnightly'}
-                  onChange={(e) => handleInputChange('otherBenefitsPeriod', e.target.value)}
-                />
-                <span className="radio-custom"></span>
-                per fortnight
-              </label>
-              <label className="radio-label">
-                <input 
-                  type="radio" 
-                  name="otherBenefitsPeriod" 
-                  value="monthly" 
-                  checked={formData.otherBenefitsPeriod === 'monthly'}
-                  onChange={(e) => handleInputChange('otherBenefitsPeriod', e.target.value)}
-                />
-                <span className="radio-custom"></span>
-                per month
-              </label>
-              <label className="radio-label">
-                <input 
-                  type="radio" 
-                  name="otherBenefitsPeriod" 
-                  value="yearly" 
-                  checked={formData.otherBenefitsPeriod === 'yearly'}
-                  onChange={(e) => handleInputChange('otherBenefitsPeriod', e.target.value)}
-                />
-                <span className="radio-custom"></span>
-                per year
-              </label>
-            </div>
-          </div>
-        </div>
+                 {/* Other Benefits */}
+         <div className="form-group">
+           <label>Do you receive any other benefits?</label>
+           <div className="radio-group">
+             <label className={`radio-label ${formData.hasOtherBenefits === 'no' ? 'default-option' : ''}`}>
+               <input 
+                 type="radio" 
+                 name="hasOtherBenefits" 
+                 value="no" 
+                 checked={formData.hasOtherBenefits === 'no'}
+                 onChange={(e) => handleInputChange('hasOtherBenefits', e.target.value)}
+               />
+               <span className="radio-custom"></span>
+               <span>No</span>
+             </label>
+             <label className="radio-label">
+               <input 
+                 type="radio" 
+                 name="hasOtherBenefits" 
+                 value="yes" 
+                 checked={formData.hasOtherBenefits === 'yes'}
+                 onChange={(e) => handleInputChange('hasOtherBenefits', e.target.value)}
+               />
+               <span className="radio-custom"></span>
+               <span>Yes</span>
+             </label>
+           </div>
+         </div>
+
+         {/* Show other benefits list only if user selects yes */}
+         {formData.hasOtherBenefits === 'yes' && (
+           <div className="form-group">
+             <label>Select the benefits you receive:</label>
+             <div className="checkbox-group">
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="child_benefit" 
+                   checked={formData.otherBenefitsList?.includes('child_benefit')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Child Benefit</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="housing_benefit" 
+                   checked={formData.otherBenefitsList?.includes('housing_benefit')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Housing Benefit</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="council_tax_reduction" 
+                   checked={formData.otherBenefitsList?.includes('council_tax_reduction')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Council Tax Reduction</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="carers_allowance" 
+                   checked={formData.otherBenefitsList?.includes('carers_allowance')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Carer's Allowance</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="employment_support_allowance" 
+                   checked={formData.otherBenefitsList?.includes('employment_support_allowance')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Employment and Support Allowance (ESA)</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="jobseekers_allowance" 
+                   checked={formData.otherBenefitsList?.includes('jobseekers_allowance')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Jobseeker's Allowance (JSA)</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="income_support" 
+                   checked={formData.otherBenefitsList?.includes('income_support')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Income Support</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="pension_credit" 
+                   checked={formData.otherBenefitsList?.includes('pension_credit')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Pension Credit</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="working_tax_credit" 
+                   checked={formData.otherBenefitsList?.includes('working_tax_credit')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Working Tax Credit</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="child_tax_credit" 
+                   checked={formData.otherBenefitsList?.includes('child_tax_credit')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Child Tax Credit</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="maternity_allowance" 
+                   checked={formData.otherBenefitsList?.includes('maternity_allowance')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Maternity Allowance</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="statutory_sick_pay" 
+                   checked={formData.otherBenefitsList?.includes('statutory_sick_pay')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Statutory Sick Pay (SSP)</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="statutory_maternity_pay" 
+                   checked={formData.otherBenefitsList?.includes('statutory_maternity_pay')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Statutory Maternity Pay (SMP)</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="statutory_paternity_pay" 
+                   checked={formData.otherBenefitsList?.includes('statutory_paternity_pay')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Statutory Paternity Pay (SPP)</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="statutory_adoption_pay" 
+                   checked={formData.otherBenefitsList?.includes('statutory_adoption_pay')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Statutory Adoption Pay (SAP)</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="bereavement_benefits" 
+                   checked={formData.otherBenefitsList?.includes('bereavement_benefits')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Bereavement Benefits</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="industrial_injuries" 
+                   checked={formData.otherBenefitsList?.includes('industrial_injuries')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Industrial Injuries Disablement Benefit</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="war_pension" 
+                   checked={formData.otherBenefitsList?.includes('war_pension')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>War Pension</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="armed_forces_compensation" 
+                   checked={formData.otherBenefitsList?.includes('armed_forces_compensation')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Armed Forces Compensation Scheme</span>
+               </label>
+               <label className="checkbox-label">
+                 <input 
+                   type="checkbox" 
+                   name="otherBenefitsList" 
+                   value="other" 
+                   checked={formData.otherBenefitsList?.includes('other')}
+                   onChange={(e) => {
+                     const currentList = formData.otherBenefitsList || [];
+                     if (e.target.checked) {
+                       handleInputChange('otherBenefitsList', [...currentList, e.target.value]);
+                     } else {
+                       handleInputChange('otherBenefitsList', currentList.filter(benefit => benefit !== e.target.value));
+                     }
+                   }}
+                 />
+                 <span className="checkbox-custom"></span>
+                 <span>Other (please specify)</span>
+               </label>
+             </div>
+           </div>
+         )}
 
         {/* Savings */}
         <div className="form-group">
