@@ -2284,10 +2284,10 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               </div>
             </div>
             
-            <div className="info-box">
-              <p><strong>Tariff Income Rules:</strong> Universal Credit uses 'tariff income' rules for savings over £6,000. For every £250 (or part of £250) you have over £6,000, £4.35 is treated as monthly income. This reduces your Universal Credit entitlement.</p>
-              <p>For example: If you have £6,500 in savings, £500 is over the limit. This creates a tariff income of £8.70 per month (£500 ÷ £250 × £4.35).</p>
-            </div>
+                               <div className="info-box">
+                     <p><strong>Tariff Income Rules:</strong> Universal Credit uses 'tariff income' rules for savings over £6,000. For every £250 (or part of £250) you have over £6,000, £4.35 is treated as monthly income (£1 per week). This reduces your Universal Credit entitlement.</p>
+                     <p>For example: If you have £6,500 in savings, £500 is over the limit. This creates a tariff income of £8.70 per month (£500 ÷ £250 × £4.35), which is £2 per week.</p>
+                   </div>
           </>
         )}
 

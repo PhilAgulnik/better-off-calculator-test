@@ -390,11 +390,11 @@ export class UniversalCreditCalculator {
       const tariffUnits = Math.ceil(excessOver6000 / 250); // Round up to nearest £250
       const tariffIncome = tariffUnits * 4.35;
       
-      return {
-        deduction: tariffIncome,
-        tariffIncome: tariffIncome,
-        explanation: `Tariff income: £${excessOver6000.toFixed(2)} over £6,000 limit = ${tariffUnits} units × £4.35 = £${tariffIncome.toFixed(2)} per month`
-      };
+                     return {
+                 deduction: tariffIncome,
+                 tariffIncome: tariffIncome,
+                 explanation: `Tariff income: £${excessOver6000.toFixed(2)} over £6,000 limit = ${tariffUnits} units × £4.35 = £${tariffIncome.toFixed(2)} per month (£${(tariffIncome / 4.35).toFixed(2)} per week)`
+               };
     } else {
       return {
         deduction: totalElements,
