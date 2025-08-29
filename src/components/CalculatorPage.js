@@ -88,8 +88,8 @@ function CalculatorPage() {
     businessHomeHours: 0,
     
     // Carer details
-    isCarer: '',
-    isPartnerCarer: '',
+    isCarer: 'no',
+    isPartnerCarer: 'no',
     currentlyReceivingCarersAllowance: '',
     partnerCurrentlyReceivingCarersAllowance: '',
     caringHours: '',
@@ -257,8 +257,8 @@ function CalculatorPage() {
       businessPension: 0,
       businessCarMiles: 0,
       businessHomeHours: 0,
-      isCarer: '',
-      isPartnerCarer: '',
+      isCarer: 'no',
+      isPartnerCarer: 'no',
       currentlyReceivingCarersAllowance: '',
       partnerCurrentlyReceivingCarersAllowance: '',
       caringHours: '',
