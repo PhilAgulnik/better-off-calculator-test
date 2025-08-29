@@ -1749,11 +1749,10 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           </>
         )}
 
-        {/* Carer Section */}
-        <div className="carer-section">
-          <h3>Carer Status</h3>
-          
-          <div className="form-group">
+                 {/* Carer Section */}
+         <div className="carer-section">
+           
+           <div className="form-group">
             <label>Do you care for someone who is sick or disabled?</label>
             <div className="radio-group">
               <label className={`radio-label ${formData.isCarer === 'no' ? 'default-option' : ''}`}>
@@ -2234,20 +2233,63 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
 
         {/* Savings */}
         <div className="form-group">
-          <label htmlFor="savings">Savings</label>
-          <div className="input-with-prefix">
-            <span className="prefix">£</span>
-            <input 
-              type="number" 
-              id="savings" 
-              className="form-control" 
-              min="0" 
-              step="0.01" 
-              value={formData.savings}
-              onChange={(e) => handleInputChange('savings', parseFloat(e.target.value) || 0)}
-            />
+          <label>Do you have £6,000 or more in savings?</label>
+          <div className="radio-group">
+            <label className={`radio-label ${formData.hasSavingsOver6000 === 'no' ? 'default-option' : ''}`}>
+              <input 
+                type="radio" 
+                name="hasSavingsOver6000" 
+                value="no" 
+                checked={formData.hasSavingsOver6000 === 'no'}
+                onChange={(e) => {
+                  handleInputChange('hasSavingsOver6000', e.target.value);
+                  if (e.target.value === 'no') {
+                    handleInputChange('savings', 0);
+                  }
+                }}
+              />
+              <span className="radio-custom"></span>
+              <span>No</span>
+            </label>
+            <label className="radio-label">
+              <input 
+                type="radio" 
+                name="hasSavingsOver6000" 
+                value="yes" 
+                checked={formData.hasSavingsOver6000 === 'yes'}
+                onChange={(e) => handleInputChange('hasSavingsOver6000', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              <span>Yes</span>
+            </label>
           </div>
         </div>
+
+        {/* Show savings amount input only if they have £6,000 or more */}
+        {formData.hasSavingsOver6000 === 'yes' && (
+          <>
+            <div className="form-group">
+              <label htmlFor="savings">How much do you have in savings?</label>
+              <div className="input-with-prefix">
+                <span className="prefix">£</span>
+                <input 
+                  type="number" 
+                  id="savings" 
+                  className="form-control" 
+                  min="6000" 
+                  step="0.01" 
+                  value={formData.savings}
+                  onChange={(e) => handleInputChange('savings', parseFloat(e.target.value) || 0)}
+                />
+              </div>
+            </div>
+            
+            <div className="info-box">
+              <p><strong>Tariff Income Rules:</strong> Universal Credit uses 'tariff income' rules for savings over £6,000. For every £250 (or part of £250) you have over £6,000, £4.35 is treated as monthly income. This reduces your Universal Credit entitlement.</p>
+              <p>For example: If you have £6,500 in savings, £500 is over the limit. This creates a tariff income of £8.70 per month (£500 ÷ £250 × £4.35).</p>
+            </div>
+          </>
+        )}
 
         {/* Action Buttons */}
         <div className="button-group">

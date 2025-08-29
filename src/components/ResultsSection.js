@@ -158,6 +158,17 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
               <span className="label">Other Deductions</span>
               <span className="value">-{formatCurrency(calculation.capitalDeduction + calculation.benefitDeduction)}</span>
             </div>
+            
+            {/* Show tariff income details if applicable */}
+            {calculation.capitalDeductionDetails && calculation.capitalDeductionDetails.tariffIncome > 0 && (
+              <div className="breakdown-item info">
+                <span className="label">Tariff Income from Savings</span>
+                <span className="value">-{formatCurrency(calculation.capitalDeductionDetails.tariffIncome)}</span>
+                <div className="explanation">
+                  <small>{calculation.capitalDeductionDetails.explanation}</small>
+                </div>
+              </div>
+            )}
             <div className="breakdown-item final">
               <span className="label">Final Universal Credit</span>
               <span className="value">{formatCurrency(calculation.finalAmount)}</span>

@@ -141,12 +141,12 @@ export class UniversalCreditCalculator {
       // Calculate earnings reduction
       const earningsReduction = this.calculateEarningsReduction(input, rates, totalElements);
       
-             // Calculate other deductions
-       const capitalDeduction = this.calculateCapitalDeduction(input, totalElements, rates);
-       const benefitDeduction = this.calculateBenefitDeduction(input);
+      // Calculate other deductions
+      const capitalDeductionResult = this.calculateCapitalDeduction(input, totalElements, rates);
+      const benefitDeduction = this.calculateBenefitDeduction(input);
       
       // Calculate final amount
-      const finalAmount = Math.max(0, totalElements - earningsReduction - capitalDeduction - benefitDeduction);
+      const finalAmount = Math.max(0, totalElements - earningsReduction - capitalDeductionResult.deduction - benefitDeduction);
 
       return {
         success: true,
@@ -159,7 +159,8 @@ export class UniversalCreditCalculator {
           carerElement,
           totalElements,
           earningsReduction,
-          capitalDeduction,
+          capitalDeduction: capitalDeductionResult.deduction,
+          capitalDeductionDetails: capitalDeductionResult,
           benefitDeduction,
           finalAmount
         },
@@ -378,11 +379,28 @@ export class UniversalCreditCalculator {
     const { savings } = input;
     
     if (savings <= rates.capitalLowerLimit) {
-      return 0;
+      return {
+        deduction: 0,
+        tariffIncome: 0,
+        explanation: 'No deduction - savings below £6,000 limit'
+      };
     } else if (savings <= rates.capitalUpperLimit) {
-      return (savings - rates.capitalLowerLimit) * rates.capitalDeductionRate;
+      // Calculate tariff income: for every £250 (or part of £250) over £6,000, £4.35 is treated as monthly income
+      const excessOver6000 = savings - rates.capitalLowerLimit;
+      const tariffUnits = Math.ceil(excessOver6000 / 250); // Round up to nearest £250
+      const tariffIncome = tariffUnits * 4.35;
+      
+      return {
+        deduction: tariffIncome,
+        tariffIncome: tariffIncome,
+        explanation: `Tariff income: £${excessOver6000.toFixed(2)} over £6,000 limit = ${tariffUnits} units × £4.35 = £${tariffIncome.toFixed(2)} per month`
+      };
     } else {
-      return totalElements; // No UC if savings over upper limit
+      return {
+        deduction: totalElements,
+        tariffIncome: 0,
+        explanation: 'No Universal Credit entitlement - savings over £16,000 limit'
+      };
     }
   }
 

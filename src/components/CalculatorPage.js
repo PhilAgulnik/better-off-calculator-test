@@ -102,6 +102,7 @@ function CalculatorPage() {
     includePartnerCarerElement: 'yes',
     
     // Capital and other income
+    hasSavingsOver6000: 'no',
     savings: 0,
     otherIncome: 0,
     otherBenefits: 0,
