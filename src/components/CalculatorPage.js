@@ -11,7 +11,7 @@ function CalculatorPage({ isRehabilitation = false }) {
   const location = useLocation();
   const [formData, setFormData] = useState({
     // Tax Year and Circumstances
-    taxYear: '2024_25',
+    taxYear: '2025_26',
     circumstances: 'single',
     
     // Housing
@@ -246,7 +246,7 @@ function CalculatorPage({ isRehabilitation = false }) {
   const handleReset = () => {
     setFormData({
       // Tax Year and Circumstances
-      taxYear: '2024_25',
+      taxYear: '2025_26',
       circumstances: 'single',
       
       // Housing
