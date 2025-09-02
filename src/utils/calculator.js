@@ -119,6 +119,10 @@ export class UniversalCreditCalculator {
       const taxYear = input.taxYear || '2025_26';
       const rates = this.rates[taxYear];
       
+      console.log('Calculator received input:', input);
+      console.log('Calculator using tax year:', taxYear);
+      console.log('Calculator rates:', rates);
+      
       if (!rates) {
         throw new Error(`Tax year ${taxYear} not supported`);
       }

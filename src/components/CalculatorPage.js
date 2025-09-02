@@ -144,6 +144,7 @@ function CalculatorPage({ isRehabilitation = false }) {
         partnerHasLCWRA: calculationInput.partnerHasLCWRA,
         circumstances: calculationInput.circumstances 
       });
+      console.log('LCWRA Values - hasLCWRA:', formData.hasLCWRA, 'partnerHasLCWRA:', formData.partnerHasLCWRA, 'circumstances:', formData.circumstances);
 
       // Initialize calculator if needed
       if (!calculator.initialized) {
