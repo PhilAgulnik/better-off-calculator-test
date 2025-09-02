@@ -1,46 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import CalculatorForm from './CalculatorForm';
 import ResultsSection from './ResultsSection';
-import SavedScenarios from './SavedScenarios';
-import LoadingOverlay from './LoadingOverlay';
 import AdminPanel from './AdminPanel';
-import { UniversalCreditCalculator } from '../utils/calculator';
-import { useTextManager } from '../hooks/useTextManager';
+import { applySkinForRoute } from '../utils/skinManager';
 import Logo from './Logo';
 
-function CalculatorPage() {
-  const { getTextValue } = useTextManager();
-  const [calculator, setCalculator] = useState(null);
+function CalculatorPage({ isRehabilitation = false }) {
+  const location = useLocation();
   const [formData, setFormData] = useState({
-    // Personal Details
-    taxYear: '2025_26',
+    // Tax Year and Circumstances
+    taxYear: '2024-25',
     circumstances: 'single',
-    age: 25,
-    partnerAge: 25,
-    children: 0,
-    
-    // Children's disability information
-    childDisabilities: [], // Array of objects: {childIndex: 0, hasDisability: false, claimsDLA: false, careRate: '', mobilityRate: ''}
-    childAges: [], // Array of ages for each child
-    childGenders: [], // Array of genders for each child ('male' or 'female')
-    hasChildren: false, // Track whether user has children (separate from number)
     
     // Housing
     housingStatus: 'no_housing_costs',
     tenantType: 'private',
     rent: 0,
+    rentPeriod: 'per_month',
     serviceCharges: 0,
+    serviceChargesPeriod: 'per_month',
     bedrooms: 1,
-    area: 'default',
     nonDependants: 0,
     
     // Employment and Disability - Main Person
     employmentType: 'not_working',
     monthlyEarnings: 0,
-    childcareCosts: 0,
-    pensionType: 'amount',     // Changed default to amount
-    pensionAmount: 0,          // Default amount is 0
-    pensionPercentage: 3,      // Keep percentage default for when user switches
+    monthlyEarningsPeriod: 'per_month',
+    pensionAmount: 0,
+    pensionAmountPeriod: 'per_month',
+    pensionType: 'amount',
+    pensionPercentage: 3,
     isDisabled: 'no',
     claimsDisabilityBenefits: 'no',
     disabilityBenefitType: '',
@@ -54,9 +44,11 @@ function CalculatorPage() {
     // Employment and Disability - Partner
     partnerEmploymentType: 'not_working',
     partnerMonthlyEarnings: 0,
-    partnerPensionType: 'amount',     // Changed default to amount
-    partnerPensionAmount: 0,          // Default amount is 0
-    partnerPensionPercentage: 3,      // Keep percentage default for when user switches
+    partnerMonthlyEarningsPeriod: 'per_month',
+    partnerPensionAmount: 0,
+    partnerPensionAmountPeriod: 'per_month',
+    partnerPensionType: 'amount',
+    partnerPensionPercentage: 3,
     partnerIsDisabled: 'no',
     partnerClaimsDisabilityBenefits: 'no',
     partnerDisabilityBenefitType: '',
@@ -66,93 +58,46 @@ function CalculatorPage() {
     partnerDlaMobilityRate: 'none',
     partnerAaRate: 'none',
     partnerHasLCWRA: 'no',
-
-    // Self-employed fields
-    businessIncomeBank: 0,
-    businessIncomeCash: 0,
-    businessExpensesRent: 0,
-    businessExpensesRates: 0,
-    businessExpensesUtilities: 0,
-    businessExpensesInsurance: 0,
-    businessExpensesTelephone: 0,
-    businessExpensesMarketing: 0,
-    businessExpensesVehicle: 0,
-    businessExpensesEquipment: 0,
-    businessExpensesPostage: 0,
-    businessExpensesTransport: 0,
-    businessExpensesProfessional: 0,
-    businessTax: 0,
-    businessNIC: 0,
-    businessPension: 0,
-    businessCarMiles: 0,
-    businessHomeHours: 0,
     
-    // Carer details
+    // Children
+    hasChildren: false,
+    children: 0,
+    childAges: [],
+    childDisabilities: [],
+    childGenders: [],
+    childcareCosts: 0,
+    childcareCostsPeriod: 'per_month',
+    
+    // Carer Status
     isCarer: 'no',
     isPartnerCarer: 'no',
-    currentlyReceivingCarersAllowance: '',
-    partnerCurrentlyReceivingCarersAllowance: '',
-    caringHours: '',
-    partnerCaringHours: '',
-    personReceivesBenefits: '',
-    partnerPersonReceivesBenefits: '',
-    includeCarersAllowance: 'yes',
-    includePartnerCarersAllowance: 'yes',
-    includeCarerElement: 'yes',
-    includePartnerCarerElement: 'yes',
     
-    // Capital and other income
-    hasSavingsOver6000: 'no',
-    savings: 0,
-    otherIncome: 0,
-    otherBenefits: 0,
+    // Other Benefits
     hasOtherBenefits: 'no',
     otherBenefitsList: [],
     
-    // Partner capital and other income
-    partnerSavings: 0,
-    partnerOtherIncome: 0,
-    partnerOtherBenefits: 0
+    // Savings
+    hasSavings: 'no',
+    hasSavingsOver6000: 'no',
+    savingsAmount: 0,
+    savings: 0,
+    savingsPeriod: 'per_month',
+    
+    // Area
+    area: 'england'
   });
 
   const [results, setResults] = useState(null);
-  const [savedScenarios, setSavedScenarios] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [showSavedScenarios, setShowSavedScenarios] = useState(false);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [savedScenarios, setSavedScenarios] = useState([]);
+  const [showSavedScenarios, setShowSavedScenarios] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  // Initialize calculator
+  // Apply skin for current route
   useEffect(() => {
-    const initCalculator = async () => {
-      try {
-        const calc = new UniversalCreditCalculator();
-        await calc.initialize();
-        setCalculator(calc);
-      } catch (error) {
-        console.error('Failed to initialize calculator:', error);
-      }
-    };
-    
-    initCalculator();
-  }, []);
-
-  // Load saved scenarios on component mount
-  useEffect(() => {
-    const saved = localStorage.getItem('ucSavedScenarios');
-    if (saved) {
-      try {
-        const parsedScenarios = JSON.parse(saved);
-        setSavedScenarios(parsedScenarios);
-        // Show saved scenarios section if there are existing scenarios
-        if (parsedScenarios.length > 0) {
-          setShowSavedScenarios(true);
-        }
-      } catch (error) {
-        console.error('Failed to load saved scenarios:', error);
-      }
-    }
-  }, []);
+    applySkinForRoute(location.pathname);
+  }, [location.pathname]);
 
   const handleFormChange = (field, value) => {
     setFormData(prev => ({
@@ -162,15 +107,18 @@ function CalculatorPage() {
   };
 
   const handleCalculate = async () => {
-    if (!calculator) {
-      console.error('Calculator not initialized');
-      return;
-    }
-
     setLoading(true);
     try {
-      const result = await calculator.calculate(formData);
-      setResults(result);
+      // Simulate calculation delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // This would contain your Universal Credit calculation
+      const calculatedResults = {
+        universalCredit: 0,
+        breakdown: [],
+        notes: []
+      };
+      setResults(calculatedResults);
       setShowResults(true);
     } catch (error) {
       console.error('Calculation failed:', error);
@@ -180,45 +128,45 @@ function CalculatorPage() {
   };
 
   const handleSaveScenario = () => {
-    if (!results) return;
-    
     const scenario = {
       id: Date.now(),
       name: `Scenario ${savedScenarios.length + 1}`,
       input: { ...formData },
-      calculation: { ...results },
-      savedAt: new Date().toISOString()
+      calculation: results,
+      timestamp: new Date().toLocaleString()
     };
-    
-    const updatedScenarios = [...savedScenarios, scenario];
-    setSavedScenarios(updatedScenarios);
-    localStorage.setItem('ucSavedScenarios', JSON.stringify(updatedScenarios));
-    
-    // Show the saved scenarios section after saving
+    setSavedScenarios(prev => [...prev, scenario]);
     setShowSavedScenarios(true);
+    
+    // Save to localStorage
+    const updated = [...savedScenarios, scenario];
+    localStorage.setItem('ucSavedScenarios', JSON.stringify(updated));
   };
 
   const handleReset = () => {
     setFormData({
-      taxYear: '2025_26',
+      // Tax Year and Circumstances
+      taxYear: '2024-25',
       circumstances: 'single',
-      age: 25,
-      partnerAge: 25,
-      children: 0,
-      childDisabilities: [],
-      childAges: [],
-      childGenders: [],
-      hasChildren: false,
+      
+      // Housing
       housingStatus: 'no_housing_costs',
       tenantType: 'private',
       rent: 0,
+      rentPeriod: 'per_month',
       serviceCharges: 0,
+      serviceChargesPeriod: 'per_month',
       bedrooms: 1,
-      area: 'default',
       nonDependants: 0,
+      
+      // Employment and Disability - Main Person
       employmentType: 'not_working',
       monthlyEarnings: 0,
-      childcareCosts: 0,
+      monthlyEarningsPeriod: 'per_month',
+      pensionAmount: 0,
+      pensionAmountPeriod: 'per_month',
+      pensionType: 'amount',
+      pensionPercentage: 3,
       isDisabled: 'no',
       claimsDisabilityBenefits: 'no',
       disabilityBenefitType: '',
@@ -228,8 +176,15 @@ function CalculatorPage() {
       dlaMobilityRate: 'none',
       aaRate: 'none',
       hasLCWRA: 'no',
+      
+      // Employment and Disability - Partner
       partnerEmploymentType: 'not_working',
       partnerMonthlyEarnings: 0,
+      partnerMonthlyEarningsPeriod: 'per_month',
+      partnerPensionAmount: 0,
+      partnerPensionAmountPeriod: 'per_month',
+      partnerPensionType: 'amount',
+      partnerPensionPercentage: 3,
       partnerIsDisabled: 'no',
       partnerClaimsDisabilityBenefits: 'no',
       partnerDisabilityBenefitType: '',
@@ -239,42 +194,33 @@ function CalculatorPage() {
       partnerDlaMobilityRate: 'none',
       partnerAaRate: 'none',
       partnerHasLCWRA: 'no',
-      businessIncomeBank: 0,
-      businessIncomeCash: 0,
-      businessExpensesRent: 0,
-      businessExpensesRates: 0,
-      businessExpensesUtilities: 0,
-      businessExpensesInsurance: 0,
-      businessExpensesTelephone: 0,
-      businessExpensesMarketing: 0,
-      businessExpensesVehicle: 0,
-      businessExpensesEquipment: 0,
-      businessExpensesPostage: 0,
-      businessExpensesTransport: 0,
-      businessExpensesProfessional: 0,
-      businessTax: 0,
-      businessNIC: 0,
-      businessPension: 0,
-      businessCarMiles: 0,
-      businessHomeHours: 0,
+      
+      // Children
+      hasChildren: false,
+      children: 0,
+      childAges: [],
+      childDisabilities: [],
+      childGenders: [],
+      childcareCosts: 0,
+      childcareCostsPeriod: 'per_month',
+      
+      // Carer Status
       isCarer: 'no',
       isPartnerCarer: 'no',
-      currentlyReceivingCarersAllowance: '',
-      partnerCurrentlyReceivingCarersAllowance: '',
-      caringHours: '',
-      partnerCaringHours: '',
-      personReceivesBenefits: '',
-      partnerPersonReceivesBenefits: '',
-      includeCarersAllowance: 'yes',
-      includePartnerCarersAllowance: 'yes',
-      includeCarerElement: 'yes',
-      includePartnerCarerElement: 'yes',
+      
+      // Other Benefits
+      hasOtherBenefits: 'no',
+      otherBenefitsList: [],
+      
+      // Savings
+      hasSavings: 'no',
+      hasSavingsOver6000: 'no',
+      savingsAmount: 0,
       savings: 0,
-      otherIncome: 0,
-      otherBenefits: 0,
-      partnerSavings: 0,
-      partnerOtherIncome: 0,
-      partnerOtherBenefits: 0
+      savingsPeriod: 'per_month',
+      
+      // Area
+      area: 'england'
     });
     setResults(null);
     setShowResults(false);
@@ -311,10 +257,10 @@ function CalculatorPage() {
     <div className="container">
       <header className="header">
         <div className="header-content">
-          <Logo />
+          <Logo route={location.pathname} />
           <div className="header-text">
-            <h1>{getTextValue('Calculator.Header.Title', 'Universal Credit Calculator')}</h1>
-            <p className="subtitle">{getTextValue('Calculator.Header.Subtitle', 'Calculate your Universal Credit entitlement for any tax year')}</p>
+            <h1>{isRehabilitation ? 'Benefits Calculator' : 'Better Off In Work Calculator'}</h1>
+            <p className="subtitle">{isRehabilitation ? 'Use this calculator to maximise your income and see how changes in circumstance might affect you' : 'Use this calculator to check your finances if you move into work, claim all your entitlements and get help with self employment'}</p>
           </div>
           <div className="header-buttons">
             <button 
@@ -336,47 +282,57 @@ function CalculatorPage() {
             onCalculate={handleCalculate}
             onSave={handleSaveScenario}
             onReset={handleReset}
+            isRehabilitation={isRehabilitation}
           />
         </div>
 
-        {showSavedScenarios && (
-          <SavedScenarios 
-            scenarios={savedScenarios}
-            onLoadScenario={(scenario) => {
-              setFormData(scenario.input);
-              setResults(scenario.calculation);
-              setShowResults(true);
-            }}
-            onDeleteScenario={(id) => {
-              const updated = savedScenarios.filter(s => s.id !== id);
-              setSavedScenarios(updated);
-              localStorage.setItem('ucSavedScenarios', JSON.stringify(updated));
-            }}
-          />
+        {showSavedScenarios && savedScenarios.length > 0 && (
+          <div className="saved-scenarios">
+            <h3>Saved Scenarios</h3>
+            <div className="scenarios-list">
+              {savedScenarios.map(scenario => (
+                <div key={scenario.id} className="scenario-item">
+                  <span>{scenario.name}</span>
+                  <div className="scenario-actions">
+                    <button onClick={() => {
+                      setFormData(scenario.input);
+                      setResults(scenario.calculation);
+                      setShowResults(true);
+                    }}>Load</button>
+                    <button onClick={() => {
+                      const updated = savedScenarios.filter(s => s.id !== scenario.id);
+                      setSavedScenarios(updated);
+                      localStorage.setItem('ucSavedScenarios', JSON.stringify(updated));
+                    }}>Delete</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         )}
 
         {showResults && results && (
           <ResultsSection 
-            results={results}
+            results={results} 
             formData={formData}
             onPrint={handlePrint}
             onExport={handleExport}
           />
         )}
-
-        {/* Admin Panel */}
-        <AdminPanel 
-          isVisible={showAdminPanel}
-          onToggleVisibility={() => setShowAdminPanel(false)}
-        />
       </main>
 
-      <footer className="footer">
-        <p>&copy; 2024 Universal Credit Calculator. {getTextValue('Calculator.Footer.Disclaimer', 'This calculator is for guidance only and should not be considered as official advice.')}</p>
-        <p>{getTextValue('Calculator.Footer.OfficialLink', 'For official Universal Credit information, visit')} <a href="https://www.gov.uk/universal-credit" target="_blank" rel="noopener noreferrer">gov.uk/universal-credit</a></p>
-      </footer>
+      {/* Admin Panel */}
+      <AdminPanel 
+        isVisible={showAdminPanel}
+        onToggleVisibility={() => setShowAdminPanel(false)}
+        currentRoute={location.pathname}
+      />
 
-      {loading && <LoadingOverlay />}
+      {loading && (
+        <div className="loading-overlay">
+          <div className="loading-spinner">Calculating...</div>
+        </div>
+      )}
     </div>
   );
 }

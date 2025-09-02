@@ -64,13 +64,14 @@ function AssessmentPeriodCalendar({ assessmentPeriodStart, onPeriodSelect, selec
     const startDate = new Date(firstDay);
     startDate.setDate(startDate.getDate() - firstDay.getDay() + 1); // Start from Monday
     
-             const days = [];
-         const currentDate = new Date(startDate);
+    const days = [];
+    const currentDate = new Date(startDate);
 
-         while (currentDate <= lastDay || days.length < 28) { // 4 weeks * 7 days
-           days.push(new Date(currentDate));
-           currentDate.setDate(currentDate.getDate() + 1);
-         }
+    // Generate exactly 35 days (5 weeks)
+    for (let i = 0; i < 35; i++) {
+      days.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
     
     return days;
   };

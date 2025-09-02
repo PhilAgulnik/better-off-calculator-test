@@ -28,7 +28,7 @@ function SelfEmploymentAccounts() {
       icon: '⚖️',
       title: 'Minimum Income Floor',
       description: 'Automatically calculate and track your Minimum Income Floor requirements for Universal Credit, ensuring compliance.',
-      available: false
+      available: true
     },
     {
       key: 'monthly-profit',
@@ -52,17 +52,17 @@ function SelfEmploymentAccounts() {
       available: false
     },
     {
-      key: 'mobile-app',
-      icon: '📱',
-      title: 'Mobile App',
-      description: 'Manage your self-employment accounts on the go with our mobile app for iOS and Android devices.',
+      key: 'business-mentor',
+      icon: '👥',
+      title: 'Your Business Mentor',
+      description: 'Find a mentor and communicate with them to get personalized guidance for your business growth and development.',
       available: false
     },
     {
-      key: 'ai-categorization',
-      icon: '🤖',
-      title: 'AI Expense Categorization',
-      description: 'Automatically categorize your business expenses using AI, saving time and ensuring accurate tax deductions.',
+      key: 'business-admin-guide',
+      icon: '🛠️',
+      title: 'Business Administration Guide',
+      description: 'Online tools to learn about marketing, accounting, and other essential business tools for self-employed success.',
       available: false
     }
   ];
@@ -107,6 +107,13 @@ function SelfEmploymentAccounts() {
                     <div className="feature-action">
                       <a href="/self-assessment-tax-form" className="btn btn-primary btn-sm">
                         Try Tax Form Now
+                      </a>
+                    </div>
+                  )}
+                  {feature.available && feature.key === 'mif' && (
+                    <div className="feature-action">
+                      <a href="/minimum-income-floor" className="btn btn-primary btn-sm">
+                        Learn About MIF
                       </a>
                     </div>
                   )}
@@ -176,20 +183,20 @@ function SelfEmploymentAccounts() {
               </div>
             )}
             
-                         {submitted && (
-               <div className="success-message">
-                 <p>Thanks for getting in contact. This functionality is not working right now. To find out more please email phil@entitledto.co.uk</p>
-                 <button 
-                   className="btn btn-secondary"
-                   onClick={() => {
-                     setSubmitted(false);
-                     setShowSignUpForm(false);
-                   }}
-                 >
-                   Sign Up Another Email
-                 </button>
-               </div>
-             )}
+            {submitted && (
+              <div className="success-message">
+                <p>Thanks for getting in contact. This functionality is not working right now. To find out more please email phil@entitledto.co.uk</p>
+                <button 
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setSubmitted(false);
+                    setShowSignUpForm(false);
+                  }}
+                >
+                  Sign Up Another Email
+                </button>
+              </div>
+            )}
             
             <p className="cta-note">
               Get started with our self-employment accounts service today

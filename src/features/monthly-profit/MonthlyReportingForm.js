@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function MonthlyReportingForm({ period, onClose }) {
+function MonthlyReportingForm({ period, onClose, exampleData }) {
   const [formData, setFormData] = useState({
     income: {
       bankReceipts: 0,
@@ -40,6 +40,207 @@ function MonthlyReportingForm({ period, onClose }) {
       surplusEarningsCarriedOver: 0
     }
   });
+
+  // Step-by-step navigation state for examples
+  const [currentExampleMonth, setCurrentExampleMonth] = useState(0);
+  const [showStepByStep, setShowStepByStep] = useState(false);
+
+  // Populate form with example data when available
+  useEffect(() => {
+    if (exampleData && period) {
+      // Find the matching month in example data
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                         'July', 'August', 'September', 'October', 'November', 'December'];
+      const periodMonth = monthNames[period.start.getMonth()];
+      
+      const exampleMonth = exampleData.months.find(m => m.month === periodMonth);
+      
+      if (exampleMonth) {
+        // Distribute income across different income types based on the example type
+        let incomeDistribution = {
+          bankReceipts: 0,
+          cashReceipts: 0,
+          onlineSales: 0,
+          commission: 0,
+          otherIncome: 0
+        };
+
+        // Distribute expenses across different expense types
+        let expenseDistribution = {
+          materials: 0,
+          travel: 0,
+          office: 0,
+          marketing: 0,
+          insurance: 0,
+          utilities: 0,
+          rent: 0,
+          phone: 0,
+          internet: 0,
+          vehicle: 0,
+          meals: 0,
+          training: 0,
+          professionalFees: 0,
+          bankCharges: 0,
+          other: 0
+        };
+
+        // Distribute income based on example type
+        if (exampleData.title.includes('Actor')) {
+          incomeDistribution.bankReceipts = exampleMonth.income * 0.8; // Most acting work is bank transfers
+          incomeDistribution.cashReceipts = exampleMonth.income * 0.2; // Some cash payments
+        } else if (exampleData.title.includes('Market Trader')) {
+          incomeDistribution.cashReceipts = exampleMonth.income * 0.7; // Most market trading is cash
+          incomeDistribution.bankReceipts = exampleMonth.income * 0.3; // Some bank transfers
+        } else if (exampleData.title.includes('Taxi Driver')) {
+          incomeDistribution.cashReceipts = exampleMonth.income * 0.6; // Mix of cash and card
+          incomeDistribution.bankReceipts = exampleMonth.income * 0.4; // Card payments
+        }
+
+        // Distribute expenses based on example type
+        if (exampleData.title.includes('Actor')) {
+          expenseDistribution.travel = exampleMonth.expenses * 0.4; // Travel to auditions/jobs
+          expenseDistribution.marketing = exampleMonth.expenses * 0.2; // Headshots, agents
+          expenseDistribution.training = exampleMonth.expenses * 0.2; // Acting classes
+          expenseDistribution.other = exampleMonth.expenses * 0.2; // Other expenses
+        } else if (exampleData.title.includes('Market Trader')) {
+          expenseDistribution.materials = exampleMonth.expenses * 0.5; // Stock and materials
+          expenseDistribution.travel = exampleMonth.expenses * 0.2; // Travel to markets
+          expenseDistribution.vehicle = exampleMonth.expenses * 0.2; // Vehicle costs
+          expenseDistribution.other = exampleMonth.expenses * 0.1; // Other expenses
+        } else if (exampleData.title.includes('Taxi Driver')) {
+          expenseDistribution.vehicle = exampleMonth.expenses * 0.6; // Fuel, maintenance, insurance
+          expenseDistribution.travel = exampleMonth.expenses * 0.2; // Travel costs
+          expenseDistribution.phone = exampleMonth.expenses * 0.1; // Phone costs
+          expenseDistribution.other = exampleMonth.expenses * 0.1; // Other expenses
+        }
+
+        setFormData({
+          income: incomeDistribution,
+          expenses: expenseDistribution,
+          taxAndPensions: {
+            incomeTax: Math.round(exampleMonth.income * 0.15), // Rough estimate
+            nationalInsurance: Math.round(exampleMonth.income * 0.09), // Rough estimate
+            pensionContributions: Math.round(exampleMonth.income * 0.03) // Rough estimate
+          },
+          homeAndCar: {
+            businessMiles: exampleData.title.includes('Taxi Driver') ? 2000 : 
+                          exampleData.title.includes('Market Trader') ? 500 : 100,
+            homeWorkingHours: exampleData.title.includes('Actor') ? 40 : 0
+          },
+          adjustments: {
+            lossCarriedOver: 0,
+            surplusEarningsCarriedOver: 0
+          }
+        });
+
+        // Show step-by-step navigation for examples
+        setShowStepByStep(true);
+        // Find the current month index
+        const monthIndex = exampleData.months.findIndex(m => m.month === periodMonth);
+        setCurrentExampleMonth(monthIndex >= 0 ? monthIndex : 0);
+      }
+    }
+  }, [exampleData, period]);
+
+  // Navigation functions for step-by-step flow
+  const handlePreviousMonth = () => {
+    if (currentExampleMonth > 0) {
+      setCurrentExampleMonth(currentExampleMonth - 1);
+      // Update the form with the previous month's data
+      const prevMonth = exampleData.months[currentExampleMonth - 1];
+      populateFormWithMonthData(prevMonth);
+    }
+  };
+
+  const handleNextMonth = () => {
+    if (currentExampleMonth < exampleData.months.length - 1) {
+      setCurrentExampleMonth(currentExampleMonth + 1);
+      // Update the form with the next month's data
+      const nextMonth = exampleData.months[currentExampleMonth + 1];
+      populateFormWithMonthData(nextMonth);
+    }
+  };
+
+
+
+  const populateFormWithMonthData = (monthData) => {
+    // Distribute income across different income types based on the example type
+    let incomeDistribution = {
+      bankReceipts: 0,
+      cashReceipts: 0,
+      onlineSales: 0,
+      commission: 0,
+      otherIncome: 0
+    };
+
+    // Distribute expenses across different expense types
+    let expenseDistribution = {
+      materials: 0,
+      travel: 0,
+      office: 0,
+      marketing: 0,
+      insurance: 0,
+      utilities: 0,
+      rent: 0,
+      phone: 0,
+      internet: 0,
+      vehicle: 0,
+      meals: 0,
+      training: 0,
+      professionalFees: 0,
+      bankCharges: 0,
+      other: 0
+    };
+
+    // Distribute income based on example type
+    if (exampleData.title.includes('Actor')) {
+      incomeDistribution.bankReceipts = monthData.income * 0.8;
+      incomeDistribution.cashReceipts = monthData.income * 0.2;
+    } else if (exampleData.title.includes('Market Trader')) {
+      incomeDistribution.cashReceipts = monthData.income * 0.7;
+      incomeDistribution.bankReceipts = monthData.income * 0.3;
+    } else if (exampleData.title.includes('Taxi Driver')) {
+      incomeDistribution.cashReceipts = monthData.income * 0.6;
+      incomeDistribution.bankReceipts = monthData.income * 0.4;
+    }
+
+    // Distribute expenses based on example type
+    if (exampleData.title.includes('Actor')) {
+      expenseDistribution.travel = monthData.expenses * 0.4;
+      expenseDistribution.marketing = monthData.expenses * 0.2;
+      expenseDistribution.training = monthData.expenses * 0.2;
+      expenseDistribution.other = monthData.expenses * 0.2;
+    } else if (exampleData.title.includes('Market Trader')) {
+      expenseDistribution.materials = monthData.expenses * 0.5;
+      expenseDistribution.travel = monthData.expenses * 0.2;
+      expenseDistribution.vehicle = monthData.expenses * 0.2;
+      expenseDistribution.other = monthData.expenses * 0.1;
+    } else if (exampleData.title.includes('Taxi Driver')) {
+      expenseDistribution.vehicle = monthData.expenses * 0.6;
+      expenseDistribution.travel = monthData.expenses * 0.2;
+      expenseDistribution.phone = monthData.expenses * 0.1;
+      expenseDistribution.other = monthData.expenses * 0.1;
+    }
+
+    setFormData({
+      income: incomeDistribution,
+      expenses: expenseDistribution,
+      taxAndPensions: {
+        incomeTax: Math.round(monthData.income * 0.15),
+        nationalInsurance: Math.round(monthData.income * 0.09),
+        pensionContributions: Math.round(monthData.income * 0.03)
+      },
+      homeAndCar: {
+        businessMiles: exampleData.title.includes('Taxi Driver') ? 2000 : 
+                      exampleData.title.includes('Market Trader') ? 500 : 100,
+        homeWorkingHours: exampleData.title.includes('Actor') ? 40 : 0
+      },
+      adjustments: {
+        lossCarriedOver: 0,
+        surplusEarningsCarriedOver: 0
+      }
+    });
+  };
 
   const handleInputChange = (category, field, value) => {
     setFormData(prev => ({
@@ -113,6 +314,47 @@ function MonthlyReportingForm({ period, onClose }) {
         <h2>Monthly Reporting Form</h2>
         <p>Assessment Period: {period.month}</p>
         <p>Period: {period.start.toLocaleDateString('en-GB')} - {period.end.toLocaleDateString('en-GB')}</p>
+        
+                 {/* Step-by-step navigation for examples */}
+         {showStepByStep && exampleData && (
+           <div className="step-by-step-navigation">
+             <div className="step-info">
+               <h3>Step {currentExampleMonth + 1} of {exampleData.months.length}</h3>
+               <p className="step-description">
+                 {exampleData.months[currentExampleMonth].notes}
+               </p>
+               <div className="step-period">
+                 <strong>Assessment Period:</strong> {exampleData.months[currentExampleMonth].periodStart} - {exampleData.months[currentExampleMonth].periodEnd}
+               </div>
+               
+             </div>
+            
+            <div className="step-navigation">
+              <button 
+                type="button" 
+                className="btn btn-outline"
+                onClick={handlePreviousMonth}
+                disabled={currentExampleMonth === 0}
+              >
+                ← Previous Month
+              </button>
+              
+              <span className="step-counter">
+                {currentExampleMonth + 1} / {exampleData.months.length}
+              </span>
+              
+              <button 
+                type="button" 
+                className="btn btn-outline"
+                onClick={handleNextMonth}
+                disabled={currentExampleMonth === exampleData.months.length - 1}
+              >
+                Next Month →
+              </button>
+            </div>
+          </div>
+        )}
+        
         <button className="btn btn-secondary" onClick={onClose}>Close</button>
       </div>
 

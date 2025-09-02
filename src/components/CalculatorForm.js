@@ -1,6 +1,7 @@
 import React from 'react';
 import CarerModule from './CarerModule';
 import { useTextManager } from '../hooks/useTextManager';
+import AmountInputWithPeriod from './AmountInputWithPeriod';
 
 function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }) {
   const { getTextValue } = useTextManager();
@@ -12,11 +13,11 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
   return (
     <section className="input-section">
       <div className="card">
-        <h2>Your Details</h2>
+                 <h2>{getTextValue('Calculator.Form.PersonalDetails.Title', 'Your Details')}</h2>
         
         {/* Tax Year Selection */}
-        <div className="form-group">
-          <label>Tax Year</label>
+                 <div className="form-group">
+           <label>{getTextValue('Calculator.Form.TaxYear.Label', 'Tax Year')}</label>
           <div className="radio-group">
             <label className={`radio-label ${formData.taxYear === '2025_26' ? 'default-option' : ''}`}>
               <input 
@@ -91,8 +92,24 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             className="form-control" 
             min="16" 
             max="120" 
-            value={formData.age}
-            onChange={(e) => handleInputChange('age', parseInt(e.target.value) || 0)}
+            value={formData.age || ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === '') {
+                handleInputChange('age', '');
+              } else {
+                const numValue = parseInt(value);
+                if (!isNaN(numValue) && numValue >= 16 && numValue <= 120) {
+                  handleInputChange('age', numValue);
+                }
+              }
+            }}
+            onBlur={(e) => {
+              const value = e.target.value;
+              if (value === '' || parseInt(value) < 16) {
+                handleInputChange('age', 25);
+              }
+            }}
           />
         </div>
 
@@ -105,8 +122,24 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               className="form-control" 
               min="16" 
               max="120" 
-              value={formData.partnerAge}
-              onChange={(e) => handleInputChange('partnerAge', parseInt(e.target.value) || 0)}
+              value={formData.partnerAge || ''}
+              onChange={(e) => {
+                const value = e.target.value;
+                if (value === '') {
+                  handleInputChange('partnerAge', '');
+                } else {
+                  const numValue = parseInt(value);
+                  if (!isNaN(numValue) && numValue >= 16 && numValue <= 120) {
+                    handleInputChange('partnerAge', numValue);
+                  }
+                }
+              }}
+              onBlur={(e) => {
+                const value = e.target.value;
+                if (value === '' || parseInt(value) < 16) {
+                  handleInputChange('partnerAge', 25);
+                }
+              }}
             />
           </div>
         )}
@@ -159,6 +192,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               <span className="radio-custom"></span>
               Other
             </label>
+            <label className="radio-label">
+              <input 
+                type="radio" 
+                name="housingStatus" 
+                value="in_prison" 
+                checked={formData.housingStatus === 'in_prison'}
+                onChange={(e) => handleInputChange('housingStatus', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              In Prison
+            </label>
           </div>
         </div>
 
@@ -193,10 +237,19 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         </div>
         )}
 
-        {/* Show message for non-renting options */}
-        {(formData.housingStatus === 'homeowner' || formData.housingStatus === 'other') && (
+                                                                       {/* Show message for non-renting options */}
+           {(formData.housingStatus === 'homeowner' || formData.housingStatus === 'other') && (
+             <div className="info-box">
+               <p><strong>Not covered yet:</strong> {formData.housingStatus === 'homeowner' ? getTextValue('Calculator.Form.Housing.Homeowner.Message', 'We do not currently support calculations for homeowners. Please select "Renting" or "No Housing Costs" to continue with the calculation.') : getTextValue('Calculator.Form.Housing.Other.Message', 'We do not yet cover people who live in Temporary Accommodation, Supported Accommodation, Residential care or in prison. Please select "Renting" or "No Housing Costs" to continue with the calculation.')}</p>
+               
+             </div>
+           )}
+
+        {/* Show rehabilitation services message for people in prison */}
+        {formData.housingStatus === 'in_prison' && (
           <div className="info-box">
-            <p><strong>Not covered yet:</strong> {formData.housingStatus === 'homeowner' ? 'We do not currently support calculations for homeowners. Please select "Renting" or "No Housing Costs" to continue with the calculation.' : 'We do not yet cover people who live in Temporary Accommodation, Supported Accommodation, Residential care or in prison. Please select "Renting" or "No Housing Costs" to continue with the calculation.'}</p>
+            <p><strong>Rehabilitation Support:</strong> You can access help for people in prison through our rehabilitation services pages.</p>
+            <a href="/rehabilitation-services" className="btn btn-primary btn-sm">Go to Rehabilitation Services</a>
           </div>
         )}
 
@@ -205,34 +258,30 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           <>
         <div className="form-group">
           <label htmlFor="rent">Monthly Rent</label>
-          <div className="input-with-prefix">
-            <span className="prefix">£</span>
-            <input 
-              type="number" 
-              id="rent" 
-              className="form-control" 
-              min="0" 
-              step="0.01" 
-              value={formData.rent}
-              onChange={(e) => handleInputChange('rent', parseFloat(e.target.value) || 0)}
-            />
-          </div>
+          <AmountInputWithPeriod 
+            id="rent"
+            label="Monthly Rent"
+            value={formData.rent}
+            onChange={(value) => handleInputChange('rent', value)}
+            onPeriodChange={(e) => handleInputChange('rentPeriod', e.target.value)}
+            periodValue={formData.rentPeriod}
+            min={0}
+            step={0.01}
+          />
         </div>
 
         <div className="form-group">
           <label htmlFor="serviceCharges">Service Charges</label>
-          <div className="input-with-prefix">
-            <span className="prefix">£</span>
-            <input 
-              type="number" 
-              id="serviceCharges" 
-              className="form-control" 
-              min="0" 
-              step="0.01" 
-              value={formData.serviceCharges}
-              onChange={(e) => handleInputChange('serviceCharges', parseFloat(e.target.value) || 0)}
-            />
-          </div>
+          <AmountInputWithPeriod 
+            id="serviceCharges"
+            label="Service Charges"
+            value={formData.serviceCharges}
+            onChange={(value) => handleInputChange('serviceCharges', value)}
+            onPeriodChange={(e) => handleInputChange('serviceChargesPeriod', e.target.value)}
+            periodValue={formData.serviceChargesPeriod}
+            min={0}
+            step={0.01}
+          />
         </div>
           </>
         )}
@@ -319,8 +368,24 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             id="nonDependants" 
             className="form-control" 
             min="0" 
-            value={formData.nonDependants}
-            onChange={(e) => handleInputChange('nonDependants', parseInt(e.target.value) || 0)}
+            value={formData.nonDependants || ''}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (value === '') {
+                handleInputChange('nonDependants', '');
+              } else {
+                const numValue = parseInt(value);
+                if (!isNaN(numValue) && numValue >= 0) {
+                  handleInputChange('nonDependants', numValue);
+                }
+              }
+            }}
+            onBlur={(e) => {
+              const value = e.target.value;
+              if (value === '') {
+                handleInputChange('nonDependants', 0);
+              }
+            }}
           />
         </div>
           </>
@@ -374,104 +439,108 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             <>
               <div className="form-group">
                 <label htmlFor="monthlyEarnings">Monthly Earnings</label>
-                <div className="input-with-prefix">
-                  <span className="prefix">£</span>
-                  <input 
-                    type="number" 
-                    id="monthlyEarnings" 
-                    className="form-control" 
-                    min="0" 
-                    step="0.01" 
-                    value={formData.monthlyEarnings}
-                    onChange={(e) => handleInputChange('monthlyEarnings', parseFloat(e.target.value) || 0)}
-                  />
-                </div>
+                <AmountInputWithPeriod 
+                  id="monthlyEarnings"
+                  label="Monthly Earnings"
+                  value={formData.monthlyEarnings}
+                  onChange={(value) => handleInputChange('monthlyEarnings', value)}
+                  onPeriodChange={(e) => handleInputChange('monthlyEarningsPeriod', e.target.value)}
+                  periodValue={formData.monthlyEarningsPeriod}
+                  min={0}
+                  step={0.01}
+                />
               </div>
 
                        {/* Pension Contributions - only show for employed */}
          {formData.employmentType === 'employed' && (
-           <div className="form-group">
-             <label>Pension Contributions</label>
-             <div className="radio-group">
-               <label className={`radio-label ${formData.pensionType === 'amount' ? 'default-option' : ''}`}>
-                 <input
-                   type="radio"
-                   name="pensionType"
-                   value="amount"
-                   checked={formData.pensionType === 'amount'}
-                   onChange={(e) => handleInputChange('pensionType', e.target.value)}
-                 />
-                 <span className="radio-custom"></span>
-                 <span>Fixed Amount</span>
-               </label>
-               <label className="radio-label">
-                 <input
-                   type="radio"
-                   name="pensionType"
-                   value="percentage"
-                   checked={formData.pensionType === 'percentage'}
-                   onChange={(e) => handleInputChange('pensionType', e.target.value)}
-                 />
-                 <span className="radio-custom"></span>
-                 <span>Percentage of Gross</span>
-               </label>
-             </div>
+                           <div className="form-group">
+             <label htmlFor="pensionAmount">Pension Contributions (per month)</label>
+                <AmountInputWithPeriod 
+                  id="pensionAmount"
+                  label="Pension Contributions"
+                  value={formData.pensionAmount}
+                  onChange={(value) => handleInputChange('pensionAmount', value)}
+                  onPeriodChange={(e) => handleInputChange('pensionAmountPeriod', e.target.value)}
+                  periodValue={formData.pensionAmountPeriod}
+                  min={0}
+                  step={0.01}
+                  />
+             
+             {/* Toggle to percentage mode */}
+             <div className="form-toggle">
+               <button
+                 type="button"
+                 className="toggle-link"
+                 onClick={() => {
+                   handleInputChange('pensionType', 'percentage');
+                   // Set default percentage if not already set
+                   if (!formData.pensionPercentage || formData.pensionPercentage === 0) {
+                     handleInputChange('pensionPercentage', 3);
+                   }
+                 }}
+               >
+                 Calculate as percentage of gross earnings instead
+               </button>
+              </div>
 
-                           {formData.pensionType === 'amount' && (
-                <div className="form-group">
-                  <label htmlFor="pensionAmount">Pension Amount (per month)</label>
-                  <div className="input-with-prefix">
-                    <span className="prefix">£</span>
-                    <input
-                      type="number"
-                      id="pensionAmount"
-                      className="form-control"
-                      min="0"
-                      step="0.01"
-                      value={formData.pensionAmount || ''}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          handleInputChange('pensionAmount', 0);
-                        } else {
-                          handleInputChange('pensionAmount', parseFloat(value) || 0);
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-
-                           {formData.pensionType === 'percentage' && (
-                <div className="form-group">
-                  <label htmlFor="pensionPercentage">Pension Percentage</label>
-                  <div className="input-with-suffix">
-                    <input
-                      type="number"
-                      id="pensionPercentage"
-                      className="form-control"
-                      min="0"
-                      max="100"
-                      step="0.1"
-                      value={formData.pensionPercentage || ''}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          handleInputChange('pensionPercentage', 0);
-                        } else {
-                          handleInputChange('pensionPercentage', parseFloat(value) || 0);
-                        }
-                      }}
-                    />
-                    <span className="suffix">%</span>
-                  </div>
-                  {formData.monthlyEarnings > 0 && (
-                    <div className="help-text">
-                      {formData.pensionPercentage}% of £{formData.monthlyEarnings.toLocaleString()} = £{((formData.monthlyEarnings * formData.pensionPercentage) / 100).toFixed(2)} per month
-                    </div>
-                  )}
-                </div>
-              )}
+             {/* Show percentage input when in percentage mode */}
+             {formData.pensionType === 'percentage' && (
+               <div className="form-group">
+                 <div className="input-with-suffix">
+                   <input
+                     type="number"
+                     id="pensionPercentage"
+                     className="form-control"
+                     min="0"
+                     max="100"
+                     step="0.1"
+                     value={formData.pensionPercentage || ''}
+                     onChange={(e) => {
+                       const value = e.target.value;
+                       if (value === '') {
+                         handleInputChange('pensionPercentage', '');
+                       } else {
+                         const numValue = parseFloat(value);
+                         if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
+                           handleInputChange('pensionPercentage', numValue);
+                         }
+                       }
+                     }}
+                     onBlur={(e) => {
+                       const value = e.target.value;
+                       if (value === '') {
+                         handleInputChange('pensionPercentage', 3);
+                       }
+                     }}
+                   />
+                   <span className="suffix">%</span>
+                 </div>
+                 
+                 {/* Show calculation and toggle back to amount */}
+                 {formData.monthlyEarnings > 0 && formData.pensionPercentage > 0 && (
+                   <div className="help-text">
+                     {formData.pensionPercentage}% of £{formData.monthlyEarnings.toLocaleString()} = £{((formData.monthlyEarnings * formData.pensionPercentage) / 100).toFixed(2)} per month
+                   </div>
+                 )}
+                 
+                 <div className="form-toggle">
+                   <button
+                     type="button"
+                     className="toggle-link"
+                     onClick={() => {
+                       handleInputChange('pensionType', 'amount');
+                       // Convert percentage to amount if we have earnings
+                       if (formData.monthlyEarnings > 0 && formData.pensionPercentage > 0) {
+                         const calculatedAmount = (formData.monthlyEarnings * formData.pensionPercentage) / 100;
+                         handleInputChange('pensionAmount', Math.round(calculatedAmount * 100) / 100);
+                       }
+                     }}
+                   >
+                     Use fixed amount instead
+                   </button>
+                 </div>
+               </div>
+             )}
            </div>
          )}
 
@@ -514,17 +583,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               <div className="form-group">
                 <label>Do you claim disability benefits?</label>
                 <div className="radio-group">
-                  <label className="radio-label">
-                    <input 
-                      type="radio" 
-                      name="claimsDisabilityBenefits" 
-                      value="no" 
-                      checked={formData.claimsDisabilityBenefits === 'no'}
-                      onChange={(e) => handleInputChange('claimsDisabilityBenefits', e.target.value)}
-                    />
-                    <span className="radio-custom"></span>
-                    No
-                  </label>
+                              <label className={`radio-label ${formData.claimsDisabilityBenefits === 'no' ? 'default-option' : ''}`}>
+              <input 
+                type="radio" 
+                name="claimsDisabilityBenefits" 
+                value="no" 
+                checked={formData.claimsDisabilityBenefits === 'no'}
+                onChange={(e) => handleInputChange('claimsDisabilityBenefits', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              <span>No</span>
+            </label>
                   <label className="radio-label">
                     <input 
                       type="radio" 
@@ -597,7 +666,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  <div className="form-group">
                    <label>PIP Daily Living Component Rate</label>
                    <div className="radio-group">
-                     <label className="radio-label">
+                     <label className={`radio-label ${formData.pipDailyLivingRate === 'none' ? 'default-option' : ''}`}>
                        <input 
                          type="radio" 
                          name="pipDailyLivingRate" 
@@ -606,7 +675,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                          onChange={(e) => handleInputChange('pipDailyLivingRate', e.target.value)}
                        />
                        <span className="radio-custom"></span>
-                       No award
+                       <span>No award</span>
                      </label>
                      <label className="radio-label">
                        <input 
@@ -638,7 +707,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  <div className="form-group">
                    <label>PIP Mobility Component Rate</label>
                    <div className="radio-group">
-                     <label className="radio-label">
+                     <label className={`radio-label ${formData.pipMobilityRate === 'none' ? 'default-option' : ''}`}>
                        <input 
                          type="radio" 
                          name="pipMobilityRate" 
@@ -647,7 +716,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                          onChange={(e) => handleInputChange('pipMobilityRate', e.target.value)}
                        />
                        <span className="radio-custom"></span>
-                       No award
+                       <span>No award</span>
                      </label>
                      <label className="radio-label">
                        <input 
@@ -680,7 +749,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  <div className="form-group">
                    <label>DLA Care Component Rate</label>
                    <div className="radio-group">
-                     <label className="radio-label">
+                     <label className={`radio-label ${formData.dlaCareRate === 'none' ? 'default-option' : ''}`}>
                        <input 
                          type="radio" 
                          name="dlaCareRate" 
@@ -689,7 +758,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                          onChange={(e) => handleInputChange('dlaCareRate', e.target.value)}
                        />
                        <span className="radio-custom"></span>
-                       No award
+                       <span>No award</span>
                      </label>
                      <label className="radio-label">
                        <input 
@@ -732,7 +801,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  <div className="form-group">
                    <label>DLA Mobility Component Rate</label>
                    <div className="radio-group">
-                     <label className="radio-label">
+                     <label className={`radio-label ${formData.dlaMobilityRate === 'none' ? 'default-option' : ''}`}>
                        <input 
                          type="radio" 
                          name="dlaMobilityRate" 
@@ -741,7 +810,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                          onChange={(e) => handleInputChange('dlaMobilityRate', e.target.value)}
                        />
                        <span className="radio-custom"></span>
-                       No award
+                       <span>No award</span>
                      </label>
                      <label className="radio-label">
                        <input 
@@ -774,7 +843,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  <div className="form-group">
                    <label>Attendance Allowance Rate</label>
                    <div className="radio-group">
-                     <label className="radio-label">
+                     <label className={`radio-label ${formData.aaRate === 'none' ? 'default-option' : ''}`}>
                        <input 
                          type="radio" 
                          name="aaRate" 
@@ -783,7 +852,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                          onChange={(e) => handleInputChange('aaRate', e.target.value)}
                        />
                        <span className="radio-custom"></span>
-                       No award
+                       <span>No award</span>
                      </label>
                      <label className="radio-label">
                        <input 
@@ -874,7 +943,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             <div className="form-group">
               <label>Partner's Employment Status</label>
               <div className="radio-group">
-                <label className="radio-label">
+                <label className={`radio-label ${formData.partnerEmploymentType === 'not_working' ? 'default-option' : ''}`}>
                   <input 
                     type="radio" 
                     name="partnerEmploymentType" 
@@ -883,7 +952,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                     onChange={(e) => handleInputChange('partnerEmploymentType', e.target.value)}
                   />
                   <span className="radio-custom"></span>
-                  Not Working
+                  <span>Not Working</span>
                 </label>
                 <label className="radio-label">
                   <input 
@@ -913,106 +982,110 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             {/* Show partner employment fields only if working */}
             {(formData.partnerEmploymentType === 'employed' || formData.partnerEmploymentType === 'self-employed') && (
               <>
-                <div className="form-group">
+                              <div className="form-group">
                   <label htmlFor="partnerMonthlyEarnings">Partner's Monthly Earnings</label>
-                  <div className="input-with-prefix">
-                    <span className="prefix">£</span>
-                    <input 
-                      type="number" 
-                      id="partnerMonthlyEarnings" 
-                      className="form-control" 
-                      min="0" 
-                      step="0.01" 
-                      value={formData.partnerMonthlyEarnings}
-                      onChange={(e) => handleInputChange('partnerMonthlyEarnings', parseFloat(e.target.value) || 0)}
-                    />
-                  </div>
+                  <AmountInputWithPeriod 
+                    id="partnerMonthlyEarnings"
+                    label="Partner's Monthly Earnings"
+                    value={formData.partnerMonthlyEarnings}
+                    onChange={(value) => handleInputChange('partnerMonthlyEarnings', value)}
+                    onPeriodChange={(e) => handleInputChange('partnerMonthlyEarningsPeriod', e.target.value)}
+                    periodValue={formData.partnerMonthlyEarningsPeriod}
+                    min={0}
+                    step={0.01}
+                  />
                 </div>
 
                          {/* Partner Pension Contributions - only show for employed */}
          {formData.partnerEmploymentType === 'employed' && (
-           <div className="form-group">
-             <label>Partner's Pension Contributions</label>
-             <div className="radio-group">
-               <label className={`radio-label ${formData.partnerPensionType === 'amount' ? 'default-option' : ''}`}>
-                 <input
-                   type="radio"
-                   name="partnerPensionType"
-                   value="amount"
-                   checked={formData.partnerPensionType === 'amount'}
-                   onChange={(e) => handleInputChange('partnerPensionType', e.target.value)}
-                 />
-                 <span className="radio-custom"></span>
-                 <span>Fixed Amount</span>
-               </label>
-               <label className="radio-label">
-                 <input
-                   type="radio"
-                   name="partnerPensionType"
-                   value="percentage"
-                   checked={formData.partnerPensionType === 'percentage'}
-                   onChange={(e) => handleInputChange('partnerPensionType', e.target.value)}
-                 />
-                 <span className="radio-custom"></span>
-                 <span>Percentage of Gross</span>
-               </label>
+                        <div className="form-group">
+               <label htmlFor="partnerPensionAmount">Partner's Pension Contributions (per month)</label>
+              <AmountInputWithPeriod 
+                id="partnerPensionAmount"
+                label="Partner's Pension Contributions"
+                value={formData.partnerPensionAmount}
+                onChange={(value) => handleInputChange('partnerPensionAmount', value)}
+                onPeriodChange={(e) => handleInputChange('partnerPensionAmountPeriod', e.target.value)}
+                periodValue={formData.partnerPensionAmountPeriod}
+                min={0}
+                step={0.01}
+              />
+             
+             {/* Toggle to percentage mode */}
+             <div className="form-toggle">
+               <button
+                 type="button"
+                 className="toggle-link"
+                 onClick={() => {
+                   handleInputChange('partnerPensionType', 'percentage');
+                   // Set default percentage if not already set
+                   if (!formData.partnerPensionPercentage || formData.partnerPensionPercentage === 0) {
+                     handleInputChange('partnerPensionPercentage', 3);
+                   }
+                 }}
+               >
+                 Calculate as percentage of gross earnings instead
+               </button>
              </div>
 
-                           {formData.partnerPensionType === 'amount' && (
-                <div className="form-group">
-                  <label htmlFor="partnerPensionAmount">Partner's Pension Amount (per month)</label>
-                  <div className="input-with-prefix">
-                    <span className="prefix">£</span>
-                    <input
-                      type="number"
-                      id="partnerPensionAmount"
-                      className="form-control"
-                      min="0"
-                      step="0.01"
-                      value={formData.partnerPensionAmount || ''}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          handleInputChange('partnerPensionAmount', 0);
-                        } else {
-                          handleInputChange('partnerPensionAmount', parseFloat(value) || 0);
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
-              )}
-
-                           {formData.partnerPensionType === 'percentage' && (
-                <div className="form-group">
-                  <label htmlFor="partnerPensionPercentage">Partner's Pension Percentage</label>
-                  <div className="input-with-suffix">
-                    <input
-                      type="number"
-                      id="partnerPensionPercentage"
-                      className="form-control"
-                      min="0"
-                      max="100"
-                      step="0.1"
-                      value={formData.partnerPensionPercentage || ''}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (value === '') {
-                          handleInputChange('partnerPensionPercentage', 0);
-                        } else {
-                          handleInputChange('partnerPensionPercentage', parseFloat(value) || 0);
-                        }
-                      }}
-                    />
-                    <span className="suffix">%</span>
-                  </div>
-                  {formData.partnerMonthlyEarnings > 0 && (
-                    <div className="help-text">
-                      {formData.partnerPensionPercentage}% of £{formData.partnerMonthlyEarnings.toLocaleString()} = £{((formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100).toFixed(2)} per month
-                    </div>
-                  )}
-                </div>
-              )}
+             {/* Show percentage input when in percentage mode */}
+             {formData.partnerPensionType === 'percentage' && (
+               <div className="form-group">
+                 <div className="input-with-suffix">
+                   <input
+                     type="number"
+                     id="partnerPensionPercentage"
+                     className="form-control"
+                     min="0"
+                     max="100"
+                     step="0.1"
+                     value={formData.partnerPensionPercentage || ''}
+                     onChange={(e) => {
+                       const value = e.target.value;
+                       if (value === '') {
+                         handleInputChange('partnerPensionPercentage', '');
+                       } else {
+                         const numValue = parseFloat(value);
+                         if (!isNaN(numValue) && numValue >= 0 && numValue <= 100) {
+                           handleInputChange('partnerPensionPercentage', numValue);
+                         }
+                       }
+                     }}
+                     onBlur={(e) => {
+                       const value = e.target.value;
+                       if (value === '') {
+                         handleInputChange('partnerPensionPercentage', 3);
+                       }
+                     }}
+                   />
+                   <span className="suffix">%</span>
+                 </div>
+                 
+                 {/* Show calculation and toggle back to amount */}
+                 {formData.partnerMonthlyEarnings > 0 && formData.partnerPensionPercentage > 0 && (
+                   <div className="help-text">
+                     {formData.partnerPensionPercentage}% of £{formData.partnerMonthlyEarnings.toLocaleString()} = £{((formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100).toFixed(2)} per month
+              </div>
+                 )}
+                 
+                 <div className="form-toggle">
+                   <button
+                     type="button"
+                     className="toggle-link"
+                     onClick={() => {
+                       handleInputChange('partnerPensionType', 'amount');
+                       // Convert percentage to amount if we have earnings
+                       if (formData.partnerMonthlyEarnings > 0 && formData.partnerPensionPercentage > 0) {
+                         const calculatedAmount = (formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100;
+                         handleInputChange('partnerPensionAmount', Math.round(calculatedAmount * 100) / 100);
+                       }
+                     }}
+                   >
+                     Use fixed amount instead
+                   </button>
+                 </div>
+               </div>
+             )}
            </div>
          )}
               </>
@@ -1053,17 +1126,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 <div className="form-group">
                   <label>Does your partner claim disability benefits?</label>
                   <div className="radio-group">
-                    <label className="radio-label">
-                      <input 
-                        type="radio" 
-                        name="partnerClaimsDisabilityBenefits" 
-                        value="no" 
-                        checked={formData.partnerClaimsDisabilityBenefits === 'no'}
-                        onChange={(e) => handleInputChange('partnerClaimsDisabilityBenefits', e.target.value)}
-                      />
-                      <span className="radio-custom"></span>
-                      No
-                    </label>
+                                <label className={`radio-label ${formData.partnerClaimsDisabilityBenefits === 'no' ? 'default-option' : ''}`}>
+              <input 
+                type="radio" 
+                name="partnerClaimsDisabilityBenefits" 
+                value="no" 
+                checked={formData.partnerClaimsDisabilityBenefits === 'no'}
+                onChange={(e) => handleInputChange('partnerClaimsDisabilityBenefits', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              <span>No</span>
+            </label>
                     <label className="radio-label">
                       <input 
                         type="radio" 
@@ -1136,7 +1209,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                    <div className="form-group">
                      <label>Partner's PIP Daily Living Component Rate</label>
                      <div className="radio-group">
-                       <label className="radio-label">
+                       <label className={`radio-label ${formData.partnerPipDailyLivingRate === 'none' ? 'default-option' : ''}`}>
                          <input 
                            type="radio" 
                            name="partnerPipDailyLivingRate" 
@@ -1145,7 +1218,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                            onChange={(e) => handleInputChange('partnerPipDailyLivingRate', e.target.value)}
                          />
                          <span className="radio-custom"></span>
-                         No award
+                         <span>No award</span>
                        </label>
                        <label className="radio-label">
                          <input 
@@ -1177,7 +1250,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                    <div className="form-group">
                      <label>Partner's PIP Mobility Component Rate</label>
                      <div className="radio-group">
-                       <label className="radio-label">
+                       <label className={`radio-label ${formData.partnerPipMobilityRate === 'none' ? 'default-option' : ''}`}>
                          <input 
                            type="radio" 
                            name="partnerPipMobilityRate" 
@@ -1186,7 +1259,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                            onChange={(e) => handleInputChange('partnerPipMobilityRate', e.target.value)}
                          />
                          <span className="radio-custom"></span>
-                         No award
+                         <span>No award</span>
                        </label>
                        <label className="radio-label">
                          <input 
@@ -1219,7 +1292,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                    <div className="form-group">
                      <label>Partner's DLA Care Component Rate</label>
                      <div className="radio-group">
-                       <label className="radio-label">
+                       <label className={`radio-label ${formData.partnerDlaCareRate === 'none' ? 'default-option' : ''}`}>
                          <input 
                            type="radio" 
                            name="partnerDlaCareRate" 
@@ -1228,7 +1301,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                            onChange={(e) => handleInputChange('partnerDlaCareRate', e.target.value)}
                          />
                          <span className="radio-custom"></span>
-                         No award
+                         <span>No award</span>
                        </label>
                        <label className="radio-label">
                          <input 
@@ -1271,7 +1344,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                    <div className="form-group">
                      <label>Partner's DLA Mobility Component Rate</label>
                      <div className="radio-group">
-                       <label className="radio-label">
+                       <label className={`radio-label ${formData.partnerDlaMobilityRate === 'none' ? 'default-option' : ''}`}>
                          <input 
                            type="radio" 
                            name="partnerDlaMobilityRate" 
@@ -1280,7 +1353,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                            onChange={(e) => handleInputChange('partnerDlaMobilityRate', e.target.value)}
                          />
                          <span className="radio-custom"></span>
-                         No award
+                         <span>No award</span>
                        </label>
                        <label className="radio-label">
                          <input 
@@ -1313,7 +1386,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                    <div className="form-group">
                      <label>Partner's Attendance Allowance Rate</label>
                      <div className="radio-group">
-                       <label className="radio-label">
+                       <label className={`radio-label ${formData.partnerAaRate === 'none' ? 'default-option' : ''}`}>
                          <input 
                            type="radio" 
                            name="partnerAaRate" 
@@ -1322,7 +1395,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                            onChange={(e) => handleInputChange('partnerAaRate', e.target.value)}
                          />
                          <span className="radio-custom"></span>
-                         No award
+                         <span>No award</span>
                        </label>
                        <label className="radio-label">
                          <input 
@@ -1434,58 +1507,56 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           </div>
         </div>
 
-                 {/* Show children fields only if they have children */}
-         {formData.hasChildren && (
-           <>
-             <div className="form-group">
-               <label htmlFor="children">Number of Children</label>
-               <input 
-                 type="number" 
-                 id="children" 
-                 className="form-control" 
-                 min="1" 
-                 max="10" 
-                 value={formData.children}
-                 onChange={(e) => {
-                   const value = e.target.value;
-                   if (value === '') {
-                     // Allow empty input while typing
-                     handleInputChange('children', '');
-                   } else {
-                     const numValue = parseInt(value);
-                     if (!isNaN(numValue) && numValue >= 1 && numValue <= 10) {
-                       handleInputChange('children', numValue);
-                     }
-                   }
-                 }}
-                 onBlur={(e) => {
-                   // Ensure minimum value when input loses focus
-                   const value = e.target.value;
-                   if (value === '' || parseInt(value) < 1) {
-                     handleInputChange('children', 1);
-                   }
-                 }}
-               />
-             </div>
+        {/* Show children fields only if they have children */}
+        {formData.hasChildren && (
+          <>
+            <div className="form-group">
+              <label htmlFor="children">Number of Children</label>
+              <input 
+                type="number" 
+                id="children" 
+                className="form-control" 
+                min="1" 
+                max="10" 
+                value={formData.children}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '') {
+                    // Allow empty input while typing
+                    handleInputChange('children', '');
+                  } else {
+                    const numValue = parseInt(value);
+                    if (!isNaN(numValue) && numValue >= 1 && numValue <= 10) {
+                      handleInputChange('children', numValue);
+                    }
+                  }
+                }}
+                onBlur={(e) => {
+                  // Ensure minimum value when input loses focus
+                  const value = e.target.value;
+                  if (value === '' || parseInt(value) < 1) {
+                    handleInputChange('children', 1);
+                  }
+                }}
+              />
+            </div>
 
-             <div className="form-group">
-               <label htmlFor="childcareCosts">Monthly Childcare Costs</label>
-               <div className="input-with-prefix">
-                 <span className="prefix">£</span>
-                 <input 
-                   type="number" 
-                   id="childcareCosts" 
-                   className="form-control" 
-                   min="0" 
-                   step="0.01" 
+                            <div className="form-group">
+                 <label htmlFor="childcareCosts">Monthly Childcare Costs</label>
+                 <AmountInputWithPeriod 
+                   id="childcareCosts"
+                   label="Monthly Childcare Costs"
                    value={formData.childcareCosts}
-                   onChange={(e) => handleInputChange('childcareCosts', parseFloat(e.target.value) || 0)}
+                   onChange={(value) => handleInputChange('childcareCosts', value)}
+                   onPeriodChange={(e) => handleInputChange('childcareCostsPeriod', e.target.value)}
+                   periodValue={formData.childcareCostsPeriod}
+                   min={0}
+                   step={0.01}
                  />
-               </div>
                <div className="help-text">
                  Enter the total monthly cost of childcare for all your children. Universal Credit can help with up to 85% of childcare costs.
                </div>
-             </div>
+            </div>
 
             {/* Individual child information - grouped by child */}
             <div className="form-group">
@@ -1511,9 +1582,25 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                       max="19" 
                       value={formData.childAges[index] || ''}
                       onChange={(e) => {
+                        const value = e.target.value;
                         const newChildAges = [...(formData.childAges || [])];
-                        newChildAges[index] = parseInt(e.target.value) || 0;
+                        if (value === '') {
+                          newChildAges[index] = '';
+                        } else {
+                          const numValue = parseInt(value);
+                          if (!isNaN(numValue) && numValue >= 0 && numValue <= 19) {
+                            newChildAges[index] = numValue;
+                          }
+                        }
                         handleInputChange('childAges', newChildAges);
+                      }}
+                      onBlur={(e) => {
+                        const value = e.target.value;
+                        const newChildAges = [...(formData.childAges || [])];
+                        if (value === '' || parseInt(value) < 0) {
+                          newChildAges[index] = 0;
+                          handleInputChange('childAges', newChildAges);
+                        }
                       }}
                       placeholder="Enter age"
                     />
@@ -1749,10 +1836,10 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           </>
         )}
 
-                 {/* Carer Section */}
-         <div className="carer-section">
-           
-           <div className="form-group">
+        {/* Carer Section */}
+        <div className="carer-section">
+          
+          <div className="form-group">
             <label>Do you care for someone who is sick or disabled?</label>
             <div className="radio-group">
               <label className={`radio-label ${formData.isCarer === 'no' ? 'default-option' : ''}`}>
@@ -1833,32 +1920,32 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           )}
         </div>
 
-                 {/* Other Benefits */}
-         <div className="form-group">
+        {/* Other Benefits */}
+        <div className="form-group">
            <label>Do you receive any other benefits?</label>
-           <div className="radio-group">
+            <div className="radio-group">
              <label className={`radio-label ${formData.hasOtherBenefits === 'no' ? 'default-option' : ''}`}>
-               <input 
-                 type="radio" 
+                <input 
+                  type="radio" 
                  name="hasOtherBenefits" 
                  value="no" 
                  checked={formData.hasOtherBenefits === 'no'}
                  onChange={(e) => handleInputChange('hasOtherBenefits', e.target.value)}
-               />
-               <span className="radio-custom"></span>
+                />
+                <span className="radio-custom"></span>
                <span>No</span>
-             </label>
-             <label className="radio-label">
-               <input 
-                 type="radio" 
+              </label>
+              <label className="radio-label">
+                <input 
+                  type="radio" 
                  name="hasOtherBenefits" 
                  value="yes" 
                  checked={formData.hasOtherBenefits === 'yes'}
                  onChange={(e) => handleInputChange('hasOtherBenefits', e.target.value)}
-               />
-               <span className="radio-custom"></span>
+                />
+                <span className="radio-custom"></span>
                <span>Yes</span>
-             </label>
+              </label>
            </div>
          </div>
 
@@ -2236,8 +2323,8 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           <label>Do you have £6,000 or more in savings?</label>
           <div className="radio-group">
             <label className={`radio-label ${formData.hasSavingsOver6000 === 'no' ? 'default-option' : ''}`}>
-              <input 
-                type="radio" 
+                <input 
+                  type="radio" 
                 name="hasSavingsOver6000" 
                 value="no" 
                 checked={formData.hasSavingsOver6000 === 'no'}
@@ -2247,42 +2334,40 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                     handleInputChange('savings', 0);
                   }
                 }}
-              />
-              <span className="radio-custom"></span>
+                />
+                <span className="radio-custom"></span>
               <span>No</span>
-            </label>
-            <label className="radio-label">
-              <input 
-                type="radio" 
+              </label>
+              <label className="radio-label">
+                <input 
+                  type="radio" 
                 name="hasSavingsOver6000" 
                 value="yes" 
                 checked={formData.hasSavingsOver6000 === 'yes'}
                 onChange={(e) => handleInputChange('hasSavingsOver6000', e.target.value)}
-              />
-              <span className="radio-custom"></span>
+                />
+                <span className="radio-custom"></span>
               <span>Yes</span>
-            </label>
+              </label>
           </div>
         </div>
 
         {/* Show savings amount input only if they have £6,000 or more */}
         {formData.hasSavingsOver6000 === 'yes' && (
           <>
-            <div className="form-group">
-              <label htmlFor="savings">How much do you have in savings?</label>
-              <div className="input-with-prefix">
-                <span className="prefix">£</span>
-                <input 
-                  type="number" 
-                  id="savings" 
-                  className="form-control" 
-                  min="6000" 
-                  step="0.01" 
-                  value={formData.savings}
-                  onChange={(e) => handleInputChange('savings', parseFloat(e.target.value) || 0)}
-                />
-              </div>
-            </div>
+                  <div className="form-group">
+                <label htmlFor="savings">How much do you have in savings?</label>
+           <AmountInputWithPeriod 
+             id="savings"
+             label="Savings Amount"
+             value={formData.savings}
+             onChange={(value) => handleInputChange('savings', value)}
+             onPeriodChange={(e) => handleInputChange('savingsPeriod', e.target.value)}
+             periodValue={formData.savingsPeriod}
+             min={0}
+             step={0.01}
+           />
+        </div>
             
                                <div className="info-box">
                      <p><strong>Tariff Income Rules:</strong> Universal Credit uses 'tariff income' rules for savings over £6,000. For every £250 (or part of £250) you have over £6,000, £4.35 is treated as monthly income (£1 per week). This reduces your Universal Credit entitlement.</p>

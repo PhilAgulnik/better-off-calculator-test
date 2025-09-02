@@ -7,6 +7,18 @@ export const useTextManager = () => {
 
   useEffect(() => {
     loadTextBlocks();
+    
+    // Listen for text block updates from the admin panel
+    const handleTextBlocksUpdated = () => {
+      loadTextBlocks();
+    };
+    
+    window.addEventListener('textBlocksUpdated', handleTextBlocksUpdated);
+    
+    // Cleanup event listener
+    return () => {
+      window.removeEventListener('textBlocksUpdated', handleTextBlocksUpdated);
+    };
   }, []);
 
   const loadTextBlocks = async () => {
@@ -25,10 +37,22 @@ export const useTextManager = () => {
   };
 
   const getTextValue = (key, defaultValue = '') => {
-    return textBlocks[key] || defaultValue;
+    // If text blocks are still loading, return the default value
+    if (loading) {
+      return defaultValue;
+    }
+    
+    // If we have the text block, return it
+    if (textBlocks[key]) {
+      return textBlocks[key];
+    }
+    
+    // Otherwise return the default value
+    return defaultValue;
   };
 
   const refreshTextBlocks = () => {
+    setLoading(true);
     loadTextBlocks();
   };
 

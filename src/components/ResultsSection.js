@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { formatCurrency } from '../utils/formatters';
 import BetterOffInWorkModule from './BetterOffInWorkModule';
 import { useTextManager } from '../hooks/useTextManager';
+import { saveBenefitCalculatorData } from '../utils/benefitDataService';
 
 function ResultsSection({ results, formData, onPrint, onExport }) {
   const { getTextValue } = useTextManager();
@@ -10,6 +11,21 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
   const [mifGracePeriod, setMifGracePeriod] = useState('');
   const [mifGainful, setMifGainful] = useState('');
   const [claimantHours, setClaimantHours] = useState(35);
+
+  // Save benefit calculator data for budgeting tool
+  useEffect(() => {
+    if (results && results.calculation) {
+      const benefitResults = {
+        ucAmount: results.calculation.finalAmount,
+        otherBenefits: 0, // This would need to be calculated based on form data
+        totalIncome: results.calculation.totalElements,
+        totalDeductions: results.calculation.earningsReduction,
+        netIncome: results.calculation.finalAmount
+      };
+      
+      saveBenefitCalculatorData(formData, benefitResults);
+    }
+  }, [results, formData]);
 
   // Check if MIF panel should be shown
   const shouldShowMIFPanel = () => {

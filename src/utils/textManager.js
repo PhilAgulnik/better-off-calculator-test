@@ -1456,7 +1456,20 @@ export const getTextBlocks = async () => {
   try {
     const stored = localStorage.getItem('calculatorTextBlocks');
     if (stored) {
-      return JSON.parse(stored);
+      const parsed = JSON.parse(stored);
+      // Ensure we have the latest text blocks by merging with defaults
+      const mergedBlocks = [...defaultTextBlocks];
+      parsed.forEach(storedBlock => {
+        const existingIndex = mergedBlocks.findIndex(block => block.key === storedBlock.key);
+        if (existingIndex >= 0) {
+          mergedBlocks[existingIndex] = { ...mergedBlocks[existingIndex], ...storedBlock };
+        } else {
+          mergedBlocks.push(storedBlock);
+        }
+      });
+      // Update localStorage with merged blocks
+      localStorage.setItem('calculatorTextBlocks', JSON.stringify(mergedBlocks));
+      return mergedBlocks;
     } else {
       // Initialize with default text blocks
       localStorage.setItem('calculatorTextBlocks', JSON.stringify(defaultTextBlocks));
@@ -1484,6 +1497,13 @@ export const updateTextBlock = async (key, newValue, editorName) => {
         : block
     );
     localStorage.setItem('calculatorTextBlocks', JSON.stringify(updatedBlocks));
+    
+    // Dispatch a custom event to notify components that text has been updated
+    const event = new CustomEvent('textBlocksUpdated', { 
+      detail: { key, newValue, editorName } 
+    });
+    window.dispatchEvent(event);
+    
     return true;
   } catch (error) {
     console.error('Error updating text block:', error);
