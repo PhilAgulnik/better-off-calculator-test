@@ -112,9 +112,27 @@ function CalculatorPage({ isRehabilitation = false }) {
       // Simulate calculation delay
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // This would contain your Universal Credit calculation
+      // Simulated Universal Credit calculation structure expected by ResultsSection
+      const simulatedCalculation = {
+        standardAllowance: 0,
+        housingElement: 0,
+        childElement: 0,
+        childcareElement: 0,
+        carerElement: 0,
+        totalElements: 0,
+        earningsReduction: 0,
+        capitalDeduction: 0,
+        benefitDeduction: 0,
+        capitalDeductionDetails: {
+          tariffIncome: 0,
+          explanation: ''
+        },
+        finalAmount: 0
+      };
+
       const calculatedResults = {
-        universalCredit: 0,
+        taxYear: (formData && formData.taxYear) || '2024-25',
+        calculation: simulatedCalculation,
         breakdown: [],
         notes: []
       };

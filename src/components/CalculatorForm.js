@@ -16,7 +16,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  <h2>{getTextValue('Calculator.Form.PersonalDetails.Title', 'Your Details')}</h2>
         
         {/* Tax Year Selection */}
-                 <div className="form-group">
+        <div className="form-group">
            <label>{getTextValue('Calculator.Form.TaxYear.Label', 'Tax Year')}</label>
           <div className="radio-group">
             <label className={`radio-label ${formData.taxYear === '2025_26' ? 'default-option' : ''}`}>
@@ -237,9 +237,9 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         </div>
         )}
 
-                                                                       {/* Show message for non-renting options */}
-           {(formData.housingStatus === 'homeowner' || formData.housingStatus === 'other') && (
-             <div className="info-box">
+        {/* Show message for non-renting options */}
+        {(formData.housingStatus === 'homeowner' || formData.housingStatus === 'other') && (
+          <div className="info-box">
                <p><strong>Not covered yet:</strong> {formData.housingStatus === 'homeowner' ? getTextValue('Calculator.Form.Housing.Homeowner.Message', 'We do not currently support calculations for homeowners. Please select "Renting" or "No Housing Costs" to continue with the calculation.') : getTextValue('Calculator.Form.Housing.Other.Message', 'We do not yet cover people who live in Temporary Accommodation, Supported Accommodation, Residential care or in prison. Please select "Renting" or "No Housing Costs" to continue with the calculation.')}</p>
                
              </div>
@@ -259,9 +259,9 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         <div className="form-group">
           <label htmlFor="rent">Monthly Rent</label>
           <AmountInputWithPeriod 
-            id="rent"
+              id="rent" 
             label="Monthly Rent"
-            value={formData.rent}
+              value={formData.rent}
             onChange={(value) => handleInputChange('rent', value)}
             onPeriodChange={(e) => handleInputChange('rentPeriod', e.target.value)}
             periodValue={formData.rentPeriod}
@@ -273,9 +273,9 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         <div className="form-group">
           <label htmlFor="serviceCharges">Service Charges</label>
           <AmountInputWithPeriod 
-            id="serviceCharges"
+              id="serviceCharges" 
             label="Service Charges"
-            value={formData.serviceCharges}
+              value={formData.serviceCharges}
             onChange={(value) => handleInputChange('serviceCharges', value)}
             onPeriodChange={(e) => handleInputChange('serviceChargesPeriod', e.target.value)}
             periodValue={formData.serviceChargesPeriod}
@@ -440,16 +440,16 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               <div className="form-group">
                 <label htmlFor="monthlyEarnings">Monthly Earnings</label>
                 <AmountInputWithPeriod 
-                  id="monthlyEarnings"
+                    id="monthlyEarnings" 
                   label="Monthly Earnings"
-                  value={formData.monthlyEarnings}
+                    value={formData.monthlyEarnings}
                   onChange={(value) => handleInputChange('monthlyEarnings', value)}
                   onPeriodChange={(e) => handleInputChange('monthlyEarningsPeriod', e.target.value)}
                   periodValue={formData.monthlyEarningsPeriod}
                   min={0}
                   step={0.01}
-                />
-              </div>
+                  />
+                </div>
 
                        {/* Pension Contributions - only show for employed */}
          {formData.employmentType === 'employed' && (
@@ -485,13 +485,13 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
 
              {/* Show percentage input when in percentage mode */}
              {formData.pensionType === 'percentage' && (
-               <div className="form-group">
+              <div className="form-group">
                  <div className="input-with-suffix">
-                   <input
-                     type="number"
+                  <input 
+                    type="number" 
                      id="pensionPercentage"
-                     className="form-control"
-                     min="0"
+                    className="form-control" 
+                    min="0" 
                      max="100"
                      step="0.1"
                      value={formData.pensionPercentage || ''}
@@ -514,13 +514,13 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                      }}
                    />
                    <span className="suffix">%</span>
-                 </div>
+                </div>
                  
                  {/* Show calculation and toggle back to amount */}
                  {formData.monthlyEarnings > 0 && formData.pensionPercentage > 0 && (
                    <div className="help-text">
                      {formData.pensionPercentage}% of £{formData.monthlyEarnings.toLocaleString()} = £{((formData.monthlyEarnings * formData.pensionPercentage) / 100).toFixed(2)} per month
-                   </div>
+              </div>
                  )}
                  
                  <div className="form-toggle">
@@ -584,16 +584,16 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 <label>Do you claim disability benefits?</label>
                 <div className="radio-group">
                               <label className={`radio-label ${formData.claimsDisabilityBenefits === 'no' ? 'default-option' : ''}`}>
-              <input 
-                type="radio" 
-                name="claimsDisabilityBenefits" 
+                    <input 
+                      type="radio" 
+                      name="claimsDisabilityBenefits" 
                 value="no" 
                 checked={formData.claimsDisabilityBenefits === 'no'}
-                onChange={(e) => handleInputChange('claimsDisabilityBenefits', e.target.value)}
-              />
-              <span className="radio-custom"></span>
+                      onChange={(e) => handleInputChange('claimsDisabilityBenefits', e.target.value)}
+                    />
+                    <span className="radio-custom"></span>
               <span>No</span>
-            </label>
+                  </label>
                   <label className="radio-label">
                     <input 
                       type="radio" 
@@ -982,8 +982,8 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             {/* Show partner employment fields only if working */}
             {(formData.partnerEmploymentType === 'employed' || formData.partnerEmploymentType === 'self-employed') && (
               <>
-                              <div className="form-group">
-                  <label htmlFor="partnerMonthlyEarnings">Partner's Monthly Earnings</label>
+              <div className="form-group">
+                <label htmlFor="partnerMonthlyEarnings">Partner's Monthly Earnings</label>
                   <AmountInputWithPeriod 
                     id="partnerMonthlyEarnings"
                     label="Partner's Monthly Earnings"
@@ -1032,11 +1032,11 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
              {formData.partnerPensionType === 'percentage' && (
                <div className="form-group">
                  <div className="input-with-suffix">
-                   <input
-                     type="number"
+                  <input 
+                    type="number" 
                      id="partnerPensionPercentage"
-                     className="form-control"
-                     min="0"
+                    className="form-control" 
+                    min="0" 
                      max="100"
                      step="0.1"
                      value={formData.partnerPensionPercentage || ''}
@@ -1059,7 +1059,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                      }}
                    />
                    <span className="suffix">%</span>
-                 </div>
+                </div>
                  
                  {/* Show calculation and toggle back to amount */}
                  {formData.partnerMonthlyEarnings > 0 && formData.partnerPensionPercentage > 0 && (
@@ -1127,16 +1127,16 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                   <label>Does your partner claim disability benefits?</label>
                   <div className="radio-group">
                                 <label className={`radio-label ${formData.partnerClaimsDisabilityBenefits === 'no' ? 'default-option' : ''}`}>
-              <input 
-                type="radio" 
-                name="partnerClaimsDisabilityBenefits" 
+                      <input 
+                        type="radio" 
+                        name="partnerClaimsDisabilityBenefits" 
                 value="no" 
                 checked={formData.partnerClaimsDisabilityBenefits === 'no'}
-                onChange={(e) => handleInputChange('partnerClaimsDisabilityBenefits', e.target.value)}
-              />
-              <span className="radio-custom"></span>
+                        onChange={(e) => handleInputChange('partnerClaimsDisabilityBenefits', e.target.value)}
+                      />
+                      <span className="radio-custom"></span>
               <span>No</span>
-            </label>
+                    </label>
                     <label className="radio-label">
                       <input 
                         type="radio" 
@@ -2355,24 +2355,24 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         {/* Show savings amount input only if they have £6,000 or more */}
         {formData.hasSavingsOver6000 === 'yes' && (
           <>
-                  <div className="form-group">
+        <div className="form-group">
                 <label htmlFor="savings">How much do you have in savings?</label>
            <AmountInputWithPeriod 
-             id="savings"
+              id="savings" 
              label="Savings Amount"
-             value={formData.savings}
+              value={formData.savings}
              onChange={(value) => handleInputChange('savings', value)}
              onPeriodChange={(e) => handleInputChange('savingsPeriod', e.target.value)}
              periodValue={formData.savingsPeriod}
              min={0}
              step={0.01}
-           />
-        </div>
+            />
+          </div>
             
                                <div className="info-box">
                      <p><strong>Tariff Income Rules:</strong> Universal Credit uses 'tariff income' rules for savings over £6,000. For every £250 (or part of £250) you have over £6,000, £4.35 is treated as monthly income (£1 per week). This reduces your Universal Credit entitlement.</p>
                      <p>For example: If you have £6,500 in savings, £500 is over the limit. This creates a tariff income of £8.70 per month (£500 ÷ £250 × £4.35), which is £2 per week.</p>
-                   </div>
+        </div>
           </>
         )}
 
