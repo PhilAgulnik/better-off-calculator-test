@@ -326,6 +326,8 @@ function CalculatorPage({ isRehabilitation = false }) {
         isVisible={showAdminPanel}
         onToggleVisibility={() => setShowAdminPanel(false)}
         currentRoute={location.pathname}
+        formData={formData}
+        results={results}
       />
 
       {loading && (

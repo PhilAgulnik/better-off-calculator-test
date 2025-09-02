@@ -13,7 +13,7 @@ import {
 } from '../utils/skinManager';
 import './admin/AdminPanel.css';
 
-function AdminPanel({ isVisible = false, onToggleVisibility, currentRoute }) {
+function AdminPanel({ isVisible = false, onToggleVisibility, currentRoute, formData, results }) {
   const [activeTab, setActiveTab] = useState('text-management');
   const [editorName, setEditorName] = useState('');
   const [testFile, setTestFile] = useState(null);
@@ -79,6 +79,24 @@ function AdminPanel({ isVisible = false, onToggleVisibility, currentRoute }) {
     { path: '/rehabilitation-calculator', name: 'Rehabilitation Calculator' }
   ];
 
+  const handleExportJson = () => {
+    const exportPayload = {
+      inputs: formData || {},
+      results: results || null,
+      exportedAt: new Date().toISOString(),
+      route: currentRoute
+    };
+    const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `uc-admin-export-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
   if (!isVisible) {
     return null;
   }
@@ -130,6 +148,12 @@ function AdminPanel({ isVisible = false, onToggleVisibility, currentRoute }) {
           onClick={() => setActiveTab('rates-management')}
         >
           Rates Management
+        </button>
+        <button 
+          className={`tab-button ${activeTab === 'inputs-and-export' ? 'active' : ''}`}
+          onClick={() => setActiveTab('inputs-and-export')}
+        >
+          Inputs & Export JSON
         </button>
         <button 
           className={`tab-button ${activeTab === 'testing-module' ? 'active' : ''}`}
@@ -231,6 +255,42 @@ function AdminPanel({ isVisible = false, onToggleVisibility, currentRoute }) {
           <div className="admin-section">
             <h3>Rates Management</h3>
             <p>Rates management will be implemented here.</p>
+          </div>
+        )}
+        {activeTab === 'inputs-and-export' && (
+          <div className="admin-section">
+            <h3>Inputs & Export JSON</h3>
+            <p>View the current answers for all input variables and export inputs + results as JSON.</p>
+
+            <div className="admin-actions" style={{ marginBottom: '12px' }}>
+              <button className="btn btn-primary" onClick={handleExportJson}>
+                Export JSON
+              </button>
+            </div>
+
+            <div className="inputs-grid" style={{ maxHeight: '300px', overflowY: 'auto', border: '1px solid #eee', padding: '10px', borderRadius: '6px' }}>
+              {formData ? (
+                Object.keys(formData).map((key) => (
+                  <div key={key} className="input-row" style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px dashed #f0f0f0' }}>
+                    <span style={{ fontWeight: 600 }}>{key}</span>
+                    <span style={{ color: '#555' }}>
+                      {typeof formData[key] === 'object' ? JSON.stringify(formData[key]) : String(formData[key])}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div>No inputs available.</div>
+              )}
+            </div>
+
+            {results && (
+              <div style={{ marginTop: '12px' }}>
+                <h4>Results (summary)</h4>
+                <pre style={{ background: '#fafafa', padding: '10px', borderRadius: '6px', border: '1px solid #eee' }}>
+                  {JSON.stringify(results, null, 2)}
+                </pre>
+              </div>
+            )}
           </div>
         )}
         {activeTab === 'testing-module' && (
