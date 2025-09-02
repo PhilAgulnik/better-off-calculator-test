@@ -5,12 +5,13 @@ import ResultsSection from './ResultsSection';
 import AdminPanel from './AdminPanel';
 import { applySkinForRoute } from '../utils/skinManager';
 import Logo from './Logo';
+import { UniversalCreditCalculator } from '../utils/calculator';
 
 function CalculatorPage({ isRehabilitation = false }) {
   const location = useLocation();
   const [formData, setFormData] = useState({
     // Tax Year and Circumstances
-    taxYear: '2024-25',
+    taxYear: '2024_25',
     circumstances: 'single',
     
     // Housing
@@ -94,6 +95,9 @@ function CalculatorPage({ isRehabilitation = false }) {
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Initialize calculator
+  const [calculator] = useState(() => new UniversalCreditCalculator());
+
   // Apply skin for current route
   useEffect(() => {
     applySkinForRoute(location.pathname);
@@ -109,39 +113,106 @@ function CalculatorPage({ isRehabilitation = false }) {
   const handleCalculate = async () => {
     setLoading(true);
     try {
-      // Simulate calculation delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Simulated Universal Credit calculation structure expected by ResultsSection
-      const simulatedCalculation = {
-        standardAllowance: 0,
-        housingElement: 0,
-        childElement: 0,
-        childcareElement: 0,
-        carerElement: 0,
-        totalElements: 0,
-        earningsReduction: 0,
-        capitalDeduction: 0,
-        benefitDeduction: 0,
-        capitalDeductionDetails: {
-          tariffIncome: 0,
-          explanation: ''
-        },
-        finalAmount: 0
+      // Convert period-based amounts to monthly amounts for calculation
+      const calculationInput = {
+        ...formData,
+        // Convert amounts to monthly
+        rent: convertToMonthly(formData.rent, formData.rentPeriod),
+        serviceCharges: convertToMonthly(formData.serviceCharges, formData.serviceChargesPeriod),
+        monthlyEarnings: convertToMonthly(formData.monthlyEarnings, formData.monthlyEarningsPeriod),
+        pensionAmount: convertToMonthly(formData.pensionAmount, formData.pensionAmountPeriod),
+        partnerMonthlyEarnings: convertToMonthly(formData.partnerMonthlyEarnings, formData.partnerMonthlyEarningsPeriod),
+        partnerPensionAmount: convertToMonthly(formData.partnerPensionAmount, formData.partnerPensionAmountPeriod),
+        childcareCosts: convertToMonthly(formData.childcareCosts, formData.childcareCostsPeriod),
+        savings: convertToMonthly(formData.savings, formData.savingsPeriod),
+        // Add missing fields that the calculator expects
+        age: formData.age || 25, // Use actual age if provided, otherwise default
+        partnerAge: formData.partnerAge || 25, // Use actual partner age if provided, otherwise default
+        otherBenefits: formData.hasOtherBenefits === 'yes' ? 
+          (formData.otherBenefitsList.reduce((sum, benefit) => sum + (benefit.amount || 0), 0)) : 0,
+        otherBenefitsPeriod: 'per_month'
       };
 
-      const calculatedResults = {
-        taxYear: (formData && formData.taxYear) || '2024-25',
-        calculation: simulatedCalculation,
-        breakdown: [],
-        notes: []
-      };
-      setResults(calculatedResults);
-      setShowResults(true);
+      console.log('Calculation input:', calculationInput);
+
+      // Initialize calculator if needed
+      if (!calculator.initialized) {
+        await calculator.initialize();
+      }
+
+      // Perform actual calculation
+      const calculationResult = await calculator.calculate(calculationInput);
+      
+      console.log('Calculation result:', calculationResult);
+      
+      if (calculationResult.success) {
+        setResults(calculationResult);
+        setShowResults(true);
+      } else {
+        console.error('Calculation failed:', calculationResult.errors);
+        // Set error results
+        setResults({
+          success: false,
+          errors: calculationResult.errors,
+          calculation: {
+            standardAllowance: 0,
+            housingElement: 0,
+            childElement: 0,
+            childcareElement: 0,
+            carerElement: 0,
+            totalElements: 0,
+            earningsReduction: 0,
+            capitalDeduction: 0,
+            benefitDeduction: 0,
+            capitalDeductionDetails: {
+              tariffIncome: 0,
+              explanation: 'Calculation failed'
+            },
+            finalAmount: 0
+          }
+        });
+        setShowResults(true);
+      }
     } catch (error) {
       console.error('Calculation failed:', error);
+      setResults({
+        success: false,
+        errors: [error.message],
+        calculation: {
+          standardAllowance: 0,
+          childElement: 0,
+          childcareElement: 0,
+          carerElement: 0,
+          totalElements: 0,
+          earningsReduction: 0,
+          capitalDeduction: 0,
+          benefitDeduction: 0,
+          capitalDeductionDetails: {
+            tariffIncome: 0,
+            explanation: 'Calculation error occurred'
+          },
+          finalAmount: 0
+        }
+      });
+      setShowResults(true);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Helper function to convert amounts to monthly
+  const convertToMonthly = (amount, period) => {
+    if (!amount || amount === 0) return 0;
+    
+    switch (period) {
+      case 'per_week':
+        return amount * 4.33; // 52 weeks / 12 months
+      case 'per_month':
+        return amount;
+      case 'per_year':
+        return amount / 12;
+      default:
+        return amount;
     }
   };
 
@@ -164,7 +235,7 @@ function CalculatorPage({ isRehabilitation = false }) {
   const handleReset = () => {
     setFormData({
       // Tax Year and Circumstances
-      taxYear: '2024-25',
+      taxYear: '2024_25',
       circumstances: 'single',
       
       // Housing
