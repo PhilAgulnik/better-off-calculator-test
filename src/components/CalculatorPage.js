@@ -134,6 +134,16 @@ function CalculatorPage({ isRehabilitation = false }) {
       };
 
       console.log('Calculation input:', calculationInput);
+      console.log('LCWRA Debug - formData:', { 
+        hasLCWRA: formData.hasLCWRA, 
+        partnerHasLCWRA: formData.partnerHasLCWRA,
+        circumstances: formData.circumstances 
+      });
+      console.log('LCWRA Debug - calculationInput:', { 
+        hasLCWRA: calculationInput.hasLCWRA, 
+        partnerHasLCWRA: calculationInput.partnerHasLCWRA,
+        circumstances: calculationInput.circumstances 
+      });
 
       // Initialize calculator if needed
       if (!calculator.initialized) {

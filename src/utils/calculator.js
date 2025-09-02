@@ -324,18 +324,23 @@ export class UniversalCreditCalculator {
   calculateLCWRAElement(input, rates) {
     const { hasLCWRA, partnerHasLCWRA, circumstances } = input;
     
+    console.log('LCWRA Debug:', { hasLCWRA, partnerHasLCWRA, circumstances, rates: rates.lcwraElement });
+    
     let lcwraElement = 0;
     
     // Check if main person has LCWRA
     if (hasLCWRA === 'yes') {
       lcwraElement += rates.lcwraElement;
+      console.log('Main person LCWRA added:', rates.lcwraElement);
     }
     
     // Check if partner has LCWRA (for couples)
     if (circumstances === 'couple' && partnerHasLCWRA === 'yes') {
       lcwraElement += rates.lcwraElement;
+      console.log('Partner LCWRA added:', rates.lcwraElement);
     }
     
+    console.log('Total LCWRA element:', lcwraElement);
     return lcwraElement;
   }
 
