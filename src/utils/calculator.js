@@ -25,6 +25,7 @@ export class UniversalCreditCalculator {
         },
         taperRate: 0.55,
         carerElement: 185.86,
+        lcwraElement: 390.06,
         // Capital limits
         capitalLowerLimit: 6000,
         capitalUpperLimit: 16000,
@@ -57,6 +58,7 @@ export class UniversalCreditCalculator {
         },
         taperRate: 0.55,
         carerElement: 185.86,
+        lcwraElement: 390.06,
         // Capital limits
         capitalLowerLimit: 6000,
         capitalUpperLimit: 16000,
@@ -89,6 +91,7 @@ export class UniversalCreditCalculator {
         },
         taperRate: 0.55,
         carerElement: 185.86,
+        lcwraElement: 390.06,
         // Capital limits
         capitalLowerLimit: 6000,
         capitalUpperLimit: 16000,
@@ -135,8 +138,11 @@ export class UniversalCreditCalculator {
              // Calculate carer element
        const carerElement = this.calculateCarerElement(input, rates);
       
+      // Calculate LCWRA element
+      const lcwraElement = this.calculateLCWRAElement(input, rates);
+      
       // Calculate total elements
-      const totalElements = standardAllowance + housingElement + childElement + childcareElement + carerElement;
+      const totalElements = standardAllowance + housingElement + childElement + childcareElement + carerElement + lcwraElement;
       
       // Calculate earnings reduction
       const earningsReduction = this.calculateEarningsReduction(input, rates, totalElements);
@@ -157,6 +163,7 @@ export class UniversalCreditCalculator {
           childElement,
           childcareElement,
           carerElement,
+          lcwraElement,
           totalElements,
           earningsReduction,
           capitalDeduction: capitalDeductionResult.deduction,
@@ -313,6 +320,26 @@ export class UniversalCreditCalculator {
     
     return carerElement;
   }
+
+  calculateLCWRAElement(input, rates) {
+    const { hasLCWRA, partnerHasLCWRA, circumstances } = input;
+    
+    let lcwraElement = 0;
+    
+    // Check if main person has LCWRA
+    if (hasLCWRA === 'yes') {
+      lcwraElement += rates.lcwraElement;
+    }
+    
+    // Check if partner has LCWRA (for couples)
+    if (circumstances === 'couple' && partnerHasLCWRA === 'yes') {
+      lcwraElement += rates.lcwraElement;
+    }
+    
+    return lcwraElement;
+  }
+
+
 
   calculateEarningsReduction(input, rates, totalElements) {
     const { 
