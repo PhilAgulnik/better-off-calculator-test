@@ -162,6 +162,12 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                 <span className="value">{formatCurrency(calculation.carerElement)}</span>
               </div>
             )}
+            {calculation.lcwraElement > 0 && (
+              <div className="breakdown-item">
+                <span className="label">LCWRA Element</span>
+                <span className="value">{formatCurrency(calculation.lcwraElement)}</span>
+              </div>
+            )}
             <div className="breakdown-item total">
               <span className="label">Total Elements</span>
               <span className="value">{formatCurrency(calculation.totalElements)}</span>
