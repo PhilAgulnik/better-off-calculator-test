@@ -15,13 +15,38 @@ function BetterOffInWorkModule({
     calculationPeriod: 'monthly'
   });
 
+  const [costsData, setCostsData] = useState({
+    // Additional spending because of work
+    childcare: { perWeek: 0, per4Weeks: 0, perMonth: 0, perYear: 0 },
+    schoolMeals: { perWeek: 0, per4Weeks: 0, perMonth: 0, perYear: 0 },
+    prescriptions: { perWeek: 0, per4Weeks: 0, perMonth: 0, perYear: 0 },
+    workClothing: { perWeek: 0, per4Weeks: 0, perMonth: 0, perYear: 0 },
+    workTravel: { perWeek: 0, per4Weeks: 0, perMonth: 0, perYear: 0 },
+    otherWorkCosts: { perWeek: 0, per4Weeks: 0, perMonth: 0, perYear: 0 },
+    
+    // Savings because of work
+    energySavings: { perWeek: 0, per4Weeks: 0, perMonth: 0, perYear: 0 },
+    otherSavings: { perWeek: 0, per4Weeks: 0, perMonth: 0, perYear: 0 }
+  });
+
   const [calculation, setCalculation] = useState(null);
   const [showResults, setShowResults] = useState(false);
+  const [showCostsSection, setShowCostsSection] = useState(false);
 
   const handleWorkDataChange = (field, value) => {
     setWorkData(prev => ({
       ...prev,
       [field]: value
+    }));
+  };
+
+  const handleCostsDataChange = (category, period, value) => {
+    setCostsData(prev => ({
+      ...prev,
+      [category]: {
+        ...prev[category],
+        [period]: parseFloat(value) || 0
+      }
     }));
   };
 
@@ -44,7 +69,13 @@ function BetterOffInWorkModule({
     // Calculate total income in work
     const totalIncomeInWork = monthlyNet + newUCAmount;
     const currentTotalIncome = currentUCAmount;
-    const betterOffAmount = totalIncomeInWork - currentTotalIncome;
+    
+    // Calculate work-related costs (convert to monthly)
+    const monthlyWorkCosts = calculateMonthlyCosts();
+    const monthlyWorkSavings = calculateMonthlySavings();
+    const netWorkCosts = monthlyWorkCosts - monthlyWorkSavings;
+    
+    const betterOffAmount = totalIncomeInWork - currentTotalIncome - netWorkCosts;
     
     const result = {
       grossEarnings: {
@@ -65,7 +96,12 @@ function BetterOffInWorkModule({
       totalIncome: {
         current: currentTotalIncome,
         inWork: totalIncomeInWork,
-        impact: betterOffAmount
+        impact: totalIncomeInWork - currentTotalIncome
+      },
+      workCosts: {
+        total: monthlyWorkCosts,
+        savings: monthlyWorkSavings,
+        net: netWorkCosts
       },
       betterOffAmount: betterOffAmount,
       calculationPeriod: calculationPeriod
@@ -73,6 +109,41 @@ function BetterOffInWorkModule({
     
     setCalculation(result);
     setShowResults(true);
+  };
+
+  const calculateMonthlyCosts = () => {
+    let total = 0;
+    Object.values(costsData).forEach(category => {
+      if (category.perMonth > 0) {
+        total += category.perMonth;
+      } else if (category.perWeek > 0) {
+        total += category.perWeek * 4.33;
+      } else if (category.per4Weeks > 0) {
+        total += category.per4Weeks * 12 / 52;
+      } else if (category.perYear > 0) {
+        total += category.perYear / 12;
+      }
+    });
+    return total;
+  };
+
+  const calculateMonthlySavings = () => {
+    let total = 0;
+    // Only include savings categories
+    const savingsCategories = ['energySavings', 'otherSavings'];
+    savingsCategories.forEach(category => {
+      const cat = costsData[category];
+      if (cat.perMonth > 0) {
+        total += cat.perMonth;
+      } else if (cat.perWeek > 0) {
+        total += cat.perWeek * 4.33;
+      } else if (cat.per4Weeks > 0) {
+        total += cat.per4Weeks * 12 / 52;
+      } else if (cat.perYear > 0) {
+        total += cat.perYear / 12;
+      }
+    });
+    return total;
   };
 
   const getPeriodText = () => {
@@ -221,12 +292,6 @@ function BetterOffInWorkModule({
             >
               Calculate
             </button>
-            <button 
-              type="button" 
-              className="btn btn-secondary"
-            >
-              Find a job
-            </button>
           </div>
         </div>
 
@@ -237,7 +302,7 @@ function BetterOffInWorkModule({
               <div className="checkmark-icon">✓</div>
               <div className="summary-text">
                 <p>You could be <strong className="highlight">{formatAmount(calculation.betterOffAmount)}</strong> {getPeriodText()} better off in work</p>
-                <p className="note">(estimate does not include travel or child care costs)</p>
+                <p className="note">(estimate includes work-related costs and savings)</p>
               </div>
             </div>
 
@@ -297,10 +362,229 @@ function BetterOffInWorkModule({
             </div>
 
             <div className="action-links">
-              <button type="button" className="btn btn-outline btn-sm">
-                Calculate costs of work
+              <button 
+                type="button" 
+                className="btn btn-outline btn-sm"
+                onClick={() => setShowCostsSection(!showCostsSection)}
+              >
+                {showCostsSection ? 'Hide' : 'Calculate'} costs of work
               </button>
             </div>
+
+            {/* Costs of Work Section */}
+            {showCostsSection && (
+              <div className="costs-section">
+                <h4>Costs of work</h4>
+                
+                <div className="costs-intro">
+                  <p>Some people have extra costs when they enter work. You can update the better off amount to take these into account by entering any extra costs you expect below. For help with how to use this tool please read our <a href="#" className="help-link">Costs of work help page</a>.</p>
+                </div>
+                
+                {/* Additional spending because of work */}
+                <div className="costs-subsection">
+                  <h5>Additional spending because of work</h5>
+                  
+                  <div className="costs-list">
+                    <div className="cost-item">
+                      <label>Childcare</label>
+                      <div className="cost-input-group">
+                        <span className="currency-symbol">£</span>
+                        <input
+                          type="number"
+                          className="form-control cost-input"
+                          value={costsData.childcare.perWeek}
+                          onChange={(e) => handleCostsDataChange('childcare', 'perWeek', e.target.value)}
+                          min="0"
+                          step="0.01"
+                          placeholder="0.00"
+                        />
+                        <select 
+                          className="period-selector"
+                          value="perWeek"
+                          onChange={(e) => handleCostsDataChange('childcare', e.target.value, costsData.childcare.perWeek)}
+                        >
+                          <option value="perWeek">per week</option>
+                          <option value="perMonth">per month</option>
+                          <option value="perYear">per year</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="cost-item">
+                      <label>School meals</label>
+                      <div className="cost-input-group">
+                        <span className="currency-symbol">£</span>
+                        <input
+                          type="number"
+                          className="form-control cost-input"
+                          value={costsData.schoolMeals.perWeek}
+                          onChange={(e) => handleCostsDataChange('schoolMeals', 'perWeek', e.target.value)}
+                          min="0"
+                          step="0.01"
+                          placeholder="0.00"
+                        />
+                        <select 
+                          className="period-selector"
+                          value="perWeek"
+                          onChange={(e) => handleCostsDataChange('schoolMeals', e.target.value, costsData.schoolMeals.perWeek)}
+                        >
+                          <option value="perWeek">per week</option>
+                          <option value="perMonth">per month</option>
+                          <option value="perYear">per year</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="cost-item">
+                      <label>Prescriptions</label>
+                      <div className="cost-input-group">
+                        <span className="currency-symbol">£</span>
+                        <input
+                          type="number"
+                          className="form-control cost-input"
+                          value={costsData.prescriptions.perWeek}
+                          onChange={(e) => handleCostsDataChange('prescriptions', 'perWeek', e.target.value)}
+                          min="0"
+                          step="0.01"
+                          placeholder="0.00"
+                        />
+                        <select 
+                          className="period-selector"
+                          value="perWeek"
+                          onChange={(e) => handleCostsDataChange('prescriptions', e.target.value, costsData.prescriptions.perWeek)}
+                        >
+                          <option value="perWeek">per week</option>
+                          <option value="perMonth">per month</option>
+                          <option value="perYear">per year</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="cost-item">
+                      <label>Work clothing</label>
+                      <div className="cost-input-group">
+                        <span className="currency-symbol">£</span>
+                        <input
+                          type="number"
+                          className="form-control cost-input"
+                          value={costsData.workClothing.perWeek}
+                          onChange={(e) => handleCostsDataChange('workClothing', 'perWeek', e.target.value)}
+                          min="0"
+                          step="0.01"
+                          placeholder="0.00"
+                        />
+                        <select 
+                          className="period-selector"
+                          value="perWeek"
+                          onChange={(e) => handleCostsDataChange('workClothing', e.target.value, costsData.workClothing.perWeek)}
+                        >
+                          <option value="perWeek">per week</option>
+                          <option value="perMonth">per month</option>
+                          <option value="perYear">per year</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="cost-item">
+                      <label>Work related travel</label>
+                      <div className="cost-input-group">
+                        <span className="currency-symbol">£</span>
+                        <input
+                          type="number"
+                          className="form-control cost-input"
+                          value={costsData.workTravel.perWeek}
+                          onChange={(e) => handleCostsDataChange('workTravel', 'perWeek', e.target.value)}
+                          min="0"
+                          step="0.01"
+                          placeholder="0.00"
+                        />
+                        <select 
+                          className="period-selector"
+                          value="perWeek"
+                          onChange={(e) => handleCostsDataChange('workTravel', e.target.value, costsData.workTravel.perWeek)}
+                        >
+                          <option value="perWeek">per week</option>
+                          <option value="perMonth">per month</option>
+                          <option value="perYear">per year</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="cost-item">
+                      <label>Other work-related costs</label>
+                      <div className="cost-input-group">
+                        <span className="currency-symbol">£</span>
+                        <input
+                          type="number"
+                          className="form-control cost-input"
+                          value={costsData.otherWorkCosts.perWeek}
+                          onChange={(e) => handleCostsDataChange('otherWorkCosts', 'perWeek', e.target.value)}
+                          min="0"
+                          step="0.01"
+                          placeholder="0.00"
+                        />
+                        <select 
+                          className="period-selector"
+                          value="perWeek"
+                          onChange={(e) => handleCostsDataChange('otherWorkCosts', e.target.value, costsData.otherWorkCosts.perWeek)}
+                        >
+                          <option value="perWeek">per week</option>
+                          <option value="perMonth">per month</option>
+                          <option value="perYear">per year</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Total costs of work */}
+                <div className="total-costs">
+                  <h5>Total costs of work</h5>
+                  <div className="total-amount">
+                    £{formatAmount(calculateMonthlyCosts())} / month
+                  </div>
+                </div>
+
+                <div className="button-group">
+                  <button 
+                    type="button" 
+                    className="btn btn-primary"
+                    onClick={calculateBetterOff}
+                  >
+                    <span className="calendar-icon">📅</span>
+                    Take costs from better off amount
+                  </button>
+                </div>
+
+                {/* Updated Results with Costs */}
+                {calculation && (
+                  <div className="updated-results">
+                    <h5>Updated Better Off Calculation (including costs)</h5>
+                    <div className="costs-summary">
+                      <div className="costs-row">
+                        <span>Total work-related costs:</span>
+                        <span className="costs-amount">£{formatAmount(calculation.workCosts.total)}</span>
+                      </div>
+                      <div className="costs-row">
+                        <span>Total work-related savings:</span>
+                        <span className="costs-amount">£{formatAmount(calculation.workCosts.savings)}</span>
+                      </div>
+                      <div className="costs-row total">
+                        <span>Net work-related costs:</span>
+                        <span className="costs-amount">£{formatAmount(calculation.workCosts.net)}</span>
+                      </div>
+                    </div>
+                    
+                    <div className="final-better-off">
+                      <h6>Final Better Off Amount:</h6>
+                      <div className="final-amount">
+                        £{formatAmount(calculation.betterOffAmount)} {getPeriodText()}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>

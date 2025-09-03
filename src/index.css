@@ -1334,6 +1334,205 @@ body {
     padding-top: var(--spacing-6);
 }
 
+/* Costs Section Styles */
+.costs-section {
+    margin-top: var(--spacing-6);
+    padding-top: var(--spacing-6);
+    border-top: 1px solid var(--gray-200);
+}
+
+.costs-section h4 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-4);
+}
+
+.costs-intro {
+    background: var(--gray-50);
+    padding: var(--spacing-4);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-6);
+    border-left: 4px solid var(--info-color);
+}
+
+.costs-intro p {
+    margin: 0;
+    color: var(--gray-700);
+    font-size: var(--font-size-sm);
+}
+
+.help-link {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.help-link:hover {
+    color: var(--primary-dark);
+}
+
+.costs-subsection {
+    margin-bottom: var(--spacing-6);
+}
+
+.costs-subsection h5 {
+    color: var(--gray-700);
+    margin-bottom: var(--spacing-3);
+    font-size: var(--font-size-base);
+}
+
+.costs-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+}
+
+.cost-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-3);
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+}
+
+.cost-item label {
+    font-weight: 500;
+    color: var(--gray-700);
+    min-width: 150px;
+}
+
+.cost-input-group {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.currency-symbol {
+    color: var(--gray-600);
+    font-weight: 500;
+    font-size: var(--font-size-base);
+}
+
+.cost-input {
+    width: 100px;
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    text-align: right;
+}
+
+.cost-input:focus {
+    outline: 2px solid var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.period-selector {
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    background: var(--white);
+    color: var(--gray-700);
+    min-width: 100px;
+}
+
+.period-selector:focus {
+    outline: 2px solid var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.total-costs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-4);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-4);
+}
+
+.total-costs h5 {
+    margin: 0;
+    color: var(--gray-700);
+    font-size: var(--font-size-base);
+}
+
+.total-amount {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+    color: var(--primary-color);
+    font-family: 'Courier New', monospace;
+}
+
+.calendar-icon {
+    margin-right: var(--spacing-2);
+    font-size: var(--font-size-base);
+}
+
+
+
+.updated-results {
+    margin-top: var(--spacing-6);
+    padding: var(--spacing-4);
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--gray-200);
+}
+
+.updated-results h5 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-3);
+    font-size: var(--font-size-base);
+}
+
+.costs-summary {
+    margin-bottom: var(--spacing-4);
+}
+
+.costs-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-2) 0;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.costs-row:last-child {
+    border-bottom: none;
+}
+
+.costs-row.total {
+    font-weight: 600;
+    color: var(--primary-color);
+    border-top: 2px solid var(--gray-300);
+    padding-top: var(--spacing-3);
+}
+
+.costs-amount {
+    font-weight: 600;
+    font-family: 'Courier New', monospace;
+}
+
+.final-better-off {
+    text-align: center;
+    padding-top: var(--spacing-3);
+    border-top: 1px solid var(--gray-200);
+}
+
+.final-better-off h6 {
+    margin: 0 0 var(--spacing-2) 0;
+    color: var(--gray-700);
+    font-size: var(--font-size-sm);
+}
+
+.final-amount {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--success-color);
+}
+
 /* Testing Module Styles */
 .testing-module {
     margin-top: var(--spacing-8);
