@@ -333,24 +333,262 @@ function CalculatorPage({ isRehabilitation = false }) {
   const handleExport = () => {
     if (!results) return;
     
-    const exportData = {
-      formData,
-      results,
-      exportedAt: new Date().toISOString()
-    };
-    
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
-      type: 'application/json'
+    // Import jsPDF dynamically to avoid SSR issues
+    import('jspdf').then(({ default: jsPDF }) => {
+      const doc = new jsPDF();
+      
+      // Set up the PDF
+      const pageWidth = doc.internal.pageSize.width;
+      const margin = 20;
+      const contentWidth = pageWidth - (margin * 2);
+      let yPosition = margin;
+      
+      // Title
+      doc.setFontSize(20);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Universal Credit Calculation Report', pageWidth / 2, yPosition, { align: 'center' });
+      yPosition += 15;
+      
+      // Date
+      doc.setFontSize(12);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Generated on: ${new Date().toLocaleDateString('en-GB')}`, margin, yPosition);
+      yPosition += 10;
+      
+      // Tax Year
+      doc.text(`Tax Year: ${formData.taxYear.replace('_', '/')}`, margin, yPosition);
+      yPosition += 15;
+      
+      // Final Result
+      doc.setFontSize(16);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Your Universal Credit Entitlement', margin, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(20);
+      doc.text(`£${results.calculation.finalAmount.toFixed(2)} per month`, margin, yPosition);
+      yPosition += 20;
+      
+      // Breakdown Section
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Calculation Breakdown', margin, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      
+      // Elements
+      const elements = [
+        { label: 'Standard Allowance', value: results.calculation.standardAllowance },
+        { label: 'Housing Element', value: results.calculation.housingElement },
+        { label: 'Child Element', value: results.calculation.childElement },
+        { label: 'Childcare Element', value: results.calculation.childcareElement }
+      ];
+      
+      // Add conditional elements
+      if (results.calculation.carerElement > 0) {
+        elements.push({ label: 'Carer Element', value: results.calculation.carerElement });
+      }
+      if (results.calculation.lcwraElement > 0) {
+        elements.push({ label: 'LCWRA Element', value: results.calculation.lcwraElement });
+      }
+      
+      elements.push({ label: 'Total Elements', value: results.calculation.totalElements });
+      
+      // Display elements
+      elements.forEach(element => {
+        const isTotal = element.label === 'Total Elements';
+        if (isTotal) {
+          doc.setFont('helvetica', 'bold');
+          yPosition += 5;
+        }
+        
+        doc.text(element.label, margin, yPosition);
+        doc.text(`£${element.value.toFixed(2)}`, margin + contentWidth - 30, yPosition, { align: 'right' });
+        yPosition += 6;
+        
+        if (isTotal) {
+          doc.setFont('helvetica', 'normal');
+          yPosition += 5;
+        }
+      });
+      
+      // Deductions
+      yPosition += 5;
+      doc.setFont('helvetica', 'bold');
+      doc.text('Deductions', margin, yPosition);
+      yPosition += 8;
+      doc.setFont('helvetica', 'normal');
+      
+      if (results.calculation.earningsReduction > 0) {
+        doc.text('Earnings Reduction', margin, yPosition);
+        doc.text(`-£${results.calculation.earningsReduction.toFixed(2)}`, margin + contentWidth - 30, yPosition, { align: 'right' });
+        yPosition += 6;
+      }
+      
+      const totalOtherDeductions = results.calculation.capitalDeduction + results.calculation.benefitDeduction;
+      if (totalOtherDeductions > 0) {
+        doc.text('Other Deductions', margin, yPosition);
+        doc.text(`-£${totalOtherDeductions.toFixed(2)}`, margin + contentWidth - 30, yPosition, { align: 'right' });
+        yPosition += 6;
+      }
+      
+      // Final amount
+      yPosition += 5;
+      doc.setFont('helvetica', 'bold');
+      doc.text('Final Universal Credit', margin, yPosition);
+      doc.text(`£${results.calculation.finalAmount.toFixed(2)}`, margin + contentWidth - 30, yPosition, { align: 'right' });
+      yPosition += 15;
+      
+      // Check if we need a new page for form data
+      if (yPosition > 250) {
+        doc.addPage();
+        yPosition = margin;
+      }
+      
+      // Form Data Section
+      doc.setFontSize(14);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Your Details', margin, yPosition);
+      yPosition += 10;
+      
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      
+      // Personal details
+      const personalDetails = [
+        { label: 'Circumstances', value: formData.circumstances === 'single' ? 'Single' : 'Couple' },
+        { label: 'Age', value: formData.age || 'Not specified' },
+        { label: 'Housing Status', value: formData.housingStatus === 'no_housing_costs' ? 'No Housing Costs' : 
+          formData.housingStatus === 'renting' ? 'Renting' : 
+          formData.housingStatus === 'mortgage' ? 'Mortgage' : 
+          formData.housingStatus === 'in_prison' ? 'In Prison' : formData.housingStatus }
+      ];
+      
+      if (formData.circumstances === 'couple') {
+        personalDetails.push({ label: 'Partner Age', value: formData.partnerAge || 'Not specified' });
+      }
+      
+      personalDetails.forEach(detail => {
+        doc.text(detail.label, margin, yPosition);
+        doc.text(detail.value.toString(), margin + 80, yPosition);
+        yPosition += 6;
+      });
+      
+      // Employment details
+      yPosition += 5;
+      doc.setFont('helvetica', 'bold');
+      doc.text('Employment & Income', margin, yPosition);
+      yPosition += 8;
+      doc.setFont('helvetica', 'normal');
+      
+      if (formData.employmentType !== 'not_working') {
+        const employmentDetails = [
+          { label: 'Employment Type', value: formData.employmentType === 'employed' ? 'Employed' : 'Self-employed' },
+          { label: 'Monthly Earnings', value: `£${formData.monthlyEarnings.toFixed(2)} (${formData.monthlyEarningsPeriod.replace('_', ' ')})` }
+        ];
+        
+        employmentDetails.forEach(detail => {
+          doc.text(detail.label, margin, yPosition);
+          doc.text(detail.value.toString(), margin + 80, yPosition);
+          yPosition += 6;
+        });
+      }
+      
+      if (formData.circumstances === 'couple' && formData.partnerEmploymentType !== 'not_working') {
+        yPosition += 2;
+        doc.text('Partner Employment:', margin, yPosition);
+        yPosition += 6;
+        
+        const partnerDetails = [
+          { label: 'Employment Type', value: formData.partnerEmploymentType === 'employed' ? 'Employed' : 'Self-employed' },
+          { label: 'Monthly Earnings', value: `£${formData.partnerMonthlyEarnings.toFixed(2)} (${formData.partnerMonthlyEarningsPeriod.replace('_', ' ')})` }
+        ];
+        
+        partnerDetails.forEach(detail => {
+          doc.text(detail.label, margin + 10, yPosition);
+          doc.text(detail.value.toString(), margin + 90, yPosition);
+          yPosition += 6;
+        });
+      }
+      
+      // Housing details
+      if (formData.housingStatus === 'renting') {
+        yPosition += 5;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Housing Costs', margin, yPosition);
+        yPosition += 8;
+        doc.setFont('helvetica', 'normal');
+        
+        const housingDetails = [
+          { label: 'Rent', value: `£${formData.rent.toFixed(2)} (${formData.rentPeriod.replace('_', ' ')})` },
+          { label: 'Service Charges', value: `£${formData.serviceCharges.toFixed(2)} (${formData.serviceChargesPeriod.replace('_', ' ')})` }
+        ];
+        
+        housingDetails.forEach(detail => {
+          doc.text(detail.label, margin, yPosition);
+          doc.text(detail.value.toString(), margin + 80, yPosition);
+          yPosition += 6;
+        });
+      }
+      
+      // Children
+      if (formData.hasChildren && formData.children > 0) {
+        yPosition += 5;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Children', margin, yPosition);
+        yPosition += 8;
+        doc.setFont('helvetica', 'normal');
+        
+        doc.text(`Number of children: ${formData.children}`, margin, yPosition);
+        yPosition += 6;
+        
+        if (formData.childcareCosts > 0) {
+          doc.text('Childcare Costs', margin, yPosition);
+          doc.text(`£${formData.childcareCosts.toFixed(2)} (${formData.childcareCostsPeriod.replace('_', ' ')})`, margin + 80, yPosition);
+          yPosition += 6;
+        }
+      }
+      
+      // Savings
+      if (formData.hasSavings === 'yes') {
+        yPosition += 5;
+        doc.setFont('helvetica', 'bold');
+        doc.text('Savings', margin, yPosition);
+        yPosition += 8;
+        doc.setFont('helvetica', 'normal');
+        
+        doc.text('Savings Amount', margin, yPosition);
+        doc.text(`£${formData.savings.toFixed(2)} (${formData.savingsPeriod.replace('_', ' ')})`, margin + 80, yPosition);
+        yPosition += 6;
+      }
+      
+      // Save the PDF
+      const filename = `uc-calculation-${new Date().toISOString().split('T')[0]}.pdf`;
+      doc.save(filename);
+    }).catch(error => {
+      console.error('Error generating PDF:', error);
+      // Fallback to JSON export if PDF generation fails
+      const exportData = {
+        formData,
+        results,
+        exportedAt: new Date().toISOString()
+      };
+      
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+        type: 'application/json'
+      });
+      
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `uc-calculation-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     });
-    
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `uc-calculation-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
   };
 
   return (
