@@ -1,4 +1,4 @@
-import { getLHARate, convertLHAToMonthly } from './lhaDataService';
+import { getLHARate, convertLHAToMonthly, lhaRates2024_25 } from './lhaDataService';
 /**
  * Universal Credit Calculator - React Version
  * Simplified calculator that provides basic Universal Credit calculations
