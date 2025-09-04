@@ -47,8 +47,8 @@ function RehabilitationServices() {
     },
     {
       id: 'guide-benefits',
-      title: 'Your Guide to Benefits',
-      description: 'Essential information about benefits you can claim when leaving prison, including Universal Credit, housing support, and employment benefits.',
+      title: 'Your Guide to Benefits, Housing and Health',
+      description: 'Essential information about benefits you can claim when leaving prison, housing support from your council, and how to register with a GP (even if you don\'t have a fixed abode).',
       icon: '📋',
       link: '/rehabilitation-calculator',
       comingSoon: false

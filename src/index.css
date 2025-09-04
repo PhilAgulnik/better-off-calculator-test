@@ -1443,6 +1443,24 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.map-placeholder {
+  background: #f8f9fa;
+  border: 2px dashed #dee2e6;
+  border-radius: 8px;
+  padding: var(--spacing-8);
+  text-align: center;
+}
+
+.placeholder-content h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-3);
+}
+
+.placeholder-content p {
+  color: #666;
+  margin-bottom: var(--spacing-2);
+}
+
 .map-legend {
   background: white;
   padding: var(--spacing-6);

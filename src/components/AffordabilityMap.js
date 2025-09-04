@@ -34,7 +34,18 @@ function AffordabilityMap() {
               src="/affordability-map.png" 
               alt="Housing Affordability Map of Great Britain showing rent levels and LHA rates by region"
               className="affordability-map-image"
+              onError={(e) => {
+                e.target.style.display = 'none';
+                e.target.nextSibling.style.display = 'block';
+              }}
             />
+            <div className="map-placeholder" style={{display: 'none'}}>
+              <div className="placeholder-content">
+                <h3>Map Image Required</h3>
+                <p>Please add the affordability map image as "affordability-map.png" to the public folder.</p>
+                <p>The map should show Great Britain with color-coded regions indicating rent levels and LHA rates.</p>
+              </div>
+            </div>
           </div>
           
           <div className="map-legend">
