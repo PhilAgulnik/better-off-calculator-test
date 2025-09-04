@@ -10,13 +10,13 @@ const skins = {
     companyName: 'EntitledTo'
   },
   rehabilitation: {
-    name: 'The Digital Rehabilitation Service',
+    name: 'Your logo here',
     primaryColor: '#1e40af',
     secondaryColor: '#1d4ed8',
     backgroundColor: '#f8fafc',
     textColor: '#1e293b',
     logo: '🔄',
-    companyName: 'The Digital Rehabilitation Service'
+    companyName: 'Your logo here'
   },
   shawTrust: {
     name: 'Shaw Trust',
