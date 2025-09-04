@@ -233,7 +233,6 @@ export class UniversalCreditCalculator {
       if (brma) {
         // Use the new function to get all rates for the BRMA
         allRates = getAllLHARates(brma);
-        console.log(`LHA rates for ${brma}:`, allRates);
       } else {
         // Fallback rates
         allRates = {

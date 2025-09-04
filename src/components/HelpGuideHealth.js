@@ -34,7 +34,7 @@ function HelpGuideHealth() {
               <h3>How to Register:</h3>
               <ul>
                 <li>You can use a temporary address, hostel address, or even a friend's address</li>
-                <li>Some GPs accept "no fixed abode" as an address</li>
+                <li>Some GPs accept "no fixed address" as an address</li>
                 <li>You don't need proof of address to register with a GP</li>
                 <li>You can register with any GP practice in your area</li>
                 <li>If you're refused registration, you can complain to NHS England</li>

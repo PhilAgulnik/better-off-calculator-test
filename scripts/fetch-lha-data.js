@@ -51,20 +51,46 @@ async function fetchLHAData() {
     // For now, we'll use the existing data structure but with more realistic rates
     // In a real implementation, you would fetch the actual CSV files
     const lhaRates = {
-      // England - Major cities and areas with realistic 2025-2026 rates
-      "Birmingham": { shared: 78.61, "1bed": 159.95, "2bed": 172.60, "3bed": 189.86, "4bed": 253.15 },
-      "Manchester": { shared: 80.55, "1bed": 132.33, "2bed": 142.68, "3bed": 156.49, "4bed": 218.63 },
-      "Liverpool": { shared: 73.35, "1bed": 97.81, "2bed": 120.82, "3bed": 149.59, "4bed": 189.86 },
-      "Leeds": { shared: 85.20, "1bed": 145.50, "2bed": 158.30, "3bed": 172.80, "4bed": 235.40 },
-      "Sheffield": { shared: 76.80, "1bed": 128.90, "2bed": 140.20, "3bed": 153.10, "4bed": 208.70 },
-      "Bradford": { shared: 74.50, "1bed": 125.60, "2bed": 136.40, "3bed": 149.20, "4bed": 203.20 },
-      "Newcastle": { shared: 82.10, "1bed": 138.70, "2bed": 150.80, "3bed": 164.90, "4bed": 224.60 },
-      "Bristol": { shared: 103.87, "1bed": 133.48, "2bed": 172.60, "3bed": 212.88, "4bed": 287.67 },
+      // Real LHA rates from GOV.UK CSV data (2025-2026)
+      // Source: https://www.gov.uk/csv-preview/67a0990e1f9e7f7dcc7b3fa4/england-rates-2025-to-2026.csv
       
-      // London areas (higher rates)
-      "Central London": { shared: 120.00, "1bed": 250.00, "2bed": 350.00, "3bed": 450.00, "4bed": 600.00 },
-      "Inner London": { shared: 110.00, "1bed": 220.00, "2bed": 300.00, "3bed": 380.00, "4bed": 500.00 },
-      "Outer London": { shared: 100.00, "1bed": 200.00, "2bed": 280.00, "3bed": 350.00, "4bed": 450.00 },
+      // Major cities and areas
+      "Birmingham": { shared: 341.58, "1bed": 695.00, "2bed": 750.00, "3bed": 825.00, "4bed": 1100.00 },
+      "Barrow-in-Furness": { shared: 395.42, "1bed": 475.00, "2bed": 500.00, "3bed": 635.00, "4bed": 807.50 },
+      "Sheffield": { shared: 350.00, "1bed": 575.00, "2bed": 620.00, "3bed": 680.00, "4bed": 950.00 },
+      "Bristol": { shared: 511.33, "1bed": 900.00, "2bed": 1095.00, "3bed": 1300.00, "4bed": 1850.00 },
+      "Bath": { shared: 540.00, "1bed": 815.00, "2bed": 980.00, "3bed": 1200.00, "4bed": 1945.00 },
+      "Bournemouth": { shared: 426.33, "1bed": 695.00, "2bed": 875.00, "3bed": 1150.00, "4bed": 1550.00 },
+      "Canterbury": { shared: 425.00, "1bed": 675.00, "2bed": 895.00, "3bed": 1100.00, "4bed": 1315.00 },
+      "Colchester": { shared: 401.33, "1bed": 625.00, "2bed": 795.00, "3bed": 975.00, "4bed": 1250.00 },
+      "Derby": { shared: 359.83, "1bed": 450.00, "2bed": 595.00, "3bed": 700.00, "4bed": 935.00 },
+      "Ipswich": { shared: 366.50, "1bed": 595.00, "2bed": 717.00, "3bed": 800.00, "4bed": 1100.00 },
+      "Leicester": { shared: 395.42, "1bed": 540.00, "2bed": 650.00, "3bed": 775.00, "4bed": 1050.00 },
+      "Lincoln": { shared: 354.14, "1bed": 495.00, "2bed": 600.00, "3bed": 675.00, "4bed": 925.00 },
+      "Nottingham": { shared: 380.00, "1bed": 550.00, "2bed": 650.00, "3bed": 750.00, "4bed": 970.00 },
+      "Plymouth": { shared: 400.00, "1bed": 550.00, "2bed": 675.00, "3bed": 800.00, "4bed": 975.00 },
+      "Reading": { shared: 391.50, "1bed": 850.00, "2bed": 1095.00, "3bed": 1300.00, "4bed": 1654.00 },
+      "Rotherham": { shared: 351.33, "1bed": 430.00, "2bed": 500.00, "3bed": 550.00, "4bed": 817.50 },
+      "Southampton": { shared: 425.00, "1bed": 700.00, "2bed": 875.00, "3bed": 1075.00, "4bed": 1450.00 },
+      "Wigan": { shared: 339.83, "1bed": 400.00, "2bed": 500.00, "3bed": 595.00, "4bed": 775.00 },
+      "York": { shared: 417.67, "1bed": 675.00, "2bed": 775.00, "3bed": 825.00, "4bed": 1200.00 },
+      
+      // London areas (much higher rates)
+      "Central London": { shared: 829.83, "1bed": 1439.97, "2bed": 1793.98, "3bed": 2160.02, "4bed": 3060.00 },
+      "Inner East London": { shared: 699.50, "1bed": 1439.97, "2bed": 1750.00, "3bed": 2160.02, "4bed": 3000.00 },
+      "Inner South East London": { shared: 650.00, "1bed": 1295.50, "2bed": 1550.00, "3bed": 1950.00, "4bed": 2625.00 },
+      "Inner South West London": { shared: 685.00, "1bed": 1420.00, "2bed": 1700.00, "3bed": 2160.02, "4bed": 2900.00 },
+      "Inner West London": { shared: 760.00, "1bed": 1350.00, "2bed": 1625.00, "3bed": 2050.00, "4bed": 2550.00 },
+      "Inner North London": { shared: 708.27, "1bed": 1439.97, "2bed": 1793.98, "3bed": 2160.02, "4bed": 3060.00 },
+      "North West London": { shared: 621.33, "1bed": 1100.00, "2bed": 1350.00, "3bed": 1680.00, "4bed": 2100.00 },
+      "Outer East London": { shared: 561.33, "1bed": 1200.00, "2bed": 1400.00, "3bed": 1675.00, "4bed": 1950.00 },
+      "Outer North East London": { shared: 549.83, "1bed": 1000.00, "2bed": 1250.00, "3bed": 1500.00, "4bed": 1800.00 },
+      "Outer North London": { shared: 595.00, "1bed": 1150.00, "2bed": 1400.00, "3bed": 1695.00, "4bed": 2200.00 },
+      "Outer South East London": { shared: 600.00, "1bed": 1050.00, "2bed": 1300.00, "3bed": 1550.00, "4bed": 1800.00 },
+      "Outer South West London": { shared: 591.50, "1bed": 1200.00, "2bed": 1495.00, "3bed": 1800.00, "4bed": 2550.00 },
+      "Outer South London": { shared: 569.33, "1bed": 950.00, "2bed": 1200.00, "3bed": 1500.00, "4bed": 1950.00 },
+      "Outer West London": { shared: 576.33, "1bed": 1000.00, "2bed": 1300.00, "3bed": 1475.00, "4bed": 1800.00 },
+      "Walton": { shared: 620.00, "1bed": 950.00, "2bed": 1212.00, "3bed": 1450.00, "4bed": 1975.00 },
       
       // Other major areas
       "Brighton": { shared: 95.00, "1bed": 180.00, "2bed": 250.00, "3bed": 320.00, "4bed": 400.00 },

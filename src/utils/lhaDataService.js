@@ -146,14 +146,7 @@ export const getLHARate = (brma, bedroomEntitlement) => {
 
 // Get all LHA rates for a specific BRMA
 export const getAllLHARates = (brma) => {
-  console.log(`Getting LHA rates for BRMA: ${brma}`);
-  console.log('Available data sources:', {
-    jsonData: Object.keys(lhaRatesData).length > 0 ? 'loaded' : 'empty',
-    hardcodedData: Object.keys(lhaRates2025_26).length > 0 ? 'loaded' : 'empty'
-  });
-  
   const rates = lhaRatesData[brma] || lhaRates2025_26[brma] || lhaRates2025_26['Default'];
-  console.log(`Selected rates for ${brma}:`, rates);
   
   return {
     sharedRate: convertLHAToMonthly(rates.shared),
