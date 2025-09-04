@@ -1,4 +1,4 @@
-import { getLHARate, convertLHAToMonthly, lhaRates2024_25 } from './lhaDataService';
+import { getLHARate, convertLHAToMonthly, lhaRates2025_26 } from './lhaDataService';
 /**
  * Universal Credit Calculator - React Version
  * Simplified calculator that provides basic Universal Credit calculations
@@ -231,7 +231,16 @@ export class UniversalCreditCalculator {
       // Get all LHA rates for the BRMA
       let allRates = {};
       if (brma) {
-        const rates = lhaRates2024_25[brma] || lhaRates2024_25['Default'];
+        // Try to get rates from the real data first, then fall back to hardcoded rates
+        let rates;
+        try {
+          // eslint-disable-next-line global-require
+          const lhaRatesData = require('../data/lhaRates2025_26.json');
+          rates = lhaRatesData[brma] || lhaRates2025_26[brma] || lhaRates2025_26['Default'];
+        } catch (e) {
+          rates = lhaRates2025_26[brma] || lhaRates2025_26['Default'];
+        }
+        
         allRates = {
           sharedRate: convertLHAToMonthly(rates.shared),
           oneBedRate: convertLHAToMonthly(rates['1bed']),

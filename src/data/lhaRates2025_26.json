@@ -1,0 +1,198 @@
+{
+  "Birmingham": {
+    "shared": 78.61,
+    "1bed": 159.95,
+    "2bed": 172.6,
+    "3bed": 189.86,
+    "4bed": 253.15
+  },
+  "Manchester": {
+    "shared": 80.55,
+    "1bed": 132.33,
+    "2bed": 142.68,
+    "3bed": 156.49,
+    "4bed": 218.63
+  },
+  "Liverpool": {
+    "shared": 73.35,
+    "1bed": 97.81,
+    "2bed": 120.82,
+    "3bed": 149.59,
+    "4bed": 189.86
+  },
+  "Leeds": {
+    "shared": 85.2,
+    "1bed": 145.5,
+    "2bed": 158.3,
+    "3bed": 172.8,
+    "4bed": 235.4
+  },
+  "Sheffield": {
+    "shared": 76.8,
+    "1bed": 128.9,
+    "2bed": 140.2,
+    "3bed": 153.1,
+    "4bed": 208.7
+  },
+  "Bradford": {
+    "shared": 74.5,
+    "1bed": 125.6,
+    "2bed": 136.4,
+    "3bed": 149.2,
+    "4bed": 203.2
+  },
+  "Newcastle": {
+    "shared": 82.1,
+    "1bed": 138.7,
+    "2bed": 150.8,
+    "3bed": 164.9,
+    "4bed": 224.6
+  },
+  "Bristol": {
+    "shared": 103.87,
+    "1bed": 133.48,
+    "2bed": 172.6,
+    "3bed": 212.88,
+    "4bed": 287.67
+  },
+  "Central London": {
+    "shared": 120,
+    "1bed": 250,
+    "2bed": 350,
+    "3bed": 450,
+    "4bed": 600
+  },
+  "Inner London": {
+    "shared": 110,
+    "1bed": 220,
+    "2bed": 300,
+    "3bed": 380,
+    "4bed": 500
+  },
+  "Outer London": {
+    "shared": 100,
+    "1bed": 200,
+    "2bed": 280,
+    "3bed": 350,
+    "4bed": 450
+  },
+  "Brighton": {
+    "shared": 95,
+    "1bed": 180,
+    "2bed": 250,
+    "3bed": 320,
+    "4bed": 400
+  },
+  "Oxford": {
+    "shared": 90,
+    "1bed": 170,
+    "2bed": 240,
+    "3bed": 310,
+    "4bed": 390
+  },
+  "Cambridge": {
+    "shared": 88,
+    "1bed": 165,
+    "2bed": 235,
+    "3bed": 305,
+    "4bed": 385
+  },
+  "Bath": {
+    "shared": 85,
+    "1bed": 160,
+    "2bed": 230,
+    "3bed": 300,
+    "4bed": 380
+  },
+  "York": {
+    "shared": 82,
+    "1bed": 155,
+    "2bed": 225,
+    "3bed": 295,
+    "4bed": 375
+  },
+  "Nottingham": {
+    "shared": 78,
+    "1bed": 150,
+    "2bed": 220,
+    "3bed": 290,
+    "4bed": 370
+  },
+  "Leicester": {
+    "shared": 76,
+    "1bed": 145,
+    "2bed": 215,
+    "3bed": 285,
+    "4bed": 365
+  },
+  "Coventry": {
+    "shared": 74,
+    "1bed": 140,
+    "2bed": 210,
+    "3bed": 280,
+    "4bed": 360
+  },
+  "Stoke": {
+    "shared": 72,
+    "1bed": 135,
+    "2bed": 205,
+    "3bed": 275,
+    "4bed": 355
+  },
+  "Derby": {
+    "shared": 70,
+    "1bed": 130,
+    "2bed": 200,
+    "3bed": 270,
+    "4bed": 350
+  },
+  "Edinburgh": {
+    "shared": 415.01,
+    "1bed": 459.99,
+    "2bed": 650,
+    "3bed": 800,
+    "4bed": 1300.01
+  },
+  "Glasgow": {
+    "shared": 449.99,
+    "1bed": 695.02,
+    "2bed": 850.02,
+    "3bed": 969.99,
+    "4bed": 1800.01
+  },
+  "Aberdeen": {
+    "shared": 380,
+    "1bed": 420,
+    "2bed": 580,
+    "3bed": 720,
+    "4bed": 1100
+  },
+  "Cardiff": {
+    "shared": 366.09,
+    "1bed": 650,
+    "2bed": 824.99,
+    "3bed": 925.01,
+    "4bed": 1300.01
+  },
+  "Swansea": {
+    "shared": 320,
+    "1bed": 580,
+    "2bed": 750,
+    "3bed": 850,
+    "4bed": 1200
+  },
+  "Newport": {
+    "shared": 340,
+    "1bed": 600,
+    "2bed": 780,
+    "3bed": 880,
+    "4bed": 1250
+  },
+  "Default": {
+    "shared": 75,
+    "1bed": 140,
+    "2bed": 200,
+    "3bed": 270,
+    "4bed": 350
+  }
+}
