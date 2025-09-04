@@ -285,8 +285,8 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             periodValue={formData.serviceChargesPeriod}
             min={0}
             step={0.01}
-          />
-        </div>
+            />
+          </div>
 
         {/* BRMA selection for private tenants, shown in housing costs block */}
         {formData.tenantType === 'private' && (
@@ -304,7 +304,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               ))}
             </select>
             <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap. You can also find out about rent levels and LHA rates in other areas using our affordability map.</small>
-          </div>
+        </div>
         )}
           </>
         )}

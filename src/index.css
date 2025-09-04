@@ -1538,6 +1538,239 @@ body {
   margin: var(--spacing-8) 0;
 }
 
+/* Help Guide Styles */
+.help-guide {
+  min-height: 100vh;
+  background: var(--background-color);
+}
+
+.help-guide-page {
+  min-height: 100vh;
+  background: var(--background-color);
+}
+
+.help-areas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--spacing-6);
+  margin: var(--spacing-8) 0;
+}
+
+.help-area-card {
+  background: white;
+  padding: var(--spacing-6);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.help-area-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.help-area-icon {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: var(--spacing-4);
+}
+
+.help-area-card h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-3);
+  text-align: center;
+}
+
+.help-area-description {
+  text-align: center;
+  margin-bottom: var(--spacing-4);
+  color: #666;
+}
+
+.help-topics {
+  margin-bottom: var(--spacing-4);
+}
+
+.help-topics h4 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-2);
+  font-size: 1rem;
+}
+
+.help-topics ul {
+  list-style: none;
+  padding: 0;
+}
+
+.help-topics li {
+  padding: var(--spacing-1) 0;
+  border-bottom: 1px solid #f0f0f0;
+  color: #555;
+}
+
+.help-topics li:last-child {
+  border-bottom: none;
+}
+
+.help-topics li:before {
+  content: "✓";
+  color: var(--primary-color);
+  font-weight: bold;
+  margin-right: var(--spacing-2);
+}
+
+.help-area-actions {
+  text-align: center;
+}
+
+.quick-links {
+  margin: var(--spacing-8) 0;
+}
+
+.quick-links h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-6);
+  color: var(--primary-color);
+}
+
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.quick-link-card {
+  background: white;
+  padding: var(--spacing-4);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: block;
+}
+
+.quick-link-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  text-decoration: none;
+  color: inherit;
+}
+
+.quick-link-icon {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: var(--spacing-2);
+}
+
+.quick-link-card h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-2);
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.quick-link-card p {
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.help-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.help-section {
+  background: white;
+  padding: var(--spacing-6);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: var(--spacing-6);
+}
+
+.help-section h2 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-4);
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: var(--spacing-2);
+}
+
+.help-section p {
+  margin-bottom: var(--spacing-4);
+  line-height: 1.6;
+}
+
+.info-box {
+  background: #f8f9fa;
+  border-left: 4px solid var(--primary-color);
+  padding: var(--spacing-4);
+  margin: var(--spacing-4) 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.info-box h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-3);
+}
+
+.info-box ul {
+  margin: 0;
+  padding-left: var(--spacing-4);
+}
+
+.info-box li {
+  margin-bottom: var(--spacing-2);
+  line-height: 1.5;
+}
+
+.action-box {
+  background: #e8f4fd;
+  border-left: 4px solid #007bff;
+  padding: var(--spacing-4);
+  margin: var(--spacing-4) 0;
+  border-radius: 0 4px 4px 0;
+}
+
+.action-box h3 {
+  color: #007bff;
+  margin-bottom: var(--spacing-3);
+}
+
+.action-box ul {
+  margin: 0;
+  padding-left: var(--spacing-4);
+}
+
+.action-box li {
+  margin-bottom: var(--spacing-2);
+  line-height: 1.5;
+}
+
+.navigation-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: var(--spacing-8) 0;
+  padding: var(--spacing-4) 0;
+  border-top: 1px solid #e9ecef;
+}
+
+@media (max-width: 768px) {
+  .navigation-links {
+    flex-direction: column;
+    gap: var(--spacing-3);
+  }
+  
+  .help-areas-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .quick-links-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Costs Section Styles */
 .costs-section {
     margin-top: var(--spacing-6);

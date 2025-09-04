@@ -553,8 +553,8 @@ function BetterOffInWorkModule({
                   >
                     <span className="calendar-icon">📅</span>
                     Take costs from better off amount
-                  </button>
-                </div>
+              </button>
+            </div>
 
                 {/* Updated Results with Costs */}
                 {calculation && (

@@ -6,6 +6,10 @@ import SelfAssessmentTaxForm from './components/SelfAssessmentTaxForm';
 import MonthlyProfitTool from './features/monthly-profit/MonthlyProfitTool';
 import RehabilitationServices from './components/RehabilitationServices';
 import AffordabilityMap from './components/AffordabilityMap';
+import HelpGuide from './components/HelpGuide';
+import HelpGuideBenefits from './components/HelpGuideBenefits';
+import HelpGuideHousing from './components/HelpGuideHousing';
+import HelpGuideHealth from './components/HelpGuideHealth';
 import BudgetingTool from './features/budgeting-tool/EnhancedBudgetingTool'; // Updated to use enhanced version
 import RehabilitationCalculator from './components/RehabilitationCalculator';
 import BudgetingToolAdmin from './features/budgeting-tool/BudgetingToolAdmin';
@@ -40,6 +44,10 @@ function App() {
         <Route path="/monthly-profit" element={<MonthlyProfitTool />} />
         <Route path="/rehabilitation-services" element={<RehabilitationServices />} />
         <Route path="/affordability-map" element={<AffordabilityMap />} />
+        <Route path="/help-guide" element={<HelpGuide />} />
+        <Route path="/help-guide/benefits" element={<HelpGuideBenefits />} />
+        <Route path="/help-guide/housing" element={<HelpGuideHousing />} />
+        <Route path="/help-guide/health" element={<HelpGuideHealth />} />
         <Route path="/budgeting-tool" element={<BudgetingTool />} /> {/* Now uses enhanced version */}
         <Route path="/budgeting-tool-admin" element={<BudgetingToolAdmin />} />
         <Route path="/rehabilitation-calculator" element={<RehabilitationCalculator />} />

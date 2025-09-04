@@ -31,7 +31,7 @@ function AffordabilityMap() {
         <div className="map-section">
           <div className="map-container">
             <img 
-              src="/affordability-map.png" 
+              src="/affordability-map.png.png" 
               alt="Housing Affordability Map of Great Britain showing rent levels and LHA rates by region"
               className="affordability-map-image"
               onError={(e) => {
