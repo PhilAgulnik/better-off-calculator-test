@@ -2,6 +2,7 @@ import React from 'react';
 import CarerModule from './CarerModule';
 import { useTextManager } from '../hooks/useTextManager';
 import AmountInputWithPeriod from './AmountInputWithPeriod';
+import { getBRMANames } from '../utils/lhaDataService';
 
 function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }) {
   const { getTextValue } = useTextManager();
@@ -165,7 +166,10 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 name="housingStatus" 
                 value="renting" 
                 checked={formData.housingStatus === 'renting'}
-                onChange={(e) => handleInputChange('housingStatus', e.target.value)}
+                onChange={(e) => {
+                  handleInputChange('housingStatus', e.target.value);
+                  if (formData.tenantType !== 'social') handleInputChange('tenantType', 'social');
+                }}
               />
               <span className="radio-custom"></span>
               Renting
@@ -283,6 +287,25 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             step={0.01}
           />
         </div>
+
+        {/* BRMA selection for private tenants, shown in housing costs block */}
+        {formData.tenantType === 'private' && (
+          <div className="form-group">
+            <label htmlFor="brma">Are you live in</label>
+            <select
+              id="brma"
+              className="form-control"
+              value={formData.brma || ''}
+              onChange={(e) => handleInputChange('brma', e.target.value)}
+            >
+              <option value="">Select your area</option>
+              {getBRMANames().map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </select>
+            <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap.</small>
+          </div>
+        )}
           </>
         )}
 
@@ -2374,6 +2397,25 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                      <p>For example: If you have £6,500 in savings, £500 is over the limit. This creates a tariff income of £8.70 per month (£500 ÷ £250 × £4.35), which is £2 per week.</p>
         </div>
           </>
+        )}
+
+        {/* BRMA selection for private tenants */}
+        {formData.housingStatus === 'renting' && formData.tenantType === 'private' && (
+          <div className="form-group">
+            <label htmlFor="brma">Are you live in</label>
+            <select
+              id="brma"
+              className="form-control"
+              value={formData.brma || ''}
+              onChange={(e) => handleInputChange('brma', e.target.value)}
+            >
+              <option value="">Select your area</option>
+              {getBRMANames().map(name => (
+                <option key={name} value={name}>{name}</option>
+              ))}
+            </select>
+            <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap.</small>
+          </div>
         )}
 
         {/* Action Buttons */}

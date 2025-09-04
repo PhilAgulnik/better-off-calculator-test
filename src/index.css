@@ -1334,6 +1334,62 @@ body {
     padding-top: var(--spacing-6);
 }
 
+/* Local Housing Allowance Panel */
+.lha-panel {
+  margin-top: 20px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.lha-panel h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.lha-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lha-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px dotted #ccc;
+}
+
+.lha-row:last-child {
+  border-bottom: none;
+}
+
+.lha-row.highlighted {
+  background-color: #f0f0f0;
+  padding: 8px 12px;
+  margin: 0 -12px;
+  border-radius: 4px;
+  border-bottom: 1px dotted #999;
+}
+
+.lha-label {
+  font-weight: 500;
+  color: #555;
+  flex: 1;
+}
+
+.lha-value {
+  font-weight: 600;
+  color: #333;
+  text-align: right;
+  min-width: 120px;
+}
+
 /* Costs Section Styles */
 .costs-section {
     margin-top: var(--spacing-6);

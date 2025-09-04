@@ -16,7 +16,8 @@ function CalculatorPage({ isRehabilitation = false }) {
     
     // Housing
     housingStatus: 'no_housing_costs',
-    tenantType: 'private',
+    tenantType: 'social',
+    brma: '',
     rent: 0,
     rentPeriod: 'per_month',
     serviceCharges: 0,
@@ -251,7 +252,8 @@ function CalculatorPage({ isRehabilitation = false }) {
       
       // Housing
       housingStatus: 'no_housing_costs',
-      tenantType: 'private',
+      tenantType: 'social',
+      brma: '',
       rent: 0,
       rentPeriod: 'per_month',
       serviceCharges: 0,

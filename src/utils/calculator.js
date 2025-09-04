@@ -1,3 +1,4 @@
+import { getLHARate, convertLHAToMonthly } from './lhaDataService';
 /**
  * Universal Credit Calculator - React Version
  * Simplified calculator that provides basic Universal Credit calculations
@@ -130,8 +131,8 @@ export class UniversalCreditCalculator {
       // Calculate standard allowance
       const standardAllowance = this.calculateStandardAllowance(input, rates);
       
-             // Calculate housing element
-       const housingElement = this.calculateHousingElement(input, rates);
+      // Calculate housing element
+      const { amount: housingElement, lhaDetails } = this.calculateHousingElement(input, rates);
       
       // Calculate child element
       const childElement = this.calculateChildElement(input, rates);
@@ -173,7 +174,8 @@ export class UniversalCreditCalculator {
           capitalDeduction: capitalDeductionResult.deduction,
           capitalDeductionDetails: capitalDeductionResult,
           benefitDeduction,
-          finalAmount
+          finalAmount,
+          lhaDetails
         },
         warnings: this.generateWarnings(input),
         calculatedAt: new Date().toISOString()
@@ -200,23 +202,70 @@ export class UniversalCreditCalculator {
   }
 
   calculateHousingElement(input, rates) {
-    const { rent, serviceCharges, tenantType, bedrooms } = input;
+    const { rent = 0, serviceCharges = 0, tenantType, bedrooms, brma, age = 25, partnerAge = 25, circumstances = 'single', children = 0, childAges = [], childGenders = [] } = input;
     
     if (tenantType === 'private') {
-      // Calculate bedroom entitlement based on family composition
-      const bedroomEntitlement = this.calculateBedroomEntitlement(input);
+      // Calculate bedroom entitlement
+      const bedroomEntitlement = this.calculateBedroomEntitlement({ circumstances, children, childAges, childGenders, age, partnerAge });
       
-      // Use LHA rates based on bedroom entitlement
-      let lhaRate = rates.lhaRates.oneBed; // Default
-      if (bedroomEntitlement === 0) lhaRate = rates.lhaRates.shared;
-      else if (bedroomEntitlement === 2) lhaRate = rates.lhaRates.twoBed;
-      else if (bedroomEntitlement === 3) lhaRate = rates.lhaRates.threeBed;
-      else if (bedroomEntitlement >= 4) lhaRate = rates.lhaRates.fourBed;
+      // Determine LHA weekly rate and convert to monthly if BRMA provided
+      let lhaWeekly = null;
+      let lhaMonthly = null;
+      if (brma) {
+        lhaWeekly = getLHARate(brma, bedroomEntitlement);
+        lhaMonthly = convertLHAToMonthly(lhaWeekly);
+      }
       
-      return Math.min(rent + serviceCharges, lhaRate);
+      // Fallback to simplified internal rates if BRMA not selected
+      if (!lhaMonthly) {
+        let fallback = rates.lhaRates.oneBed; // default monthly
+        if (bedroomEntitlement === 'shared' || bedroomEntitlement === 0) fallback = rates.lhaRates.shared;
+        else if (bedroomEntitlement === 2) fallback = rates.lhaRates.twoBed;
+        else if (bedroomEntitlement === 3) fallback = rates.lhaRates.threeBed;
+        else if (bedroomEntitlement >= 4) fallback = rates.lhaRates.fourBed;
+        lhaMonthly = fallback;
+      }
+      
+      const eligibleRent = Math.min(rent + serviceCharges, lhaMonthly);
+      
+      // Get all LHA rates for the BRMA
+      let allRates = {};
+      if (brma) {
+        const rates = lhaRates2024_25[brma] || lhaRates2024_25['Default'];
+        allRates = {
+          sharedRate: convertLHAToMonthly(rates.shared),
+          oneBedRate: convertLHAToMonthly(rates['1bed']),
+          twoBedRate: convertLHAToMonthly(rates['2bed']),
+          threeBedRate: convertLHAToMonthly(rates['3bed']),
+          fourBedRate: convertLHAToMonthly(rates['4bed'])
+        };
+      } else {
+        // Fallback rates
+        allRates = {
+          sharedRate: rates.lhaRates.shared,
+          oneBedRate: rates.lhaRates.oneBed,
+          twoBedRate: rates.lhaRates.twoBed,
+          threeBedRate: rates.lhaRates.threeBed,
+          fourBedRate: rates.lhaRates.fourBed
+        };
+      }
+      
+      return {
+        amount: eligibleRent,
+        lhaDetails: {
+          brma: brma || 'Not selected',
+          bedroomEntitlement,
+          lhaWeekly: lhaWeekly || null,
+          lhaMonthly,
+          actualRent: rent + serviceCharges,
+          eligibleRent,
+          shortfall: Math.max(0, (rent + serviceCharges) - lhaMonthly),
+          ...allRates
+        }
+      };
     } else {
       // Social housing - simplified calculation
-      return rent + serviceCharges;
+      return { amount: rent + serviceCharges, lhaDetails: null };
     }
   }
 
@@ -595,7 +644,8 @@ export class UniversalCreditCalculator {
         capitalDeduction: results.calculation.capitalDeduction,
         benefitDeduction: results.calculation.benefitDeduction,
         finalAmount: results.calculation.finalAmount,
-        warnings: results.warnings || []
+        warnings: results.warnings || [],
+        lhaDetails: results.calculation.lhaDetails || null
       },
       calculationDetails: {
         workAllowance: results.calculation.workAllowance || 0,
