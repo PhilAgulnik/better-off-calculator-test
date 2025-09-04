@@ -128,19 +128,23 @@ export const getLHARate = (brma, bedroomEntitlement) => {
   // Use real data from JSON file if available, otherwise fall back to hardcoded rates
   const rates = lhaRatesData[brma] || lhaRates2025_26[brma] || lhaRates2025_26['Default'];
   
+  // Rates from JSON file are already monthly amounts from GOV.UK CSV data
+  // For hardcoded rates (fallback), convert from weekly to monthly
+  const isFromJSON = lhaRatesData[brma];
+  
   switch (bedroomEntitlement) {
     case 'shared':
-      return rates.shared;
+      return isFromJSON ? rates.shared : convertLHAToMonthly(rates.shared);
     case 1:
-      return rates['1bed'];
+      return isFromJSON ? rates['1bed'] : convertLHAToMonthly(rates['1bed']);
     case 2:
-      return rates['2bed'];
+      return isFromJSON ? rates['2bed'] : convertLHAToMonthly(rates['2bed']);
     case 3:
-      return rates['3bed'];
+      return isFromJSON ? rates['3bed'] : convertLHAToMonthly(rates['3bed']);
     case 4:
-      return rates['4bed'];
+      return isFromJSON ? rates['4bed'] : convertLHAToMonthly(rates['4bed']);
     default:
-      return rates['1bed']; // Default to 1 bedroom rate
+      return isFromJSON ? rates['1bed'] : convertLHAToMonthly(rates['1bed']); // Default to 1 bedroom rate
   }
 };
 
@@ -148,12 +152,14 @@ export const getLHARate = (brma, bedroomEntitlement) => {
 export const getAllLHARates = (brma) => {
   const rates = lhaRatesData[brma] || lhaRates2025_26[brma] || lhaRates2025_26['Default'];
   
+  // Rates from JSON file are already monthly amounts from GOV.UK CSV data
+  // No conversion needed
   return {
-    sharedRate: convertLHAToMonthly(rates.shared),
-    oneBedRate: convertLHAToMonthly(rates['1bed']),
-    twoBedRate: convertLHAToMonthly(rates['2bed']),
-    threeBedRate: convertLHAToMonthly(rates['3bed']),
-    fourBedRate: convertLHAToMonthly(rates['4bed'])
+    sharedRate: rates.shared,
+    oneBedRate: rates['1bed'],
+    twoBedRate: rates['2bed'],
+    threeBedRate: rates['3bed'],
+    fourBedRate: rates['4bed']
   };
 };
 
