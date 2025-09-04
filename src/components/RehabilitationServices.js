@@ -86,6 +86,24 @@ function RehabilitationServices() {
           </p>
         </div>
 
+        <div className="adviser-section">
+          <div className="adviser-card">
+            <div className="coming-soon-graphic">
+              <span className="coming-soon-icon">🚧</span>
+              <span className="coming-soon-text">Coming Soon</span>
+            </div>
+            <h3>For Advisers</h3>
+            <p>
+              Supporting someone through rehabilitation? We have special tools and resources to help you 
+              provide the best support possible.
+            </p>
+            <div className="adviser-actions">
+              <button className="btn btn-secondary">Adviser Dashboard</button>
+              <button className="btn btn-outline">Training Resources</button>
+            </div>
+          </div>
+        </div>
+
         <div className="services-grid">
           {services.map((service) => (
             <div key={service.id} className="service-card">
@@ -106,20 +124,6 @@ function RehabilitationServices() {
               )}
             </div>
           ))}
-        </div>
-
-        <div className="adviser-section">
-          <div className="adviser-card">
-            <h3>For Advisers</h3>
-            <p>
-              Supporting someone through rehabilitation? We have special tools and resources to help you 
-              provide the best support possible.
-            </p>
-            <div className="adviser-actions">
-              <button className="btn btn-secondary">Adviser Dashboard</button>
-              <button className="btn btn-outline">Training Resources</button>
-            </div>
-          </div>
         </div>
       </div>
     </div>

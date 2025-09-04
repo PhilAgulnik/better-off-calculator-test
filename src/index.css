@@ -3733,6 +3733,33 @@ body {
     padding: var(--spacing-6);
     border-radius: var(--radius-lg);
     text-align: center;
+    position: relative;
+}
+
+.coming-soon-graphic {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff6b6b;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.coming-soon-icon {
+    font-size: 1rem;
+}
+
+.coming-soon-text {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .adviser-card h3 {
