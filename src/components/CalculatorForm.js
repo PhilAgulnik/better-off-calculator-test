@@ -303,7 +303,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 <option key={name} value={name}>{name}</option>
               ))}
             </select>
-            <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap. You can also find out about rent levels and LHA rates in other areas using our affordability map.</small>
+            <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap. You can also find out about rent levels and LHA rates in other areas using our <a href="/affordability-map" target="_blank" rel="noopener noreferrer">affordability map</a>.</small>
         </div>
         )}
           </>

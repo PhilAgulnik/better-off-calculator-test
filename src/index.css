@@ -261,9 +261,21 @@ body {
 }
 
 .form-control:disabled {
-    background-color: #f3f2f1;
-    color: #6f777b;
-    cursor: not-allowed;
+  background-color: #f3f2f1;
+  color: #6f777b;
+  cursor: not-allowed;
+}
+
+/* Form text links */
+.form-text a {
+  color: var(--primary-color);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.form-text a:hover {
+  color: var(--primary-color-dark);
+  text-decoration: none;
 }
 
 /* Form Toggle Styles */
