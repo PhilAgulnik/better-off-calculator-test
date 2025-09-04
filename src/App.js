@@ -5,6 +5,7 @@ import SelfEmploymentAccounts from './components/SelfEmploymentAccounts';
 import SelfAssessmentTaxForm from './components/SelfAssessmentTaxForm';
 import MonthlyProfitTool from './features/monthly-profit/MonthlyProfitTool';
 import RehabilitationServices from './components/RehabilitationServices';
+import AffordabilityMap from './components/AffordabilityMap';
 import BudgetingTool from './features/budgeting-tool/EnhancedBudgetingTool'; // Updated to use enhanced version
 import RehabilitationCalculator from './components/RehabilitationCalculator';
 import BudgetingToolAdmin from './features/budgeting-tool/BudgetingToolAdmin';
@@ -38,6 +39,7 @@ function App() {
         <Route path="/self-assessment-tax-form" element={<SelfAssessmentTaxForm />} />
         <Route path="/monthly-profit" element={<MonthlyProfitTool />} />
         <Route path="/rehabilitation-services" element={<RehabilitationServices />} />
+        <Route path="/affordability-map" element={<AffordabilityMap />} />
         <Route path="/budgeting-tool" element={<BudgetingTool />} /> {/* Now uses enhanced version */}
         <Route path="/budgeting-tool-admin" element={<BudgetingToolAdmin />} />
         <Route path="/rehabilitation-calculator" element={<RehabilitationCalculator />} />

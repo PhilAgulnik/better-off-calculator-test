@@ -32,10 +32,10 @@ function RehabilitationServices() {
     {
       id: 'finding-home',
       title: 'Finding a Home',
-      description: 'Get support with housing options and accommodation when you leave prison.',
+      description: 'Find out about rent levels and benefits using our affordability map',
       icon: '🏠',
-      link: '/rehabilitation-services/finding-home',
-      comingSoon: true
+      link: '/affordability-map',
+      comingSoon: false
     },
     {
       id: 'employment-support',

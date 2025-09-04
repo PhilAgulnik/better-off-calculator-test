@@ -1421,6 +1421,105 @@ body {
   min-width: 120px;
 }
 
+/* Affordability Map Styles */
+.affordability-map {
+  min-height: 100vh;
+  background: var(--background-color);
+}
+
+.map-section {
+  margin: var(--spacing-8) 0;
+}
+
+.map-container {
+  text-align: center;
+  margin-bottom: var(--spacing-6);
+}
+
+.affordability-map-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-legend {
+  background: white;
+  padding: var(--spacing-6);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: var(--spacing-6);
+}
+
+.map-legend h3 {
+  margin-bottom: var(--spacing-4);
+  color: var(--primary-color);
+}
+
+.legend-items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.legend-color.green {
+  background-color: #28a745;
+}
+
+.legend-color.orange {
+  background-color: #fd7e14;
+}
+
+.legend-color.red {
+  background-color: #dc3545;
+}
+
+.map-info {
+  margin: var(--spacing-8) 0;
+}
+
+.map-info h2 {
+  text-align: center;
+  margin-bottom: var(--spacing-6);
+  color: var(--primary-color);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.info-card {
+  background: white;
+  padding: var(--spacing-6);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  margin-bottom: var(--spacing-3);
+  color: var(--primary-color);
+}
+
+.back-to-services {
+  text-align: center;
+  margin: var(--spacing-8) 0;
+}
+
 /* Costs Section Styles */
 .costs-section {
     margin-top: var(--spacing-6);
