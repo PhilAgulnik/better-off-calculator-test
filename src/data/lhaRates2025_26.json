@@ -28,11 +28,11 @@
     "4bed": 1850
   },
   "Bath": {
-    "shared": 85,
-    "1bed": 160,
-    "2bed": 230,
-    "3bed": 300,
-    "4bed": 380
+    "shared": 540,
+    "1bed": 815,
+    "2bed": 980,
+    "3bed": 1200,
+    "4bed": 1945
   },
   "Bournemouth": {
     "shared": 426.33,
@@ -56,11 +56,11 @@
     "4bed": 1250
   },
   "Derby": {
-    "shared": 70,
-    "1bed": 130,
-    "2bed": 200,
-    "3bed": 270,
-    "4bed": 350
+    "shared": 359.83,
+    "1bed": 450,
+    "2bed": 595,
+    "3bed": 700,
+    "4bed": 935
   },
   "Ipswich": {
     "shared": 366.5,
@@ -70,11 +70,11 @@
     "4bed": 1100
   },
   "Leicester": {
-    "shared": 76,
-    "1bed": 145,
-    "2bed": 215,
-    "3bed": 285,
-    "4bed": 365
+    "shared": 395.42,
+    "1bed": 540,
+    "2bed": 650,
+    "3bed": 775,
+    "4bed": 1050
   },
   "Lincoln": {
     "shared": 354.14,
@@ -84,11 +84,11 @@
     "4bed": 925
   },
   "Nottingham": {
-    "shared": 78,
-    "1bed": 150,
-    "2bed": 220,
-    "3bed": 290,
-    "4bed": 370
+    "shared": 380,
+    "1bed": 550,
+    "2bed": 650,
+    "3bed": 750,
+    "4bed": 970
   },
   "Plymouth": {
     "shared": 400,
@@ -126,11 +126,11 @@
     "4bed": 775
   },
   "York": {
-    "shared": 82,
-    "1bed": 155,
-    "2bed": 225,
-    "3bed": 295,
-    "4bed": 375
+    "shared": 417.67,
+    "1bed": 675,
+    "2bed": 775,
+    "3bed": 825,
+    "4bed": 1200
   },
   "Central London": {
     "shared": 829.83,
@@ -238,39 +238,39 @@
     "4bed": 1975
   },
   "Brighton": {
-    "shared": 95,
-    "1bed": 180,
-    "2bed": 250,
-    "3bed": 320,
-    "4bed": 400
+    "shared": 550,
+    "1bed": 900,
+    "2bed": 1200,
+    "3bed": 1400,
+    "4bed": 1800
   },
   "Oxford": {
-    "shared": 90,
-    "1bed": 170,
-    "2bed": 240,
-    "3bed": 310,
-    "4bed": 390
+    "shared": 550.02,
+    "1bed": 899.99,
+    "2bed": 1124.98,
+    "3bed": 1324.99,
+    "4bed": 1750
   },
   "Cambridge": {
-    "shared": 88,
-    "1bed": 165,
-    "2bed": 235,
-    "3bed": 305,
-    "4bed": 385
+    "shared": 500,
+    "1bed": 850,
+    "2bed": 1100,
+    "3bed": 1300,
+    "4bed": 1700
   },
   "Coventry": {
-    "shared": 74,
-    "1bed": 140,
-    "2bed": 210,
-    "3bed": 280,
-    "4bed": 360
+    "shared": 400,
+    "1bed": 600,
+    "2bed": 750,
+    "3bed": 900,
+    "4bed": 1200
   },
   "Stoke": {
-    "shared": 72,
-    "1bed": 135,
-    "2bed": 205,
-    "3bed": 275,
-    "4bed": 355
+    "shared": 350,
+    "1bed": 500,
+    "2bed": 650,
+    "3bed": 800,
+    "4bed": 1000
   },
   "West Lothian": {
     "shared": 410,
@@ -553,10 +553,10 @@
     "4bed": 880
   },
   "Default": {
-    "shared": 75,
-    "1bed": 140,
-    "2bed": 200,
-    "3bed": 270,
-    "4bed": 350
+    "shared": 400,
+    "1bed": 600,
+    "2bed": 750,
+    "3bed": 900,
+    "4bed": 1200
   }
 }

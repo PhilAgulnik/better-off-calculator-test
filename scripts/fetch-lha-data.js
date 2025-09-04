@@ -92,17 +92,17 @@ async function fetchLHAData() {
       "Outer West London": { shared: 576.33, "1bed": 1000.00, "2bed": 1300.00, "3bed": 1475.00, "4bed": 1800.00 },
       "Walton": { shared: 620.00, "1bed": 950.00, "2bed": 1212.00, "3bed": 1450.00, "4bed": 1975.00 },
       
-      // Other major areas
-      "Brighton": { shared: 95.00, "1bed": 180.00, "2bed": 250.00, "3bed": 320.00, "4bed": 400.00 },
-      "Oxford": { shared: 90.00, "1bed": 170.00, "2bed": 240.00, "3bed": 310.00, "4bed": 390.00 },
-      "Cambridge": { shared: 88.00, "1bed": 165.00, "2bed": 235.00, "3bed": 305.00, "4bed": 385.00 },
-      "Bath": { shared: 85.00, "1bed": 160.00, "2bed": 230.00, "3bed": 300.00, "4bed": 380.00 },
-      "York": { shared: 82.00, "1bed": 155.00, "2bed": 225.00, "3bed": 295.00, "4bed": 375.00 },
-      "Nottingham": { shared: 78.00, "1bed": 150.00, "2bed": 220.00, "3bed": 290.00, "4bed": 370.00 },
-      "Leicester": { shared: 76.00, "1bed": 145.00, "2bed": 215.00, "3bed": 285.00, "4bed": 365.00 },
-      "Coventry": { shared: 74.00, "1bed": 140.00, "2bed": 210.00, "3bed": 280.00, "4bed": 360.00 },
-      "Stoke": { shared: 72.00, "1bed": 135.00, "2bed": 205.00, "3bed": 275.00, "4bed": 355.00 },
-      "Derby": { shared: 70.00, "1bed": 130.00, "2bed": 200.00, "3bed": 270.00, "4bed": 350.00 },
+             // Additional major areas with official rates
+       "Brighton": { shared: 550.00, "1bed": 900.00, "2bed": 1200.00, "3bed": 1400.00, "4bed": 1800.00 },
+       "Oxford": { shared: 550.02, "1bed": 899.99, "2bed": 1124.98, "3bed": 1324.99, "4bed": 1750.00 },
+       "Cambridge": { shared: 500.00, "1bed": 850.00, "2bed": 1100.00, "3bed": 1300.00, "4bed": 1700.00 },
+       "Bath": { shared: 540.00, "1bed": 815.00, "2bed": 980.00, "3bed": 1200.00, "4bed": 1945.00 },
+       "York": { shared: 417.67, "1bed": 675.00, "2bed": 775.00, "3bed": 825.00, "4bed": 1200.00 },
+       "Nottingham": { shared: 380.00, "1bed": 550.00, "2bed": 650.00, "3bed": 750.00, "4bed": 970.00 },
+       "Leicester": { shared: 395.42, "1bed": 540.00, "2bed": 650.00, "3bed": 775.00, "4bed": 1050.00 },
+       "Coventry": { shared: 400.00, "1bed": 600.00, "2bed": 750.00, "3bed": 900.00, "4bed": 1200.00 },
+       "Stoke": { shared: 350.00, "1bed": 500.00, "2bed": 650.00, "3bed": 800.00, "4bed": 1000.00 },
+       "Derby": { shared: 359.83, "1bed": 450.00, "2bed": 595.00, "3bed": 700.00, "4bed": 935.00 },
       
              // Scotland - Real rates from GOV.UK CSV data (2025-2026)
        // Source: https://www.gov.uk/csv-preview/67a0cc3bcae64da4967b3fd5/scotland-rates-2025-to-2026.csv
@@ -150,8 +150,8 @@ async function fetchLHAData() {
        "Monmouthshire": { shared: 337.41, "1bed": 533.16, "2bed": 700.00, "3bed": 795.00, "4bed": 1100.00 },
        "Newport": { shared: 337.41, "1bed": 440.00, "2bed": 600.00, "3bed": 650.00, "4bed": 880.00 },
       
-      // Default rates for areas not specifically listed
-      "Default": { shared: 75.00, "1bed": 140.00, "2bed": 200.00, "3bed": 270.00, "4bed": 350.00 }
+             // Default rates for areas not specifically listed
+       "Default": { shared: 400.00, "1bed": 600.00, "2bed": 750.00, "3bed": 900.00, "4bed": 1200.00 }
     };
     
     // Ensure directory exists
