@@ -104,15 +104,51 @@ async function fetchLHAData() {
       "Stoke": { shared: 72.00, "1bed": 135.00, "2bed": 205.00, "3bed": 275.00, "4bed": 355.00 },
       "Derby": { shared: 70.00, "1bed": 130.00, "2bed": 200.00, "3bed": 270.00, "4bed": 350.00 },
       
-      // Scotland
-      "Edinburgh": { shared: 415.01, "1bed": 459.99, "2bed": 650.00, "3bed": 800.00, "4bed": 1300.01 },
-      "Glasgow": { shared: 449.99, "1bed": 695.02, "2bed": 850.02, "3bed": 969.99, "4bed": 1800.01 },
-      "Aberdeen": { shared: 380.00, "1bed": 420.00, "2bed": 580.00, "3bed": 720.00, "4bed": 1100.00 },
-      
-      // Wales
-      "Cardiff": { shared: 366.09, "1bed": 650.00, "2bed": 824.99, "3bed": 925.01, "4bed": 1300.01 },
-      "Swansea": { shared: 320.00, "1bed": 580.00, "2bed": 750.00, "3bed": 850.00, "4bed": 1200.00 },
-      "Newport": { shared: 340.00, "1bed": 600.00, "2bed": 780.00, "3bed": 880.00, "4bed": 1250.00 },
+             // Scotland - Real rates from GOV.UK CSV data (2025-2026)
+       // Source: https://www.gov.uk/csv-preview/67a0cc3bcae64da4967b3fd5/scotland-rates-2025-to-2026.csv
+       "West Lothian": { shared: 410.00, "1bed": 500.00, "2bed": 625.00, "3bed": 750.00, "4bed": 1112.50 },
+       "Scottish Borders": { shared: 325.00, "1bed": 375.00, "2bed": 500.00, "3bed": 615.00, "4bed": 985.00 },
+       "Lothian": { shared: 475.00, "1bed": 750.00, "2bed": 970.00, "3bed": 1375.00, "4bed": 2180.00 },
+       "Fife": { shared: 375.00, "1bed": 450.00, "2bed": 590.00, "3bed": 715.00, "4bed": 1250.00 },
+       "Highland and Islands": { shared: 380.00, "1bed": 475.00, "2bed": 595.00, "3bed": 695.00, "4bed": 850.00 },
+       "Aberdeen and Shire": { shared: 325.00, "1bed": 475.00, "2bed": 650.00, "3bed": 860.00, "4bed": 1250.00 },
+       "Perth and Kinross": { shared: 359.17, "1bed": 425.00, "2bed": 560.00, "3bed": 750.00, "4bed": 1250.00 },
+       "Dundee and Angus": { shared: 375.00, "1bed": 400.00, "2bed": 615.00, "3bed": 795.00, "4bed": 1100.00 },
+       "Argyll and Bute": { shared: 350.00, "1bed": 450.00, "2bed": 600.00, "3bed": 695.00, "4bed": 1200.00 },
+       "West Dunbartonshire": { shared: 350.00, "1bed": 475.00, "2bed": 595.00, "3bed": 675.00, "4bed": 950.00 },
+       "East Dunbartonshire": { shared: 425.00, "1bed": 550.00, "2bed": 750.00, "3bed": 1000.00, "4bed": 1400.00 },
+       "North Lanarkshire": { shared: 375.00, "1bed": 440.00, "2bed": 550.00, "3bed": 675.00, "4bed": 895.00 },
+       "South Lanarkshire": { shared: 375.00, "1bed": 450.00, "2bed": 575.00, "3bed": 715.84, "4bed": 1107.00 },
+       "Forth Valley": { shared: 415.00, "1bed": 460.00, "2bed": 650.00, "3bed": 800.00, "4bed": 1300.00 },
+       "Ayrshires": { shared: 375.00, "1bed": 375.00, "2bed": 475.00, "3bed": 564.88, "4bed": 800.00 },
+       "Renfrewshire/ Inverclyde": { shared: 360.00, "1bed": 400.00, "2bed": 525.00, "3bed": 600.00, "4bed": 1100.00 },
+       "Greater Glasgow": { shared: 450.00, "1bed": 695.00, "2bed": 850.00, "3bed": 970.00, "4bed": 1800.00 },
+       "Dumfries and Galloway": { shared: 335.00, "1bed": 380.00, "2bed": 450.00, "3bed": 500.00, "4bed": 690.00 },
+       
+       // Wales - Real rates from GOV.UK CSV data (2025-2026)
+       // Source: https://www.gov.uk/csv-preview/67a0cd47cae64da4967b3fd7/wales-rates-2025-to-2026.csv
+       "Anglesey": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Gwynedd": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Conwy": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Denbighshire": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Flintshire": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Wrexham": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Powys": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Ceredigion": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Pembrokeshire": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Carmarthenshire": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Swansea": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Neath Port Talbot": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Bridgend": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Vale of Glamorgan": { shared: 300.00, "1bed": 525.77, "2bed": 666.00, "3bed": 725.00, "4bed": 1025.00 },
+       "Cardiff": { shared: 366.10, "1bed": 650.00, "2bed": 825.00, "3bed": 925.00, "4bed": 1300.00 },
+       "Rhondda Cynon Taf": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Merthyr Tydfil": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Caerphilly": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Blaenau Gwent": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Torfaen": { shared: 325.00, "1bed": 400.00, "2bed": 500.00, "3bed": 600.00, "4bed": 800.00 },
+       "Monmouthshire": { shared: 337.41, "1bed": 533.16, "2bed": 700.00, "3bed": 795.00, "4bed": 1100.00 },
+       "Newport": { shared: 337.41, "1bed": 440.00, "2bed": 600.00, "3bed": 650.00, "4bed": 880.00 },
       
       // Default rates for areas not specifically listed
       "Default": { shared: 75.00, "1bed": 140.00, "2bed": 200.00, "3bed": 270.00, "4bed": 350.00 }
