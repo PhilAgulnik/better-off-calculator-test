@@ -11,6 +11,7 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
   const [mifGracePeriod, setMifGracePeriod] = useState('');
   const [mifGainful, setMifGainful] = useState('');
   const [claimantHours, setClaimantHours] = useState(35);
+  const [showLhaPanel, setShowLhaPanel] = useState(false);
 
   // Save benefit calculator data for budgeting tool
   useEffect(() => {
@@ -201,45 +202,52 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
         {/* Local Housing Allowance Panel for Private Tenants */}
         {formData && formData.tenantType === 'private' && calculation.lhaDetails && (
           <div className="lha-panel">
-            <h3>Local Housing Allowance</h3>
-            <div className="lha-details">
-              <div className="lha-row">
-                <span className="lha-label">Broad Rental Market Area:</span>
-                <span className="lha-value">{calculation.lhaDetails.brma}</span>
-              </div>
-              <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 'shared' ? 'highlighted' : ''}`}>
-                <span className="lha-label">Shared room LHA rate:</span>
-                <span className="lha-value">{formatCurrency(calculation.lhaDetails.sharedRate || 0)}</span>
-              </div>
-              <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 1 ? 'highlighted' : ''}`}>
-                <span className="lha-label">1 bedroom LHA rate:</span>
-                <span className="lha-value">{formatCurrency(calculation.lhaDetails.oneBedRate || 0)}</span>
-              </div>
-              <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 2 ? 'highlighted' : ''}`}>
-                <span className="lha-label">2 bedroom LHA rate:</span>
-                <span className="lha-value">{formatCurrency(calculation.lhaDetails.twoBedRate || 0)}</span>
-              </div>
-              <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 3 ? 'highlighted' : ''}`}>
-                <span className="lha-label">3 bedroom LHA rate:</span>
-                <span className="lha-value">{formatCurrency(calculation.lhaDetails.threeBedRate || 0)}</span>
-              </div>
-              <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 4 ? 'highlighted' : ''}`}>
-                <span className="lha-label">4 bedroom LHA rate:</span>
-                <span className="lha-value">{formatCurrency(calculation.lhaDetails.fourBedRate || 0)}</span>
-              </div>
-              <div className="lha-row">
-                <span className="lha-label">Your bedroom entitlement:</span>
-                <span className="lha-value">{calculation.lhaDetails.bedroomEntitlement}</span>
-              </div>
-              <div className="lha-row">
-                <span className="lha-label">Relevant LHA rate:</span>
-                <span className="lha-value">{formatCurrency(calculation.lhaDetails.lhaMonthly)}</span>
-              </div>
-              <div className="lha-row">
-                <span className="lha-label">Current rent amount:</span>
-                <span className="lha-value">{formatCurrency(calculation.lhaDetails.actualRent)} / Monthly</span>
-              </div>
+            <div className="lha-header" onClick={() => setShowLhaPanel(!showLhaPanel)}>
+              <h3>Local Housing Allowance</h3>
+              <button className="lha-toggle-btn" type="button">
+                {showLhaPanel ? '−' : '+'}
+              </button>
             </div>
+            {showLhaPanel && (
+              <div className="lha-details">
+                <div className="lha-row">
+                  <span className="lha-label">Broad Rental Market Area:</span>
+                  <span className="lha-value">{calculation.lhaDetails.brma}</span>
+                </div>
+                <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 'shared' ? 'highlighted' : ''}`}>
+                  <span className="lha-label">Shared room LHA rate:</span>
+                  <span className="lha-value">{formatCurrency(calculation.lhaDetails.sharedRate || 0)}</span>
+                </div>
+                <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 1 ? 'highlighted' : ''}`}>
+                  <span className="lha-label">1 bedroom LHA rate:</span>
+                  <span className="lha-value">{formatCurrency(calculation.lhaDetails.oneBedRate || 0)}</span>
+                </div>
+                <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 2 ? 'highlighted' : ''}`}>
+                  <span className="lha-label">2 bedroom LHA rate:</span>
+                  <span className="lha-value">{formatCurrency(calculation.lhaDetails.twoBedRate || 0)}</span>
+                </div>
+                <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 3 ? 'highlighted' : ''}`}>
+                  <span className="lha-label">3 bedroom LHA rate:</span>
+                  <span className="lha-value">{formatCurrency(calculation.lhaDetails.threeBedRate || 0)}</span>
+                </div>
+                <div className={`lha-row ${calculation.lhaDetails.bedroomEntitlement === 4 ? 'highlighted' : ''}`}>
+                  <span className="lha-label">4 bedroom LHA rate:</span>
+                  <span className="lha-value">{formatCurrency(calculation.lhaDetails.fourBedRate || 0)}</span>
+                </div>
+                <div className="lha-row">
+                  <span className="lha-label">Your bedroom entitlement:</span>
+                  <span className="lha-value">{calculation.lhaDetails.bedroomEntitlement}</span>
+                </div>
+                <div className="lha-row">
+                  <span className="lha-label">Relevant LHA rate:</span>
+                  <span className="lha-value">{formatCurrency(calculation.lhaDetails.lhaMonthly)}</span>
+                </div>
+                <div className="lha-row">
+                  <span className="lha-label">Current rent amount:</span>
+                  <span className="lha-value">{formatCurrency(calculation.lhaDetails.actualRent)} / Monthly</span>
+                </div>
+              </div>
+            )}
           </div>
         )}
 

@@ -219,23 +219,23 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               <input 
                 type="radio" 
                 name="tenantType" 
-                value="private" 
-                checked={formData.tenantType === 'private'}
-                onChange={(e) => handleInputChange('tenantType', e.target.value)}
-              />
-              <span className="radio-custom"></span>
-              Private Tenant
-            </label>
-            <label className="radio-label">
-              <input 
-                type="radio" 
-                name="tenantType" 
                 value="social" 
                 checked={formData.tenantType === 'social'}
                 onChange={(e) => handleInputChange('tenantType', e.target.value)}
               />
               <span className="radio-custom"></span>
               Social Housing
+            </label>
+            <label className="radio-label">
+              <input 
+                type="radio" 
+                name="tenantType" 
+                value="private" 
+                checked={formData.tenantType === 'private'}
+                onChange={(e) => handleInputChange('tenantType', e.target.value)}
+              />
+              <span className="radio-custom"></span>
+              Private Tenant
             </label>
           </div>
         </div>
@@ -2399,24 +2399,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           </>
         )}
 
-        {/* BRMA selection for private tenants */}
-        {formData.housingStatus === 'renting' && formData.tenantType === 'private' && (
-          <div className="form-group">
-            <label htmlFor="brma">Are you live in</label>
-            <select
-              id="brma"
-              className="form-control"
-              value={formData.brma || ''}
-              onChange={(e) => handleInputChange('brma', e.target.value)}
-            >
-              <option value="">Select your area</option>
-              {getBRMANames().map(name => (
-                <option key={name} value={name}>{name}</option>
-              ))}
-            </select>
-            <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap.</small>
-          </div>
-        )}
 
         {/* Action Buttons */}
         <div className="button-group">
