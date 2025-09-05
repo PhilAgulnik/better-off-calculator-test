@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
   getStandardAmountsConfig,
   getCompulsoryFieldsConfig,
+  getHousingReviewsConfig,
   isFieldCompulsory,
   getCompulsoryFieldNames,
   fieldDefinitions
@@ -14,6 +15,12 @@ import {
   waterCompanies,
   getWaterBillByCompany
 } from './onsDataService';
+import {
+  housingReviewTypes,
+  getHousingReviewAmounts,
+  getHousingReviewDataSourceInfo,
+  applyHousingReviewAmounts
+} from './housingReviewsDataService';
 
 function EnhancedBudgetingTool() {
   const [budgetData, setBudgetData] = useState({
@@ -46,6 +53,7 @@ function EnhancedBudgetingTool() {
   const [validationErrors, setValidationErrors] = useState({});
   const [config, setConfig] = useState({
     standardAmounts: getStandardAmountsConfig(),
+    housingReviews: getHousingReviewsConfig(),
     compulsoryFields: getCompulsoryFieldsConfig()
   });
   const [selectedWaterCompany, setSelectedWaterCompany] = useState('');
@@ -112,20 +120,33 @@ function EnhancedBudgetingTool() {
   };
 
   const handlePreFill = () => {
-    const onsData = getONSData(selectedHouseholdType);
-    if (onsData) {
-      setBudgetData(prev => ({
-        income: {
-          ...prev.income,
-          // Don't pre-fill income fields as they're more personal
-        },
-        outgoings: {
-          ...prev.outgoings,
-          ...onsData
-        }
-      }));
-      setShowPreFillModal(false);
+    let preFillData = {};
+    
+    if (config.standardAmounts.source === 'housing-reviews') {
+      // Use Housing Reviews standard amounts
+      const monthlyIncome = parseFloat(budgetData.income.wages) || 0;
+      preFillData = applyHousingReviewAmounts(budgetData, selectedHouseholdType, monthlyIncome);
+    } else {
+      // Use ONS data (default)
+      const onsData = getONSData(selectedHouseholdType);
+      if (onsData) {
+        preFillData = {
+          income: {
+            ...budgetData.income,
+            // Don't pre-fill income fields as they're more personal
+          },
+          outgoings: {
+            ...budgetData.outgoings,
+            ...onsData
+          }
+        };
+      }
     }
+    
+    if (Object.keys(preFillData).length > 0) {
+      setBudgetData(preFillData);
+    }
+    setShowPreFillModal(false);
   };
 
   const handleWaterCompanyChange = (companyKey) => {
@@ -532,8 +553,29 @@ function EnhancedBudgetingTool() {
         <div className="modal-overlay">
           <div className="modal">
             <h3>Pre-fill with Standard Amounts</h3>
-            <p>Select your household type to pre-fill the budget with standard amounts based on ONS data.</p>
+            <p>Select your household type to pre-fill the budget with standard amounts.</p>
             <div className="modal-content">
+              <label htmlFor="dataSource">Data Source:</label>
+              <select 
+                id="dataSource" 
+                value={config.standardAmounts.source} 
+                onChange={(e) => {
+                  const newConfig = { ...config };
+                  newConfig.standardAmounts.source = e.target.value;
+                  setConfig(newConfig);
+                  // Reset household type when changing source
+                  if (e.target.value === 'housing-reviews') {
+                    setSelectedHouseholdType('single-person');
+                  } else {
+                    setSelectedHouseholdType('middle-income-decile-5');
+                  }
+                }}
+                className="form-control"
+              >
+                <option value="ons">ONS Data</option>
+                <option value="housing-reviews">Housing Reviews Standard Amounts</option>
+              </select>
+              
               <label htmlFor="householdType">Household Type:</label>
               <select 
                 id="householdType" 
@@ -541,14 +583,29 @@ function EnhancedBudgetingTool() {
                 onChange={(e) => setSelectedHouseholdType(e.target.value)}
                 className="form-control"
               >
-                {Object.entries(householdTypes).map(([key, label]) => (
-                  <option key={key} value={key}>{label}</option>
-                ))}
+                {config.standardAmounts.source === 'housing-reviews' 
+                  ? Object.entries(housingReviewTypes).map(([key, label]) => (
+                      <option key={key} value={key}>{label}</option>
+                    ))
+                  : Object.entries(householdTypes).map(([key, label]) => (
+                      <option key={key} value={key}>{label}</option>
+                    ))
+                }
               </select>
+              
               <div className="data-source-info">
-                <p><strong>Data Source:</strong> {dataSourceInfo.source}</p>
-                <p><strong>Last Updated:</strong> {dataSourceInfo.lastUpdated}</p>
-                <p><strong>Disclaimer:</strong> {dataSourceInfo.disclaimer}</p>
+                {config.standardAmounts.source === 'housing-reviews' ? (
+                  <>
+                    <p><strong>Data Source:</strong> Housing Reviews Assessing Affordability Guidance</p>
+                    <p><strong>Note:</strong> These are typical affordability standards used in housing reviews. Rent amounts are calculated based on income (typically 30% of income).</p>
+                  </>
+                ) : (
+                  <>
+                    <p><strong>Data Source:</strong> {dataSourceInfo.source}</p>
+                    <p><strong>Last Updated:</strong> {dataSourceInfo.lastUpdated}</p>
+                    <p><strong>Disclaimer:</strong> {dataSourceInfo.disclaimer}</p>
+                  </>
+                )}
               </div>
               <div className="modal-actions">
                 <button className="btn btn-primary" onClick={handlePreFill}>Pre-fill Budget</button>

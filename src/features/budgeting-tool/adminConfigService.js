@@ -7,6 +7,10 @@ const defaultConfig = {
     source: 'ons', // 'ons', 'housing-reviews', 'bespoke'
     selectedHouseholdType: 'middle-income-decile-5'
   },
+  housingReviews: {
+    enabled: false,
+    selectedHouseholdType: 'single-person'
+  },
   compulsoryFields: {
     // Income fields
     wages: false,
@@ -81,6 +85,12 @@ export const getStandardAmountsConfig = () => {
 export const getCompulsoryFieldsConfig = () => {
   const config = loadAdminConfig();
   return config.compulsoryFields;
+};
+
+// Get housing reviews configuration
+export const getHousingReviewsConfig = () => {
+  const config = loadAdminConfig();
+  return config.housingReviews;
 };
 
 // Check if a field is compulsory
