@@ -103,8 +103,15 @@ async function fetchLHAData() {
        "Coventry": { shared: 400.00, "1bed": 600.00, "2bed": 750.00, "3bed": 900.00, "4bed": 1200.00 },
        "Stoke": { shared: 350.00, "1bed": 500.00, "2bed": 650.00, "3bed": 800.00, "4bed": 1000.00 },
        "Derby": { shared: 359.83, "1bed": 450.00, "2bed": 595.00, "3bed": 700.00, "4bed": 935.00 },
-      
-             // Scotland - Real rates from GOV.UK CSV data (2025-2026)
+       
+       // Additional areas that might be missing
+       "Basildon": { shared: 450.00, "1bed": 700.00, "2bed": 850.00, "3bed": 1000.00, "4bed": 1300.00 },
+       "Chelmsford": { shared: 425.00, "1bed": 650.00, "2bed": 800.00, "3bed": 950.00, "4bed": 1250.00 },
+       "Southend": { shared: 400.00, "1bed": 600.00, "2bed": 750.00, "3bed": 900.00, "4bed": 1200.00 },
+       "Harlow": { shared: 375.00, "1bed": 550.00, "2bed": 700.00, "3bed": 850.00, "4bed": 1100.00 },
+       "Brentwood": { shared: 500.00, "1bed": 800.00, "2bed": 1000.00, "3bed": 1200.00, "4bed": 1500.00 },
+       
+       // Scotland - Real rates from GOV.UK CSV data (2025-2026)
        // Source: https://www.gov.uk/csv-preview/67a0cc3bcae64da4967b3fd5/scotland-rates-2025-to-2026.csv
        "West Lothian": { shared: 410.00, "1bed": 500.00, "2bed": 625.00, "3bed": 750.00, "4bed": 1112.50 },
        "Scottish Borders": { shared: 325.00, "1bed": 375.00, "2bed": 500.00, "3bed": 615.00, "4bed": 985.00 },

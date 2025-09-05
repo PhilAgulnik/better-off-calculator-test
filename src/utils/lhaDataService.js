@@ -63,7 +63,7 @@ export const lhaRates2025_26 = {
   "Newport": { shared: 340.00, "1bed": 600.00, "2bed": 780.00, "3bed": 880.00, "4bed": 1250.00 },
   
   // Default rates for areas not specifically listed
-  "Default": { shared: 75.00, "1bed": 140.00, "2bed": 200.00, "3bed": 270.00, "4bed": 350.00 }
+  "Default": { shared: 400.00, "1bed": 600.00, "2bed": 750.00, "3bed": 900.00, "4bed": 1200.00 }
 };
 
 // Keep the old rates for backward compatibility

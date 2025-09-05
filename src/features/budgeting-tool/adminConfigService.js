@@ -3,7 +3,7 @@
 // Default configuration
 const defaultConfig = {
   standardAmounts: {
-    enabled: false,
+    enabled: true,
     source: 'ons', // 'ons', 'housing-reviews', 'bespoke'
     selectedHouseholdType: 'middle-income-decile-5'
   },

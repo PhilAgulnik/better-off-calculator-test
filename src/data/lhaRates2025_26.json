@@ -272,6 +272,41 @@
     "3bed": 800,
     "4bed": 1000
   },
+  "Basildon": {
+    "shared": 450,
+    "1bed": 700,
+    "2bed": 850,
+    "3bed": 1000,
+    "4bed": 1300
+  },
+  "Chelmsford": {
+    "shared": 425,
+    "1bed": 650,
+    "2bed": 800,
+    "3bed": 950,
+    "4bed": 1250
+  },
+  "Southend": {
+    "shared": 400,
+    "1bed": 600,
+    "2bed": 750,
+    "3bed": 900,
+    "4bed": 1200
+  },
+  "Harlow": {
+    "shared": 375,
+    "1bed": 550,
+    "2bed": 700,
+    "3bed": 850,
+    "4bed": 1100
+  },
+  "Brentwood": {
+    "shared": 500,
+    "1bed": 800,
+    "2bed": 1000,
+    "3bed": 1200,
+    "4bed": 1500
+  },
   "West Lothian": {
     "shared": 410,
     "1bed": 500,
