@@ -17,7 +17,16 @@ const InvoicesAndReceipts = () => {
     description: '',
     amount: '',
     date: new Date().toISOString().split('T')[0],
-    status: 'draft'
+    status: 'draft',
+    invoiceImage: null,
+    template: 'professional',
+    businessName: '',
+    businessAddress: '',
+    businessEmail: '',
+    businessPhone: '',
+    taxNumber: '',
+    paymentTerms: '30 days',
+    notes: ''
   });
 
   // Load data from localStorage on component mount
@@ -69,46 +78,199 @@ const InvoicesAndReceipts = () => {
       description: '',
       amount: '',
       date: new Date().toISOString().split('T')[0],
-      status: 'draft'
+      status: 'draft',
+      invoiceImage: null,
+      template: 'professional',
+      businessName: '',
+      businessAddress: '',
+      businessEmail: '',
+      businessPhone: '',
+      taxNumber: '',
+      paymentTerms: '30 days',
+      notes: ''
     });
   };
 
-  // Generate PDF for invoice
+  // Generate professional PDF for invoice
   const generateInvoicePDF = (invoice) => {
     const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
     
-    // Header
-    doc.setFontSize(20);
-    doc.text('INVOICE', 20, 30);
+    // Colors
+    const primaryColor = [44, 62, 80]; // Dark blue
+    const accentColor = [52, 152, 219]; // Light blue
+    const lightGray = [245, 245, 245];
     
-    // Invoice details
+    // Header with gradient effect
+    doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+    doc.rect(0, 0, pageWidth, 50, 'F');
+    
+    // Business name and logo area
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text(invoice.businessName || 'Your Business Name', 20, 25);
+    
+    // Invoice title
+    doc.setFontSize(32);
+    doc.setFont('helvetica', 'bold');
+    doc.text('INVOICE', pageWidth - 60, 30);
+    
+    // Invoice details box
+    doc.setFillColor(lightGray[0], lightGray[1], lightGray[2]);
+    doc.rect(pageWidth - 80, 60, 70, 40, 'F');
+    
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Invoice #', pageWidth - 75, 70);
+    doc.setFont('helvetica', 'bold');
+    doc.text(invoice.id, pageWidth - 75, 78);
+    
+    doc.setFont('helvetica', 'normal');
+    doc.text('Date', pageWidth - 75, 88);
+    doc.setFont('helvetica', 'bold');
+    doc.text(invoice.date, pageWidth - 75, 96);
+    
+    // Business details
     doc.setFontSize(12);
-    doc.text(`Invoice #: ${invoice.id}`, 20, 50);
-    doc.text(`Date: ${invoice.date}`, 20, 60);
-    doc.text(`Status: ${invoice.status.toUpperCase()}`, 20, 70);
+    doc.setFont('helvetica', 'bold');
+    doc.text('From:', 20, 70);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    
+    let yPos = 78;
+    if (invoice.businessName) {
+      doc.text(invoice.businessName, 20, yPos);
+      yPos += 8;
+    }
+    if (invoice.businessAddress) {
+      const addressLines = invoice.businessAddress.split('\n');
+      addressLines.forEach((line, index) => {
+        doc.text(line, 20, yPos + (index * 6));
+      });
+      yPos += addressLines.length * 6 + 4;
+    }
+    if (invoice.businessEmail) {
+      doc.text(invoice.businessEmail, 20, yPos);
+      yPos += 6;
+    }
+    if (invoice.businessPhone) {
+      doc.text(invoice.businessPhone, 20, yPos);
+    }
     
     // Client details
-    doc.text('Bill To:', 20, 90);
-    doc.text(invoice.clientName, 20, 100);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Bill To:', 20, 120);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    
+    yPos = 128;
+    doc.text(invoice.clientName, 20, yPos);
+    yPos += 8;
+    
     if (invoice.clientEmail) {
-      doc.text(invoice.clientEmail, 20, 110);
+      doc.text(invoice.clientEmail, 20, yPos);
+      yPos += 6;
     }
+    
     if (invoice.clientAddress) {
       const addressLines = invoice.clientAddress.split('\n');
       addressLines.forEach((line, index) => {
-        doc.text(line, 20, 120 + (index * 10));
+        doc.text(line, 20, yPos + (index * 6));
+      });
+      yPos += addressLines.length * 6 + 8;
+    }
+    
+    // Line separator
+    doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
+    doc.setLineWidth(0.5);
+    doc.line(20, yPos, pageWidth - 20, yPos);
+    
+    // Items table header
+    yPos += 15;
+    doc.setFillColor(accentColor[0], accentColor[1], accentColor[2]);
+    doc.rect(20, yPos - 8, pageWidth - 40, 8, 'F');
+    
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Description', 25, yPos - 2);
+    doc.text('Amount', pageWidth - 45, yPos - 2);
+    
+    // Items
+    doc.setTextColor(0, 0, 0);
+    doc.setFont('helvetica', 'normal');
+    yPos += 5;
+    
+    // Description
+    const description = invoice.description || 'Services rendered';
+    const descriptionLines = doc.splitTextToSize(description, pageWidth - 80);
+    descriptionLines.forEach((line, index) => {
+      doc.text(line, 25, yPos + (index * 6));
+    });
+    
+    // Amount
+    const amount = `£${parseFloat(invoice.amount).toFixed(2)}`;
+    doc.setFont('helvetica', 'bold');
+    doc.text(amount, pageWidth - 45, yPos);
+    
+    // Total section
+    yPos += Math.max(descriptionLines.length * 6, 15) + 20;
+    
+    // Total box
+    doc.setFillColor(lightGray[0], lightGray[1], lightGray[2]);
+    doc.rect(pageWidth - 80, yPos, 60, 20, 'F');
+    
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Total', pageWidth - 75, yPos + 8);
+    doc.text(amount, pageWidth - 45, yPos + 8);
+    
+    // Payment terms
+    if (invoice.paymentTerms) {
+      yPos += 40;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Payment Terms: ${invoice.paymentTerms}`, 20, yPos);
+    }
+    
+    // Notes
+    if (invoice.notes) {
+      yPos += 15;
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Notes:', 20, yPos);
+      const notesLines = doc.splitTextToSize(invoice.notes, pageWidth - 40);
+      notesLines.forEach((line, index) => {
+        doc.text(line, 20, yPos + 8 + (index * 6));
       });
     }
     
-    // Description and amount
-    doc.text('Description:', 20, 160);
-    doc.text(invoice.description || 'Services rendered', 20, 170);
-    
-    doc.text('Amount:', 120, 190);
-    doc.text(`£${parseFloat(invoice.amount).toFixed(2)}`, 150, 190);
+    // Footer
+    const footerY = pageHeight - 20;
+    doc.setFontSize(8);
+    doc.setTextColor(128, 128, 128);
+    doc.text('Thank you for your business!', 20, footerY);
+    doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth - 60, footerY);
     
     // Save the PDF
     doc.save(`invoice-${invoice.id}.pdf`);
+  };
+
+  // Handle image upload for invoices
+  const handleInvoiceImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setNewInvoice({...newInvoice, invoiceImage: e.target.result});
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   // Handle file drop for receipts
@@ -210,72 +372,203 @@ const InvoicesAndReceipts = () => {
       {activeTab === 'invoices' && (
         <div className="invoices-tab">
           <div className="create-invoice-section">
-            <h3>Create New Invoice</h3>
+            <h3>Create Professional Invoice</h3>
             <div className="invoice-form">
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Client Name *</label>
-                  <input
-                    type="text"
-                    value={newInvoice.clientName}
-                    onChange={(e) => setNewInvoice({...newInvoice, clientName: e.target.value})}
-                    placeholder="Enter client name"
-                  />
+              {/* Business Information Section */}
+              <div className="form-section">
+                <h4>Your Business Information</h4>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Business Name *</label>
+                    <input
+                      type="text"
+                      value={newInvoice.businessName}
+                      onChange={(e) => setNewInvoice({...newInvoice, businessName: e.target.value})}
+                      placeholder="Your Business Name"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Business Email</label>
+                    <input
+                      type="email"
+                      value={newInvoice.businessEmail}
+                      onChange={(e) => setNewInvoice({...newInvoice, businessEmail: e.target.value})}
+                      placeholder="business@example.com"
+                    />
+                  </div>
                 </div>
+                
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Business Phone</label>
+                    <input
+                      type="tel"
+                      value={newInvoice.businessPhone}
+                      onChange={(e) => setNewInvoice({...newInvoice, businessPhone: e.target.value})}
+                      placeholder="+44 123 456 7890"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Tax/VAT Number</label>
+                    <input
+                      type="text"
+                      value={newInvoice.taxNumber}
+                      onChange={(e) => setNewInvoice({...newInvoice, taxNumber: e.target.value})}
+                      placeholder="GB123456789"
+                    />
+                  </div>
+                </div>
+                
                 <div className="form-group">
-                  <label>Amount *</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={newInvoice.amount}
-                    onChange={(e) => setNewInvoice({...newInvoice, amount: e.target.value})}
-                    placeholder="0.00"
+                  <label>Business Address</label>
+                  <textarea
+                    value={newInvoice.businessAddress}
+                    onChange={(e) => setNewInvoice({...newInvoice, businessAddress: e.target.value})}
+                    placeholder="Enter your business address"
+                    rows="3"
                   />
                 </div>
               </div>
-              
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Client Email</label>
-                  <input
-                    type="email"
-                    value={newInvoice.clientEmail}
-                    onChange={(e) => setNewInvoice({...newInvoice, clientEmail: e.target.value})}
-                    placeholder="client@example.com"
-                  />
+
+              {/* Client Information Section */}
+              <div className="form-section">
+                <h4>Client Information</h4>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Client Name *</label>
+                    <input
+                      type="text"
+                      value={newInvoice.clientName}
+                      onChange={(e) => setNewInvoice({...newInvoice, clientName: e.target.value})}
+                      placeholder="Enter client name"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Client Email</label>
+                    <input
+                      type="email"
+                      value={newInvoice.clientEmail}
+                      onChange={(e) => setNewInvoice({...newInvoice, clientEmail: e.target.value})}
+                      placeholder="client@example.com"
+                    />
+                  </div>
                 </div>
+                
                 <div className="form-group">
-                  <label>Date</label>
-                  <input
-                    type="date"
-                    value={newInvoice.date}
-                    onChange={(e) => setNewInvoice({...newInvoice, date: e.target.value})}
+                  <label>Client Address</label>
+                  <textarea
+                    value={newInvoice.clientAddress}
+                    onChange={(e) => setNewInvoice({...newInvoice, clientAddress: e.target.value})}
+                    placeholder="Enter client address"
+                    rows="3"
                   />
                 </div>
               </div>
-              
-              <div className="form-group">
-                <label>Client Address</label>
-                <textarea
-                  value={newInvoice.clientAddress}
-                  onChange={(e) => setNewInvoice({...newInvoice, clientAddress: e.target.value})}
-                  placeholder="Enter client address"
-                  rows="3"
-                />
+
+              {/* Invoice Details Section */}
+              <div className="form-section">
+                <h4>Invoice Details</h4>
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Amount *</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={newInvoice.amount}
+                      onChange={(e) => setNewInvoice({...newInvoice, amount: e.target.value})}
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Date</label>
+                    <input
+                      type="date"
+                      value={newInvoice.date}
+                      onChange={(e) => setNewInvoice({...newInvoice, date: e.target.value})}
+                    />
+                  </div>
+                </div>
+                
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Payment Terms</label>
+                    <select
+                      value={newInvoice.paymentTerms}
+                      onChange={(e) => setNewInvoice({...newInvoice, paymentTerms: e.target.value})}
+                    >
+                      <option value="Due on receipt">Due on receipt</option>
+                      <option value="7 days">7 days</option>
+                      <option value="14 days">14 days</option>
+                      <option value="30 days">30 days</option>
+                      <option value="60 days">60 days</option>
+                      <option value="90 days">90 days</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Invoice Template</label>
+                    <select
+                      value={newInvoice.template}
+                      onChange={(e) => setNewInvoice({...newInvoice, template: e.target.value})}
+                    >
+                      <option value="professional">Professional</option>
+                      <option value="modern">Modern</option>
+                      <option value="minimal">Minimal</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div className="form-group">
+                  <label>Description of Services/Products *</label>
+                  <textarea
+                    value={newInvoice.description}
+                    onChange={(e) => setNewInvoice({...newInvoice, description: e.target.value})}
+                    placeholder="Describe the services or products provided"
+                    rows="4"
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>Additional Notes</label>
+                  <textarea
+                    value={newInvoice.notes}
+                    onChange={(e) => setNewInvoice({...newInvoice, notes: e.target.value})}
+                    placeholder="Any additional notes or terms"
+                    rows="3"
+                  />
+                </div>
               </div>
-              
-              <div className="form-group">
-                <label>Description</label>
-                <textarea
-                  value={newInvoice.description}
-                  onChange={(e) => setNewInvoice({...newInvoice, description: e.target.value})}
-                  placeholder="Describe the services or products"
-                  rows="3"
-                />
+
+              {/* Invoice Image Upload */}
+              <div className="form-section">
+                <h4>Invoice Image (Optional)</h4>
+                <div className="image-upload-section">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleInvoiceImageUpload}
+                    id="invoice-image-upload"
+                    style={{ display: 'none' }}
+                  />
+                  <label htmlFor="invoice-image-upload" className="image-upload-btn">
+                    {newInvoice.invoiceImage ? 'Change Image' : 'Upload Invoice Image'}
+                  </label>
+                  {newInvoice.invoiceImage && (
+                    <div className="image-preview">
+                      <img src={newInvoice.invoiceImage} alt="Invoice preview" />
+                      <button 
+                        type="button" 
+                        className="remove-image-btn"
+                        onClick={() => setNewInvoice({...newInvoice, invoiceImage: null})}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
               
               <button className="create-btn" onClick={handleCreateInvoice}>
-                Create Invoice
+                Create Professional Invoice
               </button>
             </div>
           </div>
