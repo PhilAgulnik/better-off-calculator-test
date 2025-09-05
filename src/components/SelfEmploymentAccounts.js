@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTextManager } from '../hooks/useTextManager';
+import Navigation from './Navigation';
 
 function SelfEmploymentAccounts() {
   const { getTextValue } = useTextManager();
@@ -42,7 +43,7 @@ function SelfEmploymentAccounts() {
       icon: '🧾',
       title: 'Receipts and Invoices',
       description: 'Digitally store and organize all your receipts and invoices, with automatic categorization for tax purposes.',
-      available: false
+      available: true
     },
     {
       key: 'learning',
@@ -121,6 +122,13 @@ function SelfEmploymentAccounts() {
                     <div className="feature-action">
                       <a href="/monthly-profit" className="btn btn-primary btn-sm">
                         Try Monthly Profit Tool
+                      </a>
+                    </div>
+                  )}
+                  {feature.available && feature.key === 'receipts-invoices' && (
+                    <div className="feature-action">
+                      <a href="/self-employment-accounts/invoices-receipts" className="btn btn-primary btn-sm">
+                        Manage Invoices & Receipts
                       </a>
                     </div>
                   )}
@@ -204,6 +212,8 @@ function SelfEmploymentAccounts() {
           </div>
         </div>
       </div>
+      
+      <Navigation showRelatedTools={false} />
     </div>
   );
 }

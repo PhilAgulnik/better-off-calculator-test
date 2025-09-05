@@ -7,6 +7,7 @@ import {
   fieldDefinitions 
 } from './adminConfigService';
 import { householdTypes, getONSData, getDataSourceInfo } from './onsDataService';
+import { housingReviewTypes, getHousingReviewAmounts, getHousingReviewDataSourceInfo } from './housingReviewsDataService';
 
 function BudgetingToolAdmin() {
   const [activeTab, setActiveTab] = useState('standard-amounts');
@@ -55,13 +56,33 @@ function BudgetingToolAdmin() {
     return null;
   };
 
+  const getHousingReviewDataPreview = () => {
+    if (config.standardAmounts.source === 'housing-reviews') {
+      return getHousingReviewAmounts(selectedHouseholdType);
+    }
+    return null;
+  };
+
   const dataSourceInfo = getDataSourceInfo();
+  const housingReviewDataSourceInfo = getHousingReviewDataSourceInfo();
 
   return (
     <div className="budgeting-tool-admin">
       <div className="admin-header">
         <h1>Budgeting Tool Admin Panel</h1>
         <p>Configure the budgeting tool settings and pre-fill options</p>
+        
+        <div className="admin-navigation">
+          <a href="/budgeting-tool" className="nav-link">
+            ← Back to Budgeting Tool
+          </a>
+          <a href="/ons-standard-amounts" className="nav-link" target="_blank" rel="noopener noreferrer">
+            View ONS Standard Amounts
+          </a>
+          <a href="/housing-review-amounts" className="nav-link" target="_blank" rel="noopener noreferrer">
+            View Housing Review Amounts
+          </a>
+        </div>
       </div>
 
       <div className="admin-tabs">
@@ -103,41 +124,53 @@ function BudgetingToolAdmin() {
                 <>
                   <div className="config-item">
                     <label className="config-label">Data Source:</label>
-                    <div className="radio-group">
-                      <label>
-                        <input
-                          type="radio"
-                          name="source"
-                          value="ons"
-                          checked={config.standardAmounts.source === 'ons'}
-                          onChange={(e) => handleSourceChange(e.target.value)}
-                        />
-                        ONS Standard Amounts
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="source"
-                          value="housing-reviews"
-                          checked={config.standardAmounts.source === 'housing-reviews'}
-                          onChange={(e) => handleSourceChange(e.target.value)}
-                        />
-                        Housing Reviews Standard Amounts
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="source"
-                          value="bespoke"
-                          checked={config.standardAmounts.source === 'bespoke'}
-                          onChange={(e) => handleSourceChange(e.target.value)}
-                        />
-                        Bespoke Standard Amounts
-                      </label>
+                    <div className="radio-group-with-links">
+                      <div className="radio-group">
+                        <label>
+                          <input
+                            type="radio"
+                            name="source"
+                            value="ons"
+                            checked={config.standardAmounts.source === 'ons'}
+                            onChange={(e) => handleSourceChange(e.target.value)}
+                          />
+                          ONS Standard Amounts
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="source"
+                            value="housing-reviews"
+                            checked={config.standardAmounts.source === 'housing-reviews'}
+                            onChange={(e) => handleSourceChange(e.target.value)}
+                          />
+                          Housing Reviews Standard Amounts
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name="source"
+                            value="bespoke"
+                            checked={config.standardAmounts.source === 'bespoke'}
+                            onChange={(e) => handleSourceChange(e.target.value)}
+                          />
+                          Bespoke Standard Amounts
+                        </label>
+                      </div>
+                      {config.standardAmounts.enabled && (
+                        <div className="source-links">
+                          <a href="/ons-standard-amounts" className="source-link" target="_blank" rel="noopener noreferrer">
+                            See all ONS standard amounts
+                          </a>
+                          <a href="/housing-review-amounts" className="source-link" target="_blank" rel="noopener noreferrer">
+                            See all Housing Review standard amounts
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
 
-                  {config.standardAmounts.source === 'ons' && (
+                  {(config.standardAmounts.source === 'ons' || config.standardAmounts.source === 'housing-reviews') && (
                     <div className="config-item">
                       <label className="config-label">Default Household Type:</label>
                       <select
@@ -145,17 +178,42 @@ function BudgetingToolAdmin() {
                         onChange={(e) => handleHouseholdTypeChange(e.target.value)}
                         className="form-control"
                       >
-                        {Object.entries(householdTypes).map(([key, label]) => (
-                          <option key={key} value={key}>{label}</option>
-                        ))}
+                        {config.standardAmounts.source === 'ons' 
+                          ? Object.entries(householdTypes).map(([key, label]) => (
+                              <option key={key} value={key}>{label}</option>
+                            ))
+                          : Object.entries(housingReviewTypes).map(([key, label]) => (
+                              <option key={key} value={key}>{label}</option>
+                            ))
+                        }
                       </select>
                     </div>
                   )}
 
                   {config.standardAmounts.source === 'housing-reviews' && (
-                    <div className="info-box">
-                      <h3>Housing Reviews Standard Amounts</h3>
-                      <p>Functionality coming soon. This will allow integration with housing review data sources.</p>
+                    <div className="data-preview">
+                      <h3>Housing Reviews Data Preview</h3>
+                      <div className="data-source-info">
+                        <p><strong>Source:</strong> {housingReviewDataSourceInfo.name}</p>
+                        <p><strong>Description:</strong> {housingReviewDataSourceInfo.description}</p>
+                        <p><strong>Based on:</strong> {housingReviewDataSourceInfo.source}</p>
+                        <p><strong>Last Updated:</strong> {housingReviewDataSourceInfo.lastUpdated}</p>
+                        <p><strong>Note:</strong> {housingReviewDataSourceInfo.note}</p>
+                      </div>
+                      
+                      <div className="amounts-preview">
+                        <h4>Standard Amounts for {housingReviewTypes[selectedHouseholdType]}</h4>
+                        <div className="amounts-grid">
+                          {getHousingReviewDataPreview() && Object.entries(getHousingReviewDataPreview()).map(([category, amount]) => (
+                            <div key={category} className="amount-item">
+                              <span className="amount-label">{fieldDefinitions[category]?.label || category}:</span>
+                              <span className="amount-value">
+                                {category === 'rent' ? '30% of monthly income' : `£${amount}`}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   )}
 
@@ -246,6 +304,16 @@ function BudgetingToolAdmin() {
       </div>
 
       <div className="admin-actions">
+        <button 
+          className="btn btn-primary"
+          onClick={() => {
+            // Force save current config
+            saveAdminConfig(config);
+            alert('Configuration saved successfully!');
+          }}
+        >
+          Save Configuration
+        </button>
         <button 
           className="btn btn-secondary"
           onClick={() => setShowResetConfirm(true)}

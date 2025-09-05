@@ -21,6 +21,7 @@ import {
   getHousingReviewDataSourceInfo,
   applyHousingReviewAmounts
 } from './housingReviewsDataService';
+import Navigation from '../../components/Navigation';
 
 function EnhancedBudgetingTool() {
   const [budgetData, setBudgetData] = useState({
@@ -47,15 +48,15 @@ function EnhancedBudgetingTool() {
       otherExpenses: ''
     }
   });
-  const [showAdviserMode, setShowAdviserMode] = useState(false);
-  const [showPreFillModal, setShowPreFillModal] = useState(false);
-  const [selectedHouseholdType, setSelectedHouseholdType] = useState('middle-income-decile-5');
-  const [validationErrors, setValidationErrors] = useState({});
   const [config, setConfig] = useState({
     standardAmounts: getStandardAmountsConfig(),
     housingReviews: getHousingReviewsConfig(),
     compulsoryFields: getCompulsoryFieldsConfig()
   });
+  const [showAdviserMode, setShowAdviserMode] = useState(false);
+  const [showPreFillModal, setShowPreFillModal] = useState(false);
+  const [selectedHouseholdType, setSelectedHouseholdType] = useState(config.standardAmounts.selectedHouseholdType);
+  const [validationErrors, setValidationErrors] = useState({});
   const [selectedWaterCompany, setSelectedWaterCompany] = useState('');
 
   // Load benefit calculator data from localStorage if available
@@ -201,6 +202,7 @@ function EnhancedBudgetingTool() {
         <div className="tool-header">
           <h1>Budgeting Tool</h1>
           <p className="tool-description">Create a realistic budget to help you manage your money when you leave prison.</p>
+          
           <div className="tool-actions">
             {config.standardAmounts.enabled && (
               <button className="btn btn-primary" onClick={() => setShowPreFillModal(true)}>
@@ -563,11 +565,11 @@ function EnhancedBudgetingTool() {
                   const newConfig = { ...config };
                   newConfig.standardAmounts.source = e.target.value;
                   setConfig(newConfig);
-                  // Reset household type when changing source
+                  // Reset household type when changing source to admin defaults
                   if (e.target.value === 'housing-reviews') {
-                    setSelectedHouseholdType('single-person');
+                    setSelectedHouseholdType(config.housingReviews.selectedHouseholdType);
                   } else {
-                    setSelectedHouseholdType('middle-income-decile-5');
+                    setSelectedHouseholdType(config.standardAmounts.selectedHouseholdType);
                   }
                 }}
                 className="form-control"
@@ -615,6 +617,8 @@ function EnhancedBudgetingTool() {
           </div>
         </div>
       )}
+      
+      <Navigation showRelatedTools={true} />
     </div>
   );
 }

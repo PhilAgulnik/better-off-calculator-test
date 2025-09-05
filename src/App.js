@@ -15,6 +15,9 @@ import RehabilitationCalculator from './components/RehabilitationCalculator';
 import BudgetingToolAdmin from './features/budgeting-tool/BudgetingToolAdmin';
 import MinimumIncomeFloor from './components/MinimumIncomeFloor';
 import MIFCalculator from './components/MIFCalculator';
+import HousingReviewAmounts from './components/HousingReviewAmounts';
+import ONSStandardAmounts from './components/ONSStandardAmounts';
+import InvoicesAndReceipts from './components/InvoicesAndReceipts';
 import { initializeSkin, applySkinForRoute } from './utils/skinManager';
 
 // Component to handle route changes and apply skins
@@ -50,9 +53,12 @@ function App() {
         <Route path="/help-guide/health" element={<HelpGuideHealth />} />
         <Route path="/budgeting-tool" element={<BudgetingTool />} /> {/* Now uses enhanced version */}
         <Route path="/budgeting-tool-admin" element={<BudgetingToolAdmin />} />
+        <Route path="/housing-review-amounts" element={<HousingReviewAmounts />} />
+        <Route path="/ons-standard-amounts" element={<ONSStandardAmounts />} />
         <Route path="/rehabilitation-calculator" element={<RehabilitationCalculator />} />
         <Route path="/minimum-income-floor" element={<MinimumIncomeFloor />} />
         <Route path="/mif-calculator" element={<MIFCalculator />} />
+        <Route path="/self-employment-accounts/invoices-receipts" element={<InvoicesAndReceipts />} />
       </Routes>
     </Router>
   );

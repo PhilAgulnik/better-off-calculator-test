@@ -5924,8 +5924,684 @@ body {
     align-items: stretch;
     gap: 8px;
   }
-  
+
   .period-selector {
     min-width: auto;
   }
+}
+
+/* Housing Review Amounts Page */
+.housing-review-amounts {
+    padding: var(--spacing-4) 0;
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+.housing-review-amounts .page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.housing-review-amounts .page-header h1 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-4);
+}
+
+.adviser-only-notice {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+    text-align: center;
+}
+
+.adviser-only-notice p {
+    margin: 0;
+    color: #856404;
+    font-weight: 500;
+}
+
+.content-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-4);
+}
+
+.data-source-info {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.data-source-info h2 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-3);
+}
+
+.data-source-info p {
+    margin-bottom: var(--spacing-2);
+    color: var(--text-color-secondary);
+}
+
+.amounts-section {
+    margin-bottom: var(--spacing-6);
+}
+
+.amounts-section h2 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-3);
+}
+
+.section-description {
+    color: var(--text-color-secondary);
+    margin-bottom: var(--spacing-4);
+    line-height: 1.6;
+}
+
+.household-types-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.household-type-card {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.household-type-card h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-3);
+    font-size: 1.2rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: var(--spacing-2);
+}
+
+.amounts-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+}
+
+.amount-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-2) 0;
+    border-bottom: 1px solid var(--border-color-light);
+}
+
+.amount-item:last-child {
+    border-bottom: none;
+}
+
+.amount-label {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.amount-value {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.usage-section {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.usage-section h2 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-3);
+}
+
+.usage-info h3 {
+    color: var(--primary-color);
+    margin-top: var(--spacing-3);
+    margin-bottom: var(--spacing-2);
+}
+
+.usage-info ol {
+    padding-left: var(--spacing-4);
+    margin-bottom: var(--spacing-3);
+}
+
+.usage-info li {
+    margin-bottom: var(--spacing-1);
+    color: var(--text-color-secondary);
+}
+
+.usage-info p {
+    color: var(--text-color-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-2);
+}
+
+.back-link {
+    text-align: center;
+    margin-top: var(--spacing-6);
+}
+
+.back-link .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+/* Responsive design for Housing Review Amounts */
+@media (max-width: 768px) {
+    .household-types-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .amount-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-1);
+    }
+    
+    .amount-value {
+        font-size: 0.9rem;
+    }
+}
+
+/* ONS Standard Amounts Page */
+.ons-standard-amounts {
+    padding: var(--spacing-4) 0;
+    min-height: 100vh;
+    background-color: var(--background-color);
+}
+
+.ons-standard-amounts .page-header {
+    text-align: center;
+    margin-bottom: var(--spacing-6);
+}
+
+.ons-standard-amounts .page-header h1 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-4);
+}
+
+.inflation-section {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-6);
+}
+
+.inflation-section h2 {
+    color: var(--text-color);
+    margin-bottom: var(--spacing-3);
+}
+
+.inflation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-3);
+    margin-top: var(--spacing-3);
+}
+
+.inflation-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-2) var(--spacing-3);
+    background: var(--background-color);
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--radius-md);
+}
+
+.household-type {
+    font-weight: 500;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.inflation-rate {
+    font-weight: 600;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+}
+
+/* Responsive design for ONS Standard Amounts */
+@media (max-width: 768px) {
+    .inflation-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .inflation-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-1);
+    }
+    
+    .inflation-rate {
+        font-size: 1rem;
+    }
+}
+
+/* Navigation System */
+.navigation-system {
+    position: relative;
+}
+
+/* Mobile Menu Toggle */
+.mobile-menu-toggle {
+    display: none;
+    position: fixed;
+    top: var(--spacing-3);
+    right: var(--spacing-3);
+    z-index: 1001;
+}
+
+.hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    padding: 4px;
+}
+
+.hamburger-btn span {
+    width: 100%;
+    height: 2px;
+    background: white;
+    border-radius: 1px;
+    transition: all 0.3s ease;
+}
+
+.hamburger-btn:hover span {
+    background: var(--secondary-color);
+}
+
+/* Main Navigation */
+.main-navigation {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.nav-container {
+    display: flex;
+    gap: var(--spacing-6);
+    flex-wrap: wrap;
+}
+
+.nav-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.nav-section h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-3);
+    font-size: 1.1rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: var(--spacing-1);
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-list li {
+    margin-bottom: var(--spacing-2);
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-2) var(--spacing-3);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.nav-item:hover {
+    background: var(--background-color);
+    border-color: var(--border-color);
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.nav-list li.active .nav-item {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+    width: 24px;
+    text-align: center;
+}
+
+.nav-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.nav-label {
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.nav-description {
+    font-size: 0.8rem;
+    color: var(--text-color-secondary);
+    opacity: 0.8;
+}
+
+.nav-list li.active .nav-description {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-3);
+    margin-bottom: var(--spacing-4);
+}
+
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+}
+
+.breadcrumb-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb-link:hover {
+    color: var(--secondary-color);
+    text-decoration: none;
+}
+
+.breadcrumb-current {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.breadcrumb-separator {
+    color: var(--text-color-secondary);
+    font-weight: bold;
+}
+
+/* Related Tools Footer */
+.related-tools-footer {
+    margin-top: var(--spacing-6);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--border-color);
+}
+
+.related-tools-container {
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-4);
+}
+
+.related-tools-container h4 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-3);
+    text-align: center;
+}
+
+.related-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-3);
+}
+
+.related-tool-link {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    padding: var(--spacing-3);
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.related-tool-link:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tool-icon {
+    font-size: 1.3rem;
+    width: 28px;
+    text-align: center;
+}
+
+.tool-label {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Tool Footer */
+.tool-footer {
+    margin-top: var(--spacing-6);
+    padding-top: var(--spacing-4);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Tool Navigation */
+.tool-navigation {
+    display: flex;
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: var(--spacing-3);
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+/* Admin Panel Navigation */
+.admin-navigation {
+    display: flex;
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-4);
+    padding: var(--spacing-3);
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.nav-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    padding: var(--spacing-2) var(--spacing-3);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+}
+
+.nav-link:hover {
+    background: var(--primary-color);
+    color: white;
+    text-decoration: none;
+}
+
+/* Admin Panel Actions */
+.budgeting-tool-admin .admin-actions {
+    display: flex;
+    gap: var(--spacing-3);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-2);
+}
+
+.budgeting-tool-admin .admin-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    text-decoration: none;
+}
+
+/* Radio Group with Links */
+.radio-group-with-links {
+    display: flex;
+    gap: var(--spacing-4);
+    align-items: flex-start;
+}
+
+.radio-group {
+    flex: 1;
+}
+
+.source-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+    min-width: 200px;
+}
+
+.source-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 0.9rem;
+    padding: var(--spacing-1) 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.source-link:hover {
+    border-bottom-color: var(--primary-color);
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    /* Mobile Navigation */
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .main-navigation {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100vh;
+        z-index: 1000;
+        background: var(--card-background);
+        border-radius: 0;
+        border: none;
+        border-right: 1px solid var(--border-color);
+        transition: left 0.3s ease;
+        overflow-y: auto;
+        padding: var(--spacing-6) var(--spacing-4);
+    }
+    
+    .main-navigation.mobile-open {
+        left: 0;
+    }
+    
+    .nav-container {
+        flex-direction: column;
+        gap: var(--spacing-4);
+    }
+    
+    .nav-section {
+        min-width: auto;
+    }
+    
+    .breadcrumb-list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-1);
+    }
+    
+    .breadcrumb-separator {
+        display: none;
+    }
+    
+    .related-tools-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tool-navigation {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .admin-navigation {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .nav-link {
+        justify-content: center;
+    }
+    
+    .budgeting-tool-admin .admin-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .budgeting-tool-admin .admin-actions .btn {
+        justify-content: center;
+    }
+    
+    .radio-group-with-links {
+        flex-direction: column;
+        gap: var(--spacing-3);
+    }
+    
+    .source-links {
+        min-width: auto;
+    }
 }

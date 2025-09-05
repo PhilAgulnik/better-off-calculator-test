@@ -6,6 +6,7 @@ import AdminPanel from './AdminPanel';
 import { applySkinForRoute } from '../utils/skinManager';
 import Logo from './Logo';
 import { UniversalCreditCalculator } from '../utils/calculator';
+import Navigation from './Navigation';
 
 function CalculatorPage({ isRehabilitation = false }) {
   const location = useLocation();
@@ -675,6 +676,8 @@ function CalculatorPage({ isRehabilitation = false }) {
           <div className="loading-spinner">Calculating...</div>
         </div>
       )}
+      
+      <Navigation showRelatedTools={false} />
     </div>
   );
 }

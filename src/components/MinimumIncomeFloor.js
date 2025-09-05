@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navigation from './Navigation';
 
 function MinimumIncomeFloor() {
   return (
@@ -167,6 +168,8 @@ function MinimumIncomeFloor() {
           </div>
         </div>
       </div>
+      
+      <Navigation showRelatedTools={false} />
     </div>
   );
 }

@@ -131,7 +131,7 @@ export class UniversalCreditCalculator {
       // Calculate standard allowance
       const standardAllowance = this.calculateStandardAllowance(input, rates);
       
-      // Calculate housing element
+             // Calculate housing element
       const { amount: housingElement, lhaDetails } = this.calculateHousingElement(input, rates);
       
       // Calculate child element
@@ -152,9 +152,9 @@ export class UniversalCreditCalculator {
       // Calculate earnings reduction
       const earningsReduction = this.calculateEarningsReduction(input, rates, totalElements);
       
-      // Calculate other deductions
+             // Calculate other deductions
       const capitalDeductionResult = this.calculateCapitalDeduction(input, totalElements, rates);
-      const benefitDeduction = this.calculateBenefitDeduction(input);
+       const benefitDeduction = this.calculateBenefitDeduction(input);
       
       // Calculate final amount
       const finalAmount = Math.max(0, totalElements - earningsReduction - capitalDeductionResult.deduction - benefitDeduction);

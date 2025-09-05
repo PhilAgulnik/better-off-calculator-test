@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTextManager } from '../../hooks/useTextManager';
 import AssessmentPeriodCalendar from './AssessmentPeriodCalendar';
 import MonthlyReportingForm from './MonthlyReportingForm';
+import Navigation from '../../components/Navigation';
 
 function MonthlyProfitTool() {
   const { getTextValue } = useTextManager();
@@ -307,6 +308,8 @@ function MonthlyProfitTool() {
           )}
         </div>
       </div>
+      
+      <Navigation showRelatedTools={false} />
     </div>
   );
 }

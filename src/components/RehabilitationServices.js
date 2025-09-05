@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { setCurrentSkin } from '../utils/skinManager';
 import Logo from './Logo';
+import Navigation from './Navigation';
 
 function RehabilitationServices() {
   useEffect(() => {
@@ -126,6 +127,8 @@ function RehabilitationServices() {
           ))}
         </div>
       </div>
+      
+      <Navigation showRelatedTools={false} />
     </div>
   );
 }
