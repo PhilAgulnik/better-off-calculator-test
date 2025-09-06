@@ -503,7 +503,7 @@ const InvoicesAndReceipts = () => {
 
     for (const pattern of vendorPatterns) {
       const match = text.match(pattern);
-      if (match && match[1].trim().length > 2) {
+      if (match && match[1] && match[1].trim().length > 2) {
         data.vendor = match[1].trim();
         break;
       }
@@ -535,8 +535,8 @@ const InvoicesAndReceipts = () => {
     }
 
     // Extract description from first meaningful line
-    const lines = text.split('\n').filter(line => line.trim().length > 5);
-    if (lines.length > 0) {
+    const lines = text.split('\n').filter(line => line && line.trim().length > 5);
+    if (lines.length > 0 && lines[0]) {
       data.description = lines[0].trim().substring(0, 100);
     }
 
