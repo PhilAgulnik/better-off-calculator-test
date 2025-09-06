@@ -18,28 +18,28 @@ import MIFCalculator from './components/MIFCalculator';
 import HousingReviewAmounts from './components/HousingReviewAmounts';
 import ONSStandardAmounts from './components/ONSStandardAmounts';
 import InvoicesAndReceipts from './components/InvoicesAndReceipts';
-// import { initializeSkin, applySkinForRoute } from './utils/skinManager';
+import { initializeSkin, applySkinForRoute } from './utils/skinManager';
 
 // Component to handle route changes and apply skins
-// function RouteHandler() {
-//   const location = useLocation();
-//   
-//   useEffect(() => {
-//     // Apply skin for the current route
-//     applySkinForRoute(location.pathname);
-//   }, [location.pathname]);
-//   
-//   return null;
-// }
+function RouteHandler() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Apply skin for the current route
+    applySkinForRoute(location.pathname);
+  }, [location.pathname]);
+  
+  return null;
+}
 
 function App() {
-  // useEffect(() => {
-  //   initializeSkin();
-  // }, []);
+  useEffect(() => {
+    initializeSkin();
+  }, []);
 
   return (
     <Router>
-      {/* <RouteHandler /> */}
+      <RouteHandler />
       <Routes>
         <Route path="/" element={<CalculatorPage />} />
         <Route path="/self-employment-accounts" element={<SelfEmploymentAccounts />} />
