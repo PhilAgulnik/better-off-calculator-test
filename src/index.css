@@ -227,6 +227,7 @@ body {
     color: #0b0c0c;
     margin-bottom: var(--spacing-2);
     font-size: 1.1875rem;
+    text-align: left;
     line-height: 1.4;
 }
 
@@ -240,6 +241,7 @@ body {
     background-color: var(--white);
     color: #0b0c0c;
     font-family: "GDS Transport", Arial, sans-serif;
+    text-align: left;
     /* Remove number input spinners */
     -moz-appearance: textfield;
     /* Ensure proper cursor and selection */
@@ -910,6 +912,8 @@ body {
     display: flex;
     gap: var(--spacing-6);
     flex-wrap: wrap;
+    justify-content: flex-start;
+    text-align: left;
 }
 
 .radio-group .radio-label {
