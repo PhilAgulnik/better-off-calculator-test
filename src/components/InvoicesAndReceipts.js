@@ -2,9 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import jsPDF from 'jspdf';
 import Tesseract from 'tesseract.js';
-import pdfParse from 'pdf-parse';
+import * as pdfjsLib from 'pdfjs-dist';
 import Navigation from './Navigation';
 import './InvoicesAndReceipts.css';
+
+// Configure PDF.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
 
 const InvoicesAndReceipts = () => {
   const [activeTab, setActiveTab] = useState('invoices');
@@ -551,10 +554,20 @@ const InvoicesAndReceipts = () => {
           text = ocrText;
           fileType = 'image';
         } else if (file.type === 'application/pdf') {
-          // Extract text from PDF using pdf-parse
+          // Extract text from PDF using PDF.js
           const arrayBuffer = await file.arrayBuffer();
-          const data = await pdfParse(arrayBuffer);
-          text = data.text;
+          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+          let fullText = '';
+          
+          // Extract text from all pages
+          for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const textContent = await page.getTextContent();
+            const pageText = textContent.items.map(item => item.str).join(' ');
+            fullText += pageText + '\n';
+          }
+          
+          text = fullText.trim();
           fileType = 'pdf';
         } else if (file.type === 'text/html') {
           // For HTML files, we'll read the content
