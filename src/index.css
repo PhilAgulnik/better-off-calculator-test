@@ -172,6 +172,7 @@ body {
 /* Main Content */
 .main-content {
     margin-bottom: var(--spacing-16);
+    text-align: left;
 }
 
 .calculator-grid {
@@ -179,6 +180,7 @@ body {
     grid-template-columns: 1fr;
     gap: var(--spacing-8);
     margin-bottom: var(--spacing-12);
+    text-align: left;
 }
 
 /* Cards - GOV.UK Design */
@@ -216,6 +218,7 @@ body {
 /* Form Controls - GOV.UK Design */
 .form-group {
     margin-bottom: var(--spacing-6);
+    text-align: left;
 }
 
 .form-group label {
@@ -629,6 +632,7 @@ body {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     background: var(--white);
+    text-align: left;
 }
 
 .section-header {
