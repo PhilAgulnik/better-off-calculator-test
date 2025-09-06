@@ -72,6 +72,21 @@ const InvoicesAndReceipts = () => {
     localStorage.setItem('invoiceCustomization', JSON.stringify(customization));
   }, [customization]);
 
+  // Initialize form with customization data when customization changes
+  useEffect(() => {
+    if (customization.businessName || customization.businessEmail || customization.businessPhone || 
+        customization.businessAddress || customization.taxNumber) {
+      setNewInvoice(prev => ({
+        ...prev,
+        businessName: customization.businessName || prev.businessName,
+        businessEmail: customization.businessEmail || prev.businessEmail,
+        businessPhone: customization.businessPhone || prev.businessPhone,
+        businessAddress: customization.businessAddress || prev.businessAddress,
+        taxNumber: customization.taxNumber || prev.taxNumber
+      }));
+    }
+  }, [customization]);
+
   // Generate unique ID
   const generateId = () => {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -102,11 +117,11 @@ const InvoicesAndReceipts = () => {
       status: 'draft',
       invoiceImage: null,
       template: 'professional',
-      businessName: '',
-      businessAddress: '',
-      businessEmail: '',
-      businessPhone: '',
-      taxNumber: '',
+      businessName: customization.businessName || '',
+      businessAddress: customization.businessAddress || '',
+      businessEmail: customization.businessEmail || '',
+      businessPhone: customization.businessPhone || '',
+      taxNumber: customization.taxNumber || '',
       paymentTerms: '30 days',
       notes: ''
     });
@@ -544,6 +559,10 @@ const InvoicesAndReceipts = () => {
               {/* Business Information Section */}
               <div className="form-section">
                 <h4>Your Business Information</h4>
+                <p className="form-help-text">
+                  💡 Business information is automatically filled from your customization settings. 
+                  You can override any field below or update your defaults in the Customization tab.
+                </p>
                 <div className="form-row">
                   <div className="form-group">
                     <label>Business Name *</label>
@@ -1000,9 +1019,20 @@ const InvoicesAndReceipts = () => {
               <div className="customization-actions">
                 <button 
                   className="save-customization-btn"
-                  onClick={() => alert('Customization saved! Your settings will be applied to all new invoices.')}
+                  onClick={() => {
+                    // Apply customization to current invoice form
+                    setNewInvoice(prev => ({
+                      ...prev,
+                      businessName: customization.businessName || prev.businessName,
+                      businessEmail: customization.businessEmail || prev.businessEmail,
+                      businessPhone: customization.businessPhone || prev.businessPhone,
+                      businessAddress: customization.businessAddress || prev.businessAddress,
+                      taxNumber: customization.taxNumber || prev.taxNumber
+                    }));
+                    alert('Customization saved and applied to invoice form!');
+                  }}
                 >
-                  Save Customization
+                  Save & Apply to Invoice Form
                 </button>
               </div>
             </div>
