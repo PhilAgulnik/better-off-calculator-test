@@ -454,6 +454,11 @@ const InvoicesAndReceipts = () => {
       vendor: ''
     };
 
+    // Handle cases where text might be undefined, null, or empty
+    if (!text || typeof text !== 'string') {
+      return data;
+    }
+
     // Extract amount - look for various currency formats
     const amountPatterns = [
       /£\s*(\d+\.?\d*)/g,           // £123.45
@@ -550,31 +555,49 @@ const InvoicesAndReceipts = () => {
         // Determine file type and process accordingly
         if (file.type.startsWith('image/')) {
           // Process image with OCR
-          const { data: { text: ocrText } } = await Tesseract.recognize(file, 'eng');
-          text = ocrText;
-          fileType = 'image';
+          try {
+            const { data: { text: ocrText } } = await Tesseract.recognize(file, 'eng');
+            text = ocrText || `Image: ${file.name}\n\nNote: Could not extract text from this image. Please manually enter the expense details below.`;
+            fileType = 'image';
+          } catch (ocrError) {
+            console.error('OCR processing error:', ocrError);
+            text = `Image: ${file.name}\n\nError: Could not process this image. Please manually enter the expense details below.`;
+            fileType = 'image';
+          }
         } else if (file.type === 'application/pdf') {
           // Extract text from PDF using PDF.js
-          const arrayBuffer = await file.arrayBuffer();
-          const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-          let fullText = '';
-          
-          // Extract text from all pages
-          for (let i = 1; i <= pdf.numPages; i++) {
-            const page = await pdf.getPage(i);
-            const textContent = await page.getTextContent();
-            const pageText = textContent.items.map(item => item.str).join(' ');
-            fullText += pageText + '\n';
+          try {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let fullText = '';
+            
+            // Extract text from all pages
+            for (let i = 1; i <= pdf.numPages; i++) {
+              const page = await pdf.getPage(i);
+              const textContent = await page.getTextContent();
+              const pageText = textContent.items.map(item => item.str || '').join(' ');
+              fullText += pageText + '\n';
+            }
+            
+            text = fullText ? fullText.trim() : `PDF Document: ${file.name}\n\nNote: No readable text found in this PDF. Please manually enter the expense details below.`;
+            fileType = 'pdf';
+          } catch (pdfError) {
+            console.error('PDF processing error:', pdfError);
+            text = `PDF Document: ${file.name}\n\nError: Could not extract text from this PDF. Please manually enter the expense details below.`;
+            fileType = 'pdf';
           }
-          
-          text = fullText.trim();
-          fileType = 'pdf';
         } else if (file.type === 'text/html') {
           // For HTML files, we'll read the content
-          const htmlContent = await file.text();
-          // Extract text content from HTML (basic implementation)
-          text = htmlContent.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
-          fileType = 'html';
+          try {
+            const htmlContent = await file.text();
+            // Extract text content from HTML (basic implementation)
+            text = htmlContent ? htmlContent.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim() : `HTML: ${file.name}\n\nNote: Could not read HTML content. Please manually enter the expense details below.`;
+            fileType = 'html';
+          } catch (htmlError) {
+            console.error('HTML processing error:', htmlError);
+            text = `HTML: ${file.name}\n\nError: Could not process this HTML file. Please manually enter the expense details below.`;
+            fileType = 'html';
+          }
         } else {
           text = `File: ${file.name}\n\nPlease manually enter the amount and date below.`;
           fileType = 'other';
