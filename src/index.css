@@ -714,8 +714,9 @@ body {
 
 .form-group {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: var(--spacing-3);
+    text-align: left;
 }
 
 .input-with-prefix {
@@ -6635,4 +6636,34 @@ body {
     .source-links {
         min-width: auto;
     }
+}
+
+/* FINAL FORM ALIGNMENT FIX - Override all conflicting rules */
+.calculator-grid .card .form-group {
+    display: block !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+}
+
+.calculator-grid .card .form-group label {
+    text-align: left !important;
+    display: block !important;
+}
+
+.calculator-grid .card .form-group .radio-group {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    flex-direction: row !important;
+}
+
+.calculator-grid .card .form-group .radio-group .radio-label {
+    text-align: left !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+}
+
+.calculator-grid .card .form-group .form-control {
+    text-align: left !important;
 }
