@@ -173,6 +173,7 @@ body {
     color: var(--gray-700);
     margin-bottom: var(--spacing-2);
     font-size: var(--font-size-sm);
+    text-align: left;
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
@@ -186,6 +187,7 @@ body {
     transition: var(--transition-fast);
     background-color: var(--white);
     color: var(--gray-800);
+    text-align: left;
 }
 
 .form-control:focus {
@@ -221,6 +223,8 @@ body {
 .radio-group {
     display: flex;
     gap: var(--spacing-6);
+    justify-content: flex-start;
+    text-align: left;
 }
 
 .radio-label {
