@@ -192,6 +192,7 @@ body {
     border: 1px solid #b1b4b6;
     transition: var(--transition-normal);
     margin-bottom: var(--spacing-6);
+    text-align: left;
 }
 
 .card:hover {
@@ -635,6 +636,28 @@ body {
     border-radius: var(--radius-md);
     background: var(--white);
     text-align: left;
+}
+
+/* Calculator Form Specific Overrides */
+.calculator-grid .card,
+.calculator-grid .form-group,
+.calculator-grid .radio-group,
+.calculator-grid label,
+.calculator-grid .form-control {
+    text-align: left !important;
+    justify-content: flex-start !important;
+}
+
+.calculator-grid .radio-group {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+}
+
+.calculator-grid .radio-group .radio-label {
+    text-align: left !important;
+    justify-content: flex-start !important;
 }
 
 .section-header {
