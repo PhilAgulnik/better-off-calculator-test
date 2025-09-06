@@ -9,6 +9,19 @@ const InvoicesAndReceipts = () => {
   const [invoices, setInvoices] = useState([]);
   const [expenses, setExpenses] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [customization, setCustomization] = useState({
+    businessLogo: null,
+    businessName: '',
+    businessAddress: '',
+    businessEmail: '',
+    businessPhone: '',
+    businessWebsite: '',
+    taxNumber: '',
+    standardTerms: 'Payment is due within 30 days of invoice date. Late payments may incur additional charges.',
+    standardNotes: 'Thank you for your business!',
+    footerText: 'For any queries regarding this invoice, please contact us.',
+    colorScheme: 'professional'
+  });
   const [newInvoice, setNewInvoice] = useState({
     id: '',
     clientName: '',
@@ -33,12 +46,16 @@ const InvoicesAndReceipts = () => {
   useEffect(() => {
     const savedInvoices = localStorage.getItem('invoices');
     const savedExpenses = localStorage.getItem('expenses');
+    const savedCustomization = localStorage.getItem('invoiceCustomization');
     
     if (savedInvoices) {
       setInvoices(JSON.parse(savedInvoices));
     }
     if (savedExpenses) {
       setExpenses(JSON.parse(savedExpenses));
+    }
+    if (savedCustomization) {
+      setCustomization(JSON.parse(savedCustomization));
     }
   }, []);
 
@@ -50,6 +67,10 @@ const InvoicesAndReceipts = () => {
   useEffect(() => {
     localStorage.setItem('expenses', JSON.stringify(expenses));
   }, [expenses]);
+
+  useEffect(() => {
+    localStorage.setItem('invoiceCustomization', JSON.stringify(customization));
+  }, [customization]);
 
   // Generate unique ID
   const generateId = () => {
@@ -91,88 +112,151 @@ const InvoicesAndReceipts = () => {
     });
   };
 
-  // Generate professional PDF for invoice
+  // Generate detailed professional PDF for invoice
   const generateInvoicePDF = (invoice) => {
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
     
-    // Colors
-    const primaryColor = [44, 62, 80]; // Dark blue
-    const accentColor = [52, 152, 219]; // Light blue
-    const lightGray = [245, 245, 245];
+    // Color schemes
+    const colorSchemes = {
+      professional: {
+        primary: [44, 62, 80],
+        accent: [52, 152, 219],
+        light: [245, 245, 245],
+        dark: [33, 37, 41]
+      },
+      modern: {
+        primary: [108, 117, 125],
+        accent: [0, 123, 255],
+        light: [248, 249, 250],
+        dark: [52, 58, 64]
+      },
+      minimal: {
+        primary: [73, 80, 87],
+        accent: [108, 117, 125],
+        light: [255, 255, 255],
+        dark: [33, 37, 41]
+      }
+    };
     
-    // Header with gradient effect
-    doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-    doc.rect(0, 0, pageWidth, 50, 'F');
+    const colors = colorSchemes[customization.colorScheme] || colorSchemes.professional;
     
-    // Business name and logo area
+    // Header section with logo and business info
+    doc.setFillColor(colors.primary[0], colors.primary[1], colors.primary[2]);
+    doc.rect(0, 0, pageWidth, 60, 'F');
+    
+    // Business logo (if available)
+    if (customization.businessLogo) {
+      try {
+        doc.addImage(customization.businessLogo, 'PNG', 20, 15, 30, 30);
+      } catch (error) {
+        console.log('Logo could not be added to PDF');
+      }
+    }
+    
+    // Business name
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(24);
+    doc.setFontSize(28);
     doc.setFont('helvetica', 'bold');
-    doc.text(invoice.businessName || 'Your Business Name', 20, 25);
+    const businessName = customization.businessName || invoice.businessName || 'Your Business Name';
+    doc.text(businessName, customization.businessLogo ? 60 : 20, 35);
     
     // Invoice title
-    doc.setFontSize(32);
+    doc.setFontSize(36);
     doc.setFont('helvetica', 'bold');
-    doc.text('INVOICE', pageWidth - 60, 30);
+    doc.text('INVOICE', pageWidth - 80, 40);
     
     // Invoice details box
-    doc.setFillColor(lightGray[0], lightGray[1], lightGray[2]);
-    doc.rect(pageWidth - 80, 60, 70, 40, 'F');
+    doc.setFillColor(colors.light[0], colors.light[1], colors.light[2]);
+    doc.rect(pageWidth - 90, 70, 80, 50, 'F');
+    doc.setDrawColor(colors.accent[0], colors.accent[1], colors.accent[2]);
+    doc.setLineWidth(1);
+    doc.rect(pageWidth - 90, 70, 80, 50, 'S');
     
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Invoice #', pageWidth - 75, 70);
-    doc.setFont('helvetica', 'bold');
-    doc.text(invoice.id, pageWidth - 75, 78);
-    
-    doc.setFont('helvetica', 'normal');
-    doc.text('Date', pageWidth - 75, 88);
-    doc.setFont('helvetica', 'bold');
-    doc.text(invoice.date, pageWidth - 75, 96);
-    
-    // Business details
+    doc.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
-    doc.text('From:', 20, 70);
+    doc.text('INVOICE DETAILS', pageWidth - 85, 85);
+    
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
+    doc.text('Invoice #:', pageWidth - 85, 95);
+    doc.setFont('helvetica', 'bold');
+    doc.text(invoice.id, pageWidth - 60, 95);
     
-    let yPos = 78;
-    if (invoice.businessName) {
-      doc.text(invoice.businessName, 20, yPos);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Date:', pageWidth - 85, 105);
+    doc.setFont('helvetica', 'bold');
+    doc.text(invoice.date, pageWidth - 60, 105);
+    
+    doc.setFont('helvetica', 'normal');
+    doc.text('Status:', pageWidth - 85, 115);
+    doc.setFont('helvetica', 'bold');
+    doc.text(invoice.status.toUpperCase(), pageWidth - 60, 115);
+    
+    // Business details section
+    doc.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('FROM:', 20, 85);
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    let yPos = 95;
+    
+    if (businessName) {
+      doc.setFont('helvetica', 'bold');
+      doc.text(businessName, 20, yPos);
       yPos += 8;
     }
-    if (invoice.businessAddress) {
-      const addressLines = invoice.businessAddress.split('\n');
+    
+    if (customization.businessAddress || invoice.businessAddress) {
+      doc.setFont('helvetica', 'normal');
+      const address = customization.businessAddress || invoice.businessAddress;
+      const addressLines = address.split('\n');
       addressLines.forEach((line, index) => {
         doc.text(line, 20, yPos + (index * 6));
       });
       yPos += addressLines.length * 6 + 4;
     }
-    if (invoice.businessEmail) {
-      doc.text(invoice.businessEmail, 20, yPos);
+    
+    if (customization.businessEmail || invoice.businessEmail) {
+      doc.text(`Email: ${customization.businessEmail || invoice.businessEmail}`, 20, yPos);
       yPos += 6;
     }
-    if (invoice.businessPhone) {
-      doc.text(invoice.businessPhone, 20, yPos);
+    
+    if (customization.businessPhone || invoice.businessPhone) {
+      doc.text(`Phone: ${customization.businessPhone || invoice.businessPhone}`, 20, yPos);
+      yPos += 6;
     }
     
-    // Client details
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'bold');
-    doc.text('Bill To:', 20, 120);
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
+    if (customization.businessWebsite) {
+      doc.text(`Website: ${customization.businessWebsite}`, 20, yPos);
+      yPos += 6;
+    }
     
-    yPos = 128;
+    if (customization.taxNumber || invoice.taxNumber) {
+      doc.text(`Tax/VAT #: ${customization.taxNumber || invoice.taxNumber}`, 20, yPos);
+    }
+    
+    // Client details section
+    yPos = Math.max(yPos + 20, 140);
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('BILL TO:', 20, yPos);
+    
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    yPos += 10;
+    
+    doc.setFont('helvetica', 'bold');
     doc.text(invoice.clientName, 20, yPos);
     yPos += 8;
     
     if (invoice.clientEmail) {
-      doc.text(invoice.clientEmail, 20, yPos);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Email: ${invoice.clientEmail}`, 20, yPos);
       yPos += 6;
     }
     
@@ -185,76 +269,117 @@ const InvoicesAndReceipts = () => {
     }
     
     // Line separator
-    doc.setDrawColor(accentColor[0], accentColor[1], accentColor[2]);
-    doc.setLineWidth(0.5);
+    yPos += 10;
+    doc.setDrawColor(colors.accent[0], colors.accent[1], colors.accent[2]);
+    doc.setLineWidth(1);
     doc.line(20, yPos, pageWidth - 20, yPos);
     
-    // Items table header
+    // Items table
     yPos += 15;
-    doc.setFillColor(accentColor[0], accentColor[1], accentColor[2]);
-    doc.rect(20, yPos - 8, pageWidth - 40, 8, 'F');
+    doc.setFillColor(colors.accent[0], colors.accent[1], colors.accent[2]);
+    doc.rect(20, yPos - 10, pageWidth - 40, 10, 'F');
     
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(10);
+    doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    doc.text('Description', 25, yPos - 2);
-    doc.text('Amount', pageWidth - 45, yPos - 2);
+    doc.text('DESCRIPTION', 25, yPos - 3);
+    doc.text('QUANTITY', pageWidth - 120, yPos - 3);
+    doc.text('RATE', pageWidth - 80, yPos - 3);
+    doc.text('AMOUNT', pageWidth - 40, yPos - 3);
     
-    // Items
-    doc.setTextColor(0, 0, 0);
+    // Item details
+    doc.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
     doc.setFont('helvetica', 'normal');
     yPos += 5;
     
-    // Description
     const description = invoice.description || 'Services rendered';
-    const descriptionLines = doc.splitTextToSize(description, pageWidth - 80);
+    const quantity = '1';
+    const rate = `£${parseFloat(invoice.amount).toFixed(2)}`;
+    const amount = `£${parseFloat(invoice.amount).toFixed(2)}`;
+    
+    // Description
+    const descriptionLines = doc.splitTextToSize(description, pageWidth - 140);
     descriptionLines.forEach((line, index) => {
       doc.text(line, 25, yPos + (index * 6));
     });
     
-    // Amount
-    const amount = `£${parseFloat(invoice.amount).toFixed(2)}`;
+    // Quantity, Rate, Amount
+    doc.text(quantity, pageWidth - 120, yPos);
+    doc.text(rate, pageWidth - 80, yPos);
     doc.setFont('helvetica', 'bold');
-    doc.text(amount, pageWidth - 45, yPos);
+    doc.text(amount, pageWidth - 40, yPos);
     
-    // Total section
+    // Totals section
     yPos += Math.max(descriptionLines.length * 6, 15) + 20;
     
-    // Total box
-    doc.setFillColor(lightGray[0], lightGray[1], lightGray[2]);
-    doc.rect(pageWidth - 80, yPos, 60, 20, 'F');
+    // Subtotal
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(11);
+    doc.text('Subtotal:', pageWidth - 80, yPos);
+    doc.setFont('helvetica', 'bold');
+    doc.text(amount, pageWidth - 40, yPos);
     
-    doc.setTextColor(0, 0, 0);
+    // Tax (if applicable)
+    yPos += 8;
+    doc.setFont('helvetica', 'normal');
+    doc.text('Tax (0%):', pageWidth - 80, yPos);
+    doc.setFont('helvetica', 'bold');
+    doc.text('£0.00', pageWidth - 40, yPos);
+    
+    // Total
+    yPos += 12;
+    doc.setFillColor(colors.light[0], colors.light[1], colors.light[2]);
+    doc.rect(pageWidth - 90, yPos - 8, 70, 12, 'F');
+    doc.setDrawColor(colors.accent[0], colors.accent[1], colors.accent[2]);
+    doc.setLineWidth(1);
+    doc.rect(pageWidth - 90, yPos - 8, 70, 12, 'S');
+    
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
-    doc.text('Total', pageWidth - 75, yPos + 8);
-    doc.text(amount, pageWidth - 45, yPos + 8);
+    doc.text('TOTAL:', pageWidth - 85, yPos);
+    doc.setFontSize(14);
+    doc.text(amount, pageWidth - 45, yPos);
     
-    // Payment terms
-    if (invoice.paymentTerms) {
-      yPos += 40;
-      doc.setFontSize(10);
-      doc.setFont('helvetica', 'normal');
-      doc.text(`Payment Terms: ${invoice.paymentTerms}`, 20, yPos);
-    }
+    // Payment terms and notes
+    yPos += 25;
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.text('PAYMENT TERMS:', 20, yPos);
+    doc.setFont('helvetica', 'normal');
+    const paymentTerms = invoice.paymentTerms || customization.standardTerms;
+    const termsLines = doc.splitTextToSize(paymentTerms, pageWidth - 40);
+    termsLines.forEach((line, index) => {
+      doc.text(line, 20, yPos + 8 + (index * 6));
+    });
     
     // Notes
-    if (invoice.notes) {
-      yPos += 15;
-      doc.setFontSize(10);
+    yPos += termsLines.length * 6 + 15;
+    if (invoice.notes || customization.standardNotes) {
+      doc.setFont('helvetica', 'bold');
+      doc.text('NOTES:', 20, yPos);
       doc.setFont('helvetica', 'normal');
-      doc.text('Notes:', 20, yPos);
-      const notesLines = doc.splitTextToSize(invoice.notes, pageWidth - 40);
+      const notes = invoice.notes || customization.standardNotes;
+      const notesLines = doc.splitTextToSize(notes, pageWidth - 40);
       notesLines.forEach((line, index) => {
         doc.text(line, 20, yPos + 8 + (index * 6));
       });
+      yPos += notesLines.length * 6 + 10;
     }
     
     // Footer
-    const footerY = pageHeight - 20;
-    doc.setFontSize(8);
-    doc.setTextColor(128, 128, 128);
-    doc.text('Thank you for your business!', 20, footerY);
+    const footerY = pageHeight - 30;
+    doc.setDrawColor(colors.accent[0], colors.accent[1], colors.accent[2]);
+    doc.setLineWidth(0.5);
+    doc.line(20, footerY - 10, pageWidth - 20, footerY - 10);
+    
+    doc.setFontSize(9);
+    doc.setTextColor(colors.dark[0], colors.dark[1], colors.dark[2]);
+    doc.setFont('helvetica', 'normal');
+    
+    if (customization.footerText) {
+      doc.text(customization.footerText, 20, footerY);
+    }
+    
     doc.text(`Generated on ${new Date().toLocaleDateString()}`, pageWidth - 60, footerY);
     
     // Save the PDF
@@ -268,6 +393,18 @@ const InvoicesAndReceipts = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         setNewInvoice({...newInvoice, invoiceImage: e.target.result});
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle logo upload for customization
+  const handleLogoUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setCustomization({...customization, businessLogo: e.target.result});
       };
       reader.readAsDataURL(file);
     }
@@ -384,6 +521,12 @@ const InvoicesAndReceipts = () => {
           onClick={() => setActiveTab('expenses')}
         >
           Expenses ({expenses.length})
+        </button>
+        <button 
+          className={`tab ${activeTab === 'customization' ? 'active' : ''}`}
+          onClick={() => setActiveTab('customization')}
+        >
+          Customization
         </button>
         <button 
           className={`tab ${activeTab === 'export' ? 'active' : ''}`}
@@ -700,6 +843,169 @@ const InvoicesAndReceipts = () => {
                 ))}
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {activeTab === 'customization' && (
+        <div className="customization-tab">
+          <div className="customization-section">
+            <h3>Invoice Customization</h3>
+            <p>Customize your invoice templates with your business branding and standard text.</p>
+            
+            <div className="customization-form">
+              {/* Business Branding Section */}
+              <div className="form-section">
+                <h4>Business Branding</h4>
+                
+                <div className="logo-upload-section">
+                  <label>Business Logo</label>
+                  <div className="logo-upload-area">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleLogoUpload}
+                      id="logo-upload"
+                      style={{ display: 'none' }}
+                    />
+                    <label htmlFor="logo-upload" className="logo-upload-btn">
+                      {customization.businessLogo ? 'Change Logo' : 'Upload Logo'}
+                    </label>
+                    {customization.businessLogo && (
+                      <div className="logo-preview">
+                        <img src={customization.businessLogo} alt="Business logo preview" />
+                        <button 
+                          type="button" 
+                          className="remove-logo-btn"
+                          onClick={() => setCustomization({...customization, businessLogo: null})}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Business Name</label>
+                    <input
+                      type="text"
+                      value={customization.businessName}
+                      onChange={(e) => setCustomization({...customization, businessName: e.target.value})}
+                      placeholder="Your Business Name"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Business Email</label>
+                    <input
+                      type="email"
+                      value={customization.businessEmail}
+                      onChange={(e) => setCustomization({...customization, businessEmail: e.target.value})}
+                      placeholder="business@example.com"
+                    />
+                  </div>
+                </div>
+                
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Business Phone</label>
+                    <input
+                      type="tel"
+                      value={customization.businessPhone}
+                      onChange={(e) => setCustomization({...customization, businessPhone: e.target.value})}
+                      placeholder="+44 123 456 7890"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Business Website</label>
+                    <input
+                      type="url"
+                      value={customization.businessWebsite}
+                      onChange={(e) => setCustomization({...customization, businessWebsite: e.target.value})}
+                      placeholder="https://www.yourbusiness.com"
+                    />
+                  </div>
+                </div>
+                
+                <div className="form-row">
+                  <div className="form-group">
+                    <label>Tax/VAT Number</label>
+                    <input
+                      type="text"
+                      value={customization.taxNumber}
+                      onChange={(e) => setCustomization({...customization, taxNumber: e.target.value})}
+                      placeholder="GB123456789"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>Color Scheme</label>
+                    <select
+                      value={customization.colorScheme}
+                      onChange={(e) => setCustomization({...customization, colorScheme: e.target.value})}
+                    >
+                      <option value="professional">Professional</option>
+                      <option value="modern">Modern</option>
+                      <option value="minimal">Minimal</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div className="form-group">
+                  <label>Business Address</label>
+                  <textarea
+                    value={customization.businessAddress}
+                    onChange={(e) => setCustomization({...customization, businessAddress: e.target.value})}
+                    placeholder="Enter your business address"
+                    rows="3"
+                  />
+                </div>
+              </div>
+
+              {/* Standard Text Section */}
+              <div className="form-section">
+                <h4>Standard Text & Terms</h4>
+                
+                <div className="form-group">
+                  <label>Standard Payment Terms</label>
+                  <textarea
+                    value={customization.standardTerms}
+                    onChange={(e) => setCustomization({...customization, standardTerms: e.target.value})}
+                    placeholder="Payment is due within 30 days of invoice date. Late payments may incur additional charges."
+                    rows="3"
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>Standard Notes</label>
+                  <textarea
+                    value={customization.standardNotes}
+                    onChange={(e) => setCustomization({...customization, standardNotes: e.target.value})}
+                    placeholder="Thank you for your business!"
+                    rows="3"
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>Footer Text</label>
+                  <textarea
+                    value={customization.footerText}
+                    onChange={(e) => setCustomization({...customization, footerText: e.target.value})}
+                    placeholder="For any queries regarding this invoice, please contact us."
+                    rows="2"
+                  />
+                </div>
+              </div>
+              
+              <div className="customization-actions">
+                <button 
+                  className="save-customization-btn"
+                  onClick={() => alert('Customization saved! Your settings will be applied to all new invoices.')}
+                >
+                  Save Customization
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

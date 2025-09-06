@@ -268,6 +268,144 @@
   transform: scale(1.1);
 }
 
+/* Customization Tab Styles */
+.customization-tab {
+  background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border: 1px solid #e9ecef;
+}
+
+.customization-section h3 {
+  margin-bottom: 15px;
+  color: var(--primary-color, #2c3e50);
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  position: relative;
+}
+
+.customization-section h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color, #2c3e50), var(--accent-color, #3498db));
+  border-radius: 2px;
+}
+
+.customization-section p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+.customization-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.logo-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.logo-upload-area {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: flex-start;
+}
+
+.logo-upload-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 1rem;
+}
+
+.logo-upload-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.logo-preview {
+  position: relative;
+  display: inline-block;
+  max-width: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.logo-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 100px;
+  object-fit: contain;
+}
+
+.remove-logo-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(220, 53, 69, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.remove-logo-btn:hover {
+  background: rgba(220, 53, 69, 1);
+  transform: scale(1.1);
+}
+
+.customization-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.save-customization-btn {
+  background: linear-gradient(135deg, var(--primary-color, #2c3e50), var(--accent-color, #3498db));
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-customization-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(44, 62, 80, 0.3);
+}
+
 /* Invoices Grid */
 .invoices-list {
   background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
