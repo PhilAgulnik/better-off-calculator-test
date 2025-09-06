@@ -3,8 +3,7 @@ import { useLocation } from 'react-router-dom';
 import CalculatorForm from './CalculatorForm';
 import ResultsSection from './ResultsSection';
 import AdminPanel from './AdminPanel';
-import { applySkinForRoute } from '../utils/skinManager';
-import Logo from './Logo';
+// import { applySkinForRoute } from '../utils/skinManager';
 import { UniversalCreditCalculator } from '../utils/calculator';
 import Navigation from './Navigation';
 
@@ -101,9 +100,9 @@ function CalculatorPage({ isRehabilitation = false }) {
   const [calculator] = useState(() => new UniversalCreditCalculator());
 
   // Apply skin for current route
-  useEffect(() => {
-    applySkinForRoute(location.pathname);
-  }, [location.pathname]);
+  // useEffect(() => {
+  //   applySkinForRoute(location.pathname);
+  // }, [location.pathname]);
 
   const handleFormChange = (field, value) => {
     setFormData(prev => ({
@@ -598,7 +597,6 @@ function CalculatorPage({ isRehabilitation = false }) {
     <div className="container">
       <header className="header">
         <div className="header-content">
-          <Logo route={location.pathname} />
           <div className="header-text">
             <h1>{isRehabilitation ? 'Benefits Calculator' : 'Better Off In Work Calculator'}</h1>
             <p className="subtitle">{isRehabilitation ? 'Use this calculator to maximise your income and see how changes in circumstance might affect you' : 'Use this calculator to check your finances if you move into work, claim all your entitlements and get help with self employment'}</p>
