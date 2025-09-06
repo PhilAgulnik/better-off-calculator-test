@@ -6,8 +6,8 @@ import * as pdfjsLib from 'pdfjs-dist';
 import Navigation from './Navigation';
 import './InvoicesAndReceipts.css';
 
-// Configure PDF.js worker
-pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+// Configure PDF.js worker - use local worker file
+pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 const InvoicesAndReceipts = () => {
   const [activeTab, setActiveTab] = useState('invoices');
