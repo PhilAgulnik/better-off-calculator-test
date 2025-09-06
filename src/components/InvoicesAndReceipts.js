@@ -22,6 +22,7 @@ const InvoicesAndReceipts = () => {
     footerText: 'For any queries regarding this invoice, please contact us.',
     colorScheme: 'professional'
   });
+  const [currentPeriod, setCurrentPeriod] = useState(null);
   const [newInvoice, setNewInvoice] = useState({
     id: '',
     clientName: '',
@@ -47,6 +48,7 @@ const InvoicesAndReceipts = () => {
     const savedInvoices = localStorage.getItem('invoices');
     const savedExpenses = localStorage.getItem('expenses');
     const savedCustomization = localStorage.getItem('invoiceCustomization');
+    const openExpensesTab = localStorage.getItem('openExpensesTab');
     
     if (savedInvoices) {
       setInvoices(JSON.parse(savedInvoices));
@@ -56,6 +58,18 @@ const InvoicesAndReceipts = () => {
     }
     if (savedCustomization) {
       setCustomization(JSON.parse(savedCustomization));
+    }
+    
+    // Check if we should open the expenses tab (coming from monthly-profit)
+    if (openExpensesTab === 'true') {
+      setActiveTab('expenses');
+      localStorage.removeItem('openExpensesTab'); // Clear the flag
+    }
+    
+    // Load current assessment period if coming from monthly-profit
+    const savedPeriod = localStorage.getItem('currentAssessmentPeriod');
+    if (savedPeriod) {
+      setCurrentPeriod(JSON.parse(savedPeriod));
     }
   }, []);
 
@@ -522,6 +536,21 @@ const InvoicesAndReceipts = () => {
       <div className="page-header">
         <h1>Invoices & Receipts</h1>
         <p>Digitally store and organize all your receipts and invoices, with automatic categorization for tax purposes.</p>
+        {currentPeriod && (
+          <div className="period-context">
+            <h3>Current Assessment Period: {currentPeriod.month}</h3>
+            <p>Period: {currentPeriod.start} - {currentPeriod.end}</p>
+            <button 
+              className="clear-period-btn"
+              onClick={() => {
+                setCurrentPeriod(null);
+                localStorage.removeItem('currentAssessmentPeriod');
+              }}
+            >
+              Clear Period Context
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="tabs">

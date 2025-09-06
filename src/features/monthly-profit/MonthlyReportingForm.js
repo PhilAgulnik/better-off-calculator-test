@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function MonthlyReportingForm({ period, onClose, exampleData }) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     income: {
       bankReceipts: 0,
@@ -308,6 +310,37 @@ function MonthlyReportingForm({ period, onClose, exampleData }) {
     alert('Monthly report saved successfully!');
   };
 
+  const handleAddInvoice = () => {
+    // Navigate to invoices page with period context
+    const periodData = {
+      start: period.start.toISOString().split('T')[0],
+      end: period.end.toISOString().split('T')[0],
+      month: period.month
+    };
+    
+    // Store period data in localStorage for the invoices page to use
+    localStorage.setItem('currentAssessmentPeriod', JSON.stringify(periodData));
+    
+    // Navigate to invoices page
+    navigate('/self-employment-accounts/invoices-receipts');
+  };
+
+  const handleAddReceipt = () => {
+    // Navigate to expenses tab on invoices page with period context
+    const periodData = {
+      start: period.start.toISOString().split('T')[0],
+      end: period.end.toISOString().split('T')[0],
+      month: period.month
+    };
+    
+    // Store period data in localStorage for the invoices page to use
+    localStorage.setItem('currentAssessmentPeriod', JSON.stringify(periodData));
+    localStorage.setItem('openExpensesTab', 'true');
+    
+    // Navigate to invoices page
+    navigate('/self-employment-accounts/invoices-receipts');
+  };
+
   return (
     <div className="monthly-reporting-form">
       <div className="form-header">
@@ -370,8 +403,8 @@ function MonthlyReportingForm({ period, onClose, exampleData }) {
             <button type="button" className="action-btn import-btn">
               Import data
             </button>
-            <button type="button" className="action-btn add-receipt-btn">
-              Add receipt
+            <button type="button" className="action-btn add-invoice-btn" onClick={handleAddInvoice}>
+              Add invoice
             </button>
           </div>
 
@@ -469,7 +502,7 @@ function MonthlyReportingForm({ period, onClose, exampleData }) {
             <button type="button" className="action-btn import-btn">
               Import data
             </button>
-            <button type="button" className="action-btn add-receipt-btn">
+            <button type="button" className="action-btn add-receipt-btn" onClick={handleAddReceipt}>
               Add receipt
             </button>
           </div>
