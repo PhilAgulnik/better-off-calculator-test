@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import jsPDF from 'jspdf';
 import Tesseract from 'tesseract.js';
+import Navigation from './Navigation';
 import './InvoicesAndReceipts.css';
 
 const InvoicesAndReceipts = () => {
@@ -1098,6 +1099,8 @@ const InvoicesAndReceipts = () => {
           </button>
         </div>
       )}
+      
+      <Navigation showRelatedTools={false} />
     </div>
   );
 };
