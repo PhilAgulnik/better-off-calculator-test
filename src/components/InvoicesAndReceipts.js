@@ -279,10 +279,31 @@ const InvoicesAndReceipts = () => {
     
     for (const file of acceptedFiles) {
       try {
-        // Process image with OCR
-        const { data: { text } } = await Tesseract.recognize(file, 'eng');
+        let text = '';
+        let fileType = 'unknown';
         
-        // Extract amount and date from OCR text
+        // Determine file type and process accordingly
+        if (file.type.startsWith('image/')) {
+          // Process image with OCR
+          const { data: { text: ocrText } } = await Tesseract.recognize(file, 'eng');
+          text = ocrText;
+          fileType = 'image';
+        } else if (file.type === 'application/pdf') {
+          // For PDF files, we'll extract basic info and note that OCR is not available
+          text = `PDF Document: ${file.name}\n\nNote: PDF text extraction is not available in this version. Please manually enter the amount and date below.`;
+          fileType = 'pdf';
+        } else if (file.type === 'text/html') {
+          // For HTML files, we'll read the content
+          const htmlContent = await file.text();
+          // Extract text content from HTML (basic implementation)
+          text = htmlContent.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+          fileType = 'html';
+        } else {
+          text = `File: ${file.name}\n\nPlease manually enter the amount and date below.`;
+          fileType = 'other';
+        }
+        
+        // Extract amount and date from text (works for images and HTML)
         const amountMatch = text.match(/£?(\d+\.?\d*)/g);
         const dateMatch = text.match(/(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/g);
         
@@ -291,9 +312,10 @@ const InvoicesAndReceipts = () => {
           filename: file.name,
           amount: amountMatch ? amountMatch[0].replace('£', '') : '0',
           date: dateMatch ? dateMatch[0] : new Date().toISOString().split('T')[0],
-          description: text.substring(0, 100) + '...',
+          description: text.substring(0, 100) + (text.length > 100 ? '...' : ''),
           fullText: text,
           category: 'uncategorized',
+          fileType: fileType,
           createdAt: new Date().toISOString()
         };
         
@@ -310,7 +332,9 @@ const InvoicesAndReceipts = () => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.bmp', '.webp']
+      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.bmp', '.webp'],
+      'application/pdf': ['.pdf'],
+      'text/html': ['.html', '.htm']
     }
   });
 
@@ -622,8 +646,8 @@ const InvoicesAndReceipts = () => {
                 </div>
               ) : (
                 <div className="dropzone-content">
-                  <p>Drag & drop receipt images here, or click to select files</p>
-                  <p className="dropzone-hint">Supports: JPG, PNG, GIF, BMP, WebP</p>
+                  <p>Drag & drop receipt files here, or click to select files</p>
+                  <p className="dropzone-hint">Supports: Images (JPG, PNG, GIF, BMP, WebP), PDF, HTML</p>
                 </div>
               )}
             </div>
@@ -638,7 +662,15 @@ const InvoicesAndReceipts = () => {
                 {expenses.map(expense => (
                   <div key={expense.id} className="expense-card">
                     <div className="expense-header">
-                      <span className="expense-amount">£{parseFloat(expense.amount).toFixed(2)}</span>
+                      <div className="expense-amount-section">
+                        <span className="expense-amount">£{parseFloat(expense.amount).toFixed(2)}</span>
+                        <span className={`file-type-badge ${expense.fileType || 'unknown'}`}>
+                          {expense.fileType === 'image' ? '📷' : 
+                           expense.fileType === 'pdf' ? '📄' : 
+                           expense.fileType === 'html' ? '🌐' : '📁'}
+                          {expense.fileType?.toUpperCase() || 'FILE'}
+                        </span>
+                      </div>
                       <span className="expense-date">{expense.date}</span>
                     </div>
                     <div className="expense-details">

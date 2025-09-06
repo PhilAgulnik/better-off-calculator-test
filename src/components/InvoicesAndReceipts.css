@@ -483,8 +483,15 @@
 .expense-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 15px;
+  gap: 10px;
+}
+
+.expense-amount-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .expense-amount {
@@ -493,9 +500,42 @@
   color: #dc3545;
 }
 
+.file-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.file-type-badge.image {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+}
+
+.file-type-badge.pdf {
+  background: linear-gradient(135deg, #dc3545, #e74c3c);
+  color: white;
+}
+
+.file-type-badge.html {
+  background: linear-gradient(135deg, #fd7e14, #ffc107);
+  color: white;
+}
+
+.file-type-badge.unknown {
+  background: linear-gradient(135deg, #6c757d, #495057);
+  color: white;
+}
+
 .expense-date {
   color: #666;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .expense-details h4 {
