@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDropzone } from 'react-dropzone';
 import jsPDF from 'jspdf';
 import Tesseract from 'tesseract.js';
+import pdfParse from 'pdf-parse';
 import Navigation from './Navigation';
 import './InvoicesAndReceipts.css';
 
@@ -440,6 +441,100 @@ const InvoicesAndReceipts = () => {
     }
   };
 
+  // Parse expense data from extracted text
+  const parseExpenseData = (text) => {
+    const data = {
+      amount: '',
+      date: '',
+      description: '',
+      category: 'uncategorized',
+      vendor: ''
+    };
+
+    // Extract amount - look for various currency formats
+    const amountPatterns = [
+      /£\s*(\d+\.?\d*)/g,           // £123.45
+      /(\d+\.?\d*)\s*£/g,           // 123.45£
+      /total[:\s]*£?\s*(\d+\.?\d*)/gi,  // Total: £123.45
+      /amount[:\s]*£?\s*(\d+\.?\d*)/gi, // Amount: £123.45
+      /(\d+\.?\d*)\s*GBP/gi,        // 123.45 GBP
+      /(\d+\.?\d*)\s*USD/gi,        // 123.45 USD
+      /(\d+\.?\d*)\s*EUR/gi         // 123.45 EUR
+    ];
+
+    for (const pattern of amountPatterns) {
+      const match = text.match(pattern);
+      if (match) {
+        data.amount = match[0].replace(/[£$€GBPUSD\s]/gi, '');
+        break;
+      }
+    }
+
+    // Extract date - look for various date formats
+    const datePatterns = [
+      /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/g,  // DD/MM/YYYY or DD-MM-YYYY
+      /(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})/g,    // YYYY/MM/DD or YYYY-MM-DD
+      /(\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{2,4})/gi, // DD Mon YYYY
+      /((?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2},?\s+\d{2,4})/gi // Mon DD, YYYY
+    ];
+
+    for (const pattern of datePatterns) {
+      const match = text.match(pattern);
+      if (match) {
+        data.date = match[0];
+        break;
+      }
+    }
+
+    // Extract vendor/merchant name
+    const vendorPatterns = [
+      /(?:from|merchant|vendor|store)[:\s]*([A-Za-z\s&]+)/gi,
+      /^([A-Za-z\s&]+)\s*(?:receipt|invoice|bill)/gi,
+      /([A-Za-z\s&]{3,})\s*(?:ltd|limited|inc|corp|company)/gi
+    ];
+
+    for (const pattern of vendorPatterns) {
+      const match = text.match(pattern);
+      if (match && match[1].trim().length > 2) {
+        data.vendor = match[1].trim();
+        break;
+      }
+    }
+
+    // Extract description - look for common expense keywords
+    const expenseKeywords = [
+      'fuel', 'petrol', 'diesel', 'gas',
+      'office', 'stationery', 'supplies',
+      'travel', 'transport', 'taxi', 'bus', 'train',
+      'meal', 'food', 'restaurant', 'lunch', 'dinner',
+      'hotel', 'accommodation', 'lodging',
+      'phone', 'mobile', 'telephone',
+      'internet', 'broadband', 'wifi',
+      'insurance', 'premium', 'policy',
+      'rent', 'lease', 'rental',
+      'utilities', 'electricity', 'gas', 'water',
+      'marketing', 'advertising', 'promotion',
+      'training', 'course', 'education',
+      'software', 'subscription', 'license'
+    ];
+
+    const textLower = text.toLowerCase();
+    for (const keyword of expenseKeywords) {
+      if (textLower.includes(keyword)) {
+        data.category = keyword;
+        break;
+      }
+    }
+
+    // Extract description from first meaningful line
+    const lines = text.split('\n').filter(line => line.trim().length > 5);
+    if (lines.length > 0) {
+      data.description = lines[0].trim().substring(0, 100);
+    }
+
+    return data;
+  };
+
   // Handle file drop for receipts
   const onDrop = async (acceptedFiles) => {
     setIsProcessing(true);
@@ -456,8 +551,10 @@ const InvoicesAndReceipts = () => {
           text = ocrText;
           fileType = 'image';
         } else if (file.type === 'application/pdf') {
-          // For PDF files, we'll extract basic info and note that OCR is not available
-          text = `PDF Document: ${file.name}\n\nNote: PDF text extraction is not available in this version. Please manually enter the amount and date below.`;
+          // Extract text from PDF using pdf-parse
+          const arrayBuffer = await file.arrayBuffer();
+          const data = await pdfParse(arrayBuffer);
+          text = data.text;
           fileType = 'pdf';
         } else if (file.type === 'text/html') {
           // For HTML files, we'll read the content
@@ -470,18 +567,18 @@ const InvoicesAndReceipts = () => {
           fileType = 'other';
         }
         
-        // Extract amount and date from text (works for images and HTML)
-        const amountMatch = text.match(/£?(\d+\.?\d*)/g);
-        const dateMatch = text.match(/(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/g);
+        // Enhanced data extraction from text
+        const extractedData = parseExpenseData(text);
         
         const expense = {
           id: generateId(),
           filename: file.name,
-          amount: amountMatch ? amountMatch[0].replace('£', '') : '0',
-          date: dateMatch ? dateMatch[0] : new Date().toISOString().split('T')[0],
-          description: text.substring(0, 100) + (text.length > 100 ? '...' : ''),
+          amount: extractedData.amount || '0',
+          date: extractedData.date || new Date().toISOString().split('T')[0],
+          description: extractedData.description || text.substring(0, 100) + (text.length > 100 ? '...' : ''),
           fullText: text,
-          category: 'uncategorized',
+          category: extractedData.category || 'uncategorized',
+          vendor: extractedData.vendor || '',
           fileType: fileType,
           createdAt: new Date().toISOString()
         };
@@ -867,6 +964,11 @@ const InvoicesAndReceipts = () => {
                     </div>
                     <div className="expense-details">
                       <h4>{expense.filename}</h4>
+                      {expense.vendor && (
+                        <p className="expense-vendor">
+                          <strong>Vendor:</strong> {expense.vendor}
+                        </p>
+                      )}
                       <p className="expense-description">{expense.description}</p>
                       <select 
                         value={expense.category}
