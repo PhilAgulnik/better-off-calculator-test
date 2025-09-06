@@ -550,6 +550,22 @@ body {
     font-size: var(--font-size-sm);
 }
 
+/* Force left alignment for all form elements */
+.card .form-group,
+.card .form-group label,
+.card .form-group .form-control,
+.card .form-group .radio-group,
+.card .form-group .radio-group .radio-label {
+    text-align: left !important;
+    justify-content: flex-start !important;
+}
+
+.card .form-group .radio-group {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+}
+
 .footer p {
     margin-bottom: var(--spacing-2);
 }
@@ -914,4 +930,23 @@ body {
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
     }
+}
+
+/* ULTIMATE FORM ALIGNMENT FIX - Override everything */
+.container .main-content .calculator-grid .card .form-group,
+.container .main-content .calculator-grid .card .form-group label,
+.container .main-content .calculator-grid .card .form-group .form-control,
+.container .main-content .calculator-grid .card .form-group .radio-group,
+.container .main-content .calculator-grid .card .form-group .radio-group .radio-label,
+.container .main-content .calculator-grid .card .form-group .radio-group .radio-label span {
+    text-align: left !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+}
+
+.container .main-content .calculator-grid .card .form-group .radio-group {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    flex-direction: row !important;
 }
