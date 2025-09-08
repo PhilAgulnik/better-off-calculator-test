@@ -6667,3 +6667,19 @@ body {
 .calculator-grid .card .form-group .form-control {
     text-align: left !important;
 }
+
+/* Pension age warning styles (inlined for CRA) */
+.pension-age-warning {
+    background: #fdecea;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.warning-content { display: flex; align-items: flex-start; gap: 1rem; }
+.warning-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.25rem; color: #8a1f2d; }
+.warning-text h3 { margin: 0 0 0.75rem 0; color: #8a1f2d; font-size: 1.25rem; font-weight: 700; }
+.warning-text p { margin: 0 0 0.75rem 0; color: #8a1f2d; line-height: 1.6; font-size: 1.1rem; }
+.warning-text p:last-child { margin-bottom: 0; }
+.pension-age-note { font-size: 1rem; font-style: italic; background: rgba(138,31,45,0.08); padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 3px solid #8a1f2d; }

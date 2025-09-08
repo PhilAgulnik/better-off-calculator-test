@@ -165,7 +165,9 @@ export const getAllLHARates = (brma) => {
 
 // Convert weekly LHA rate to monthly
 export const convertLHAToMonthly = (weeklyRate) => {
-  return weeklyRate * 4.33; // Average weeks per month
+  // Note: The LHA rates in our JSON data are already monthly rates
+  // This function is kept for compatibility but should not multiply by 4.33
+  return weeklyRate; // Rates are already monthly
 };
 
 // Get bedroom entitlement description

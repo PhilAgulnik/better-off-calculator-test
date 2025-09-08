@@ -31,10 +31,13 @@ function AffordabilityMap() {
         <div className="map-section">
           <div className="map-container">
             <img 
-              src="/affordability-map.png.png" 
+              src={`${process.env.PUBLIC_URL}/affordability-map.png.png`} 
               alt="Housing Affordability Map of Great Britain showing rent levels and LHA rates by region"
               className="affordability-map-image"
+              onLoad={() => console.log('Affordability map image loaded successfully')}
               onError={(e) => {
+                console.error('Failed to load affordability map image:', e.target.src);
+                console.error('Error details:', e);
                 e.target.style.display = 'none';
                 e.target.nextSibling.style.display = 'block';
               }}

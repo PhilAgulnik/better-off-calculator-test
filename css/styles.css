@@ -1,5 +1,464 @@
 /* Universal Credit Calculator - Main Styles */
 
+/* Help Page Styles */
+.help-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+}
+
+.help-content {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.help-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px;
+  text-align: center;
+}
+
+.back-link {
+  display: inline-block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.back-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  text-decoration: none;
+  color: white;
+}
+
+.help-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+
+.help-body {
+  padding: 40px;
+}
+
+.help-section {
+  margin-bottom: 40px;
+}
+
+.help-section h2 {
+  color: #2d3748;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.help-section h3 {
+  color: #4a5568;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  margin-top: 25px;
+}
+
+.help-section p {
+  margin-bottom: 15px;
+  color: #4a5568;
+}
+
+.help-section ul, .help-section ol {
+  margin-bottom: 15px;
+  padding-left: 25px;
+}
+
+.help-section li {
+  margin-bottom: 8px;
+  color: #4a5568;
+}
+
+.charge-brackets {
+  display: grid;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.bracket {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #667eea;
+}
+
+.bracket h3 {
+  color: #2d3748;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.options {
+  display: grid;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.option {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #48bb78;
+}
+
+.option h3 {
+  color: #2d3748;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.considerations {
+  display: grid;
+  gap: 20px;
+  margin: 20px 0;
+}
+
+.consideration {
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #f56565;
+}
+
+.consideration h3 {
+  color: #2d3748;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.help-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.disclaimer {
+  background: #fef5e7;
+  border: 1px solid #f6e05e;
+  border-radius: 6px;
+  padding: 15px;
+  color: #744210;
+  font-size: 0.9rem;
+}
+
+.help-section a {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.help-section a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive design for help page */
+@media (max-width: 768px) {
+  .help-page {
+    padding: 10px;
+  }
+  
+  .help-header {
+    padding: 20px;
+  }
+  
+  .help-header h1 {
+    font-size: 2rem;
+  }
+  
+  .help-body {
+    padding: 20px;
+  }
+  
+  .help-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .charge-brackets,
+  .options,
+  .considerations {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* State Pension Age Warning Styles */
+.pension-age-warning {
+  background: #fdecea; /* light red */
+  border: 1px solid #f5c6cb; /* red border */
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.warning-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.warning-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 0.25rem;
+  color: #8a1f2d;
+}
+
+.warning-text h3 {
+  margin: 0 0 0.75rem 0;
+  color: #8a1f2d; /* dark red */
+  font-size: 1.25rem; /* bigger title */
+  font-weight: 700;
+}
+
+.warning-text p {
+  margin: 0 0 0.75rem 0;
+  color: #8a1f2d; /* dark red */
+  line-height: 1.6;
+  font-size: 1.1rem; /* bigger body text */
+}
+
+.warning-text p:last-child {
+  margin-bottom: 0;
+}
+
+.pension-age-note {
+  font-size: 1rem;
+  font-style: italic;
+  background: rgba(138, 31, 45, 0.08); /* faint red */
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  border-left: 3px solid #8a1f2d;
+}
+
+/* Affordability Map Styles */
+.affordability-map {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+.map-section {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.map-container {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fafc;
+}
+
+.affordability-map-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.map-placeholder {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+}
+
+.placeholder-content h3 {
+  color: #2d3748;
+  margin-bottom: 15px;
+}
+
+.map-legend {
+  padding: 20px;
+  background: #f7fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+.map-legend h3 {
+  margin: 0 0 15px 0;
+  color: #2d3748;
+}
+
+.legend-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+
+.legend-color.green {
+  background: #48bb78;
+}
+
+.legend-color.orange {
+  background: #ed8936;
+}
+
+.legend-color.red {
+  background: #f56565;
+}
+
+.map-info {
+  margin: 20px 0;
+}
+
+.map-info h2 {
+  color: #2d3748;
+  margin-bottom: 20px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.info-card h3 {
+  color: #2d3748;
+  margin: 0 0 10px 0;
+}
+
+.info-card p {
+  color: #4a5568;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.back-to-services {
+  text-align: center;
+  margin: 30px 0;
+}
+
+/* Responsive design for affordability map */
+@media (max-width: 768px) {
+  .legend-items {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .map-container {
+    min-height: 300px;
+  }
+}
+
+/* High Income Charge Message Styles */
+.high-income-charge-message {
+  margin-top: 20px;
+}
+
+.charge-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.charge-alert.partial_charge {
+  border-left-color: #f6ad55;
+  background: #fffaf0;
+  border-color: #fbd38d;
+}
+
+.charge-alert.full_charge {
+  border-left-color: #f56565;
+  background: #fff5f5;
+  border-color: #fed7d7;
+}
+
+.alert-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-content h4 {
+  margin: 0 0 10px 0;
+  color: #2d3748;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.alert-content p {
+  margin: 0 0 10px 0;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.earnings-range {
+  font-size: 0.9rem;
+  color: #718096;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.help-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px dotted #667eea;
+}
+
+.help-link:hover {
+  color: #5a67d8;
+  text-decoration: none;
+  border-bottom: 1px solid #5a67d8;
+}
+
 /* CSS Variables */
 :root {
     /* Colors */
@@ -949,4 +1408,360 @@ body {
     justify-content: flex-start !important;
     align-items: flex-start !important;
     flex-direction: row !important;
+}
+
+/* Comprehensive Results Section Styles */
+.benefits-overview {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+@media (min-width: 768px) {
+    .benefits-overview {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.benefit-card {
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-card.means-tested {
+    border-left: 4px solid #007bff;
+}
+
+.benefit-card.non-means-tested {
+    border-left: 4px solid #28a745;
+}
+
+.benefit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.benefit-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.benefit-amount {
+    text-align: right;
+}
+
+.benefit-amount .period {
+    display: block;
+    font-size: 0.875rem;
+    color: #666;
+    font-weight: normal;
+}
+
+.benefit-details {
+    margin-top: 1rem;
+}
+
+.amount-breakdown {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.amount-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.amount-item .label {
+    display: block;
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.25rem;
+}
+
+.amount-item .value {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.breakdown-section {
+    margin-top: 1rem;
+}
+
+.breakdown-section h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.breakdown-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.breakdown-item:last-child {
+    border-bottom: none;
+}
+
+.breakdown-item .label {
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.breakdown-item .value {
+    font-weight: 600;
+    color: #333;
+}
+
+.total-benefits-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.total-header h3 {
+    margin: 0 0 1rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.total-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.total-amount .period {
+    display: block;
+    font-size: 1rem;
+    font-weight: normal;
+    opacity: 0.9;
+}
+
+.total-breakdown {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.total-item {
+    text-align: center;
+}
+
+.total-item .label {
+    display: block;
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+}
+
+.total-item .value {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.important-info {
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+}
+
+.important-info h4 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.125rem;
+}
+
+.important-info ul {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.important-info li {
+    margin-bottom: 0.75rem;
+    color: #555;
+    line-height: 1.5;
+}
+
+.important-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.important-info a:hover {
+    text-decoration: underline;
+}
+
+.detailed-breakdown {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e1e5e9;
+}
+
+.detailed-breakdown h4 {
+    margin: 0 0 1.5rem 0;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.detailed-benefit {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.detailed-benefit h5 {
+    margin: 0 0 1rem 0;
+    color: #333;
+    font-size: 1.125rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.action-buttons .btn {
+    flex: 1;
+    min-width: 120px;
+}
+
+@media (max-width: 768px) {
+    .amount-breakdown,
+    .total-breakdown {
+        grid-template-columns: 1fr;
+    }
+    
+    .total-amount {
+        font-size: 2rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+        flex: none;
+    }
+}
+
+/* Child Benefit Section Styles */
+.child-benefit-section {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+}
+
+.child-benefit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.child-benefit-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.child-benefit-header .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 4px;
+}
+
+.child-benefit-section .breakdown-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e1e5e9;
+}
+
+.child-benefit-section .breakdown-item:last-child {
+    border-bottom: none;
+}
+
+.child-benefit-section .breakdown-item.child-breakdown {
+    padding-left: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.child-benefit-section .breakdown-item.child-breakdown .label {
+    font-style: italic;
+}
+
+.child-benefit-info {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 4px;
+    border-left: 4px solid #28a745;
+}
+
+.child-benefit-info p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+}
+
+.child-benefit-info a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.child-benefit-info a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .child-benefit-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+    
+    .child-benefit-header .btn-sm {
+        align-self: flex-end;
+    }
 }

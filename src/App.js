@@ -10,6 +10,7 @@ import HelpGuide from './components/HelpGuide';
 import HelpGuideBenefits from './components/HelpGuideBenefits';
 import HelpGuideHousing from './components/HelpGuideHousing';
 import HelpGuideHealth from './components/HelpGuideHealth';
+import ChildBenefitChargeHelp from './components/ChildBenefitChargeHelp';
 import BudgetingTool from './features/budgeting-tool/EnhancedBudgetingTool'; // Updated to use enhanced version
 import RehabilitationCalculator from './components/RehabilitationCalculator';
 import BudgetingToolAdmin from './features/budgeting-tool/BudgetingToolAdmin';
@@ -51,6 +52,7 @@ function App() {
         <Route path="/help-guide/benefits" element={<HelpGuideBenefits />} />
         <Route path="/help-guide/housing" element={<HelpGuideHousing />} />
         <Route path="/help-guide/health" element={<HelpGuideHealth />} />
+        <Route path="/help/child-benefit-charge" element={<ChildBenefitChargeHelp />} />
         <Route path="/budgeting-tool" element={<BudgetingTool />} /> {/* Now uses enhanced version */}
         <Route path="/budgeting-tool-admin" element={<BudgetingToolAdmin />} />
         <Route path="/housing-review-amounts" element={<HousingReviewAmounts />} />

@@ -96,7 +96,14 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             value={formData.age || ''}
             onChange={(e) => {
               const value = e.target.value;
-              handleInputChange('age', value);
+              if (value === '') {
+                handleInputChange('age', '');
+              } else {
+                const numValue = parseInt(value);
+                if (!isNaN(numValue) && numValue >= 16 && numValue <= 120) {
+                  handleInputChange('age', numValue);
+                }
+              }
             }}
             onBlur={(e) => {
               const value = e.target.value;
@@ -119,7 +126,14 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               value={formData.partnerAge || ''}
               onChange={(e) => {
                 const value = e.target.value;
-                handleInputChange('partnerAge', value);
+                if (value === '') {
+                  handleInputChange('partnerAge', '');
+                } else {
+                  const numValue = parseInt(value);
+                  if (!isNaN(numValue) && numValue >= 16 && numValue <= 120) {
+                    handleInputChange('partnerAge', numValue);
+                  }
+                }
               }}
               onBlur={(e) => {
                 const value = e.target.value;
@@ -246,33 +260,27 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         {/* Show rent and service charges only if renting */}
         {formData.housingStatus === 'renting' && (
           <>
-        <div className="form-group">
-          <label htmlFor="rent">Monthly Rent</label>
-          <AmountInputWithPeriod 
-              id="rent" 
-            label="Monthly Rent"
-              value={formData.rent}
-            onChange={(value) => handleInputChange('rent', value)}
-            onPeriodChange={(e) => handleInputChange('rentPeriod', e.target.value)}
-            periodValue={formData.rentPeriod}
-            min={0}
-            step={0.01}
-          />
-        </div>
+        <AmountInputWithPeriod 
+            id="rent" 
+          label="Monthly Rent"
+            value={formData.rent}
+          onChange={(value) => handleInputChange('rent', value)}
+          onPeriodChange={(e) => handleInputChange('rentPeriod', e.target.value)}
+          periodValue={formData.rentPeriod}
+          min={0}
+          step={0.01}
+        />
 
-        <div className="form-group">
-          <label htmlFor="serviceCharges">Service Charges</label>
-          <AmountInputWithPeriod 
-              id="serviceCharges" 
-            label="Service Charges"
-              value={formData.serviceCharges}
-            onChange={(value) => handleInputChange('serviceCharges', value)}
-            onPeriodChange={(e) => handleInputChange('serviceChargesPeriod', e.target.value)}
-            periodValue={formData.serviceChargesPeriod}
-            min={0}
-            step={0.01}
-            />
-          </div>
+        <AmountInputWithPeriod 
+            id="serviceCharges" 
+          label="Service Charges"
+            value={formData.serviceCharges}
+          onChange={(value) => handleInputChange('serviceCharges', value)}
+          onPeriodChange={(e) => handleInputChange('serviceChargesPeriod', e.target.value)}
+          periodValue={formData.serviceChargesPeriod}
+          min={0}
+          step={0.01}
+          />
 
         {/* BRMA selection for private tenants, shown in housing costs block */}
         {formData.tenantType === 'private' && (
@@ -446,8 +454,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           {/* Show employment fields only if working */}
           {(formData.employmentType === 'employed' || formData.employmentType === 'self-employed') && (
             <>
-              <div className="form-group">
-                <label htmlFor="monthlyEarnings">Monthly Earnings</label>
                 <AmountInputWithPeriod 
                     id="monthlyEarnings" 
                   label="Monthly Earnings"
@@ -458,12 +464,9 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                   min={0}
                   step={0.01}
                   />
-                </div>
 
                        {/* Pension Contributions - only show for employed */}
          {formData.employmentType === 'employed' && (
-                           <div className="form-group">
-             <label htmlFor="pensionAmount">Pension Contributions (per month)</label>
                 <AmountInputWithPeriod 
                   id="pensionAmount"
                   label="Pension Contributions"
@@ -491,6 +494,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  Calculate as percentage of gross earnings instead
                </button>
               </div>
+             )}
 
              {/* Show percentage input when in percentage mode */}
              {formData.pensionType === 'percentage' && (
@@ -991,8 +995,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             {/* Show partner employment fields only if working */}
             {(formData.partnerEmploymentType === 'employed' || formData.partnerEmploymentType === 'self-employed') && (
               <>
-              <div className="form-group">
-                <label htmlFor="partnerMonthlyEarnings">Partner's Monthly Earnings</label>
                   <AmountInputWithPeriod 
                     id="partnerMonthlyEarnings"
                     label="Partner's Monthly Earnings"
@@ -1003,12 +1005,9 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                     min={0}
                     step={0.01}
                   />
-                </div>
 
                          {/* Partner Pension Contributions - only show for employed */}
          {formData.partnerEmploymentType === 'employed' && (
-                        <div className="form-group">
-               <label htmlFor="partnerPensionAmount">Partner's Pension Contributions (per month)</label>
               <AmountInputWithPeriod 
                 id="partnerPensionAmount"
                 label="Partner's Pension Contributions"
@@ -1036,6 +1035,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  Calculate as percentage of gross earnings instead
                </button>
              </div>
+             )}
 
              {/* Show percentage input when in percentage mode */}
              {formData.partnerPensionType === 'percentage' && (
@@ -1550,8 +1550,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               />
             </div>
 
-                            <div className="form-group">
-                 <label htmlFor="childcareCosts">Monthly Childcare Costs</label>
                  <AmountInputWithPeriod 
                    id="childcareCosts"
                    label="Monthly Childcare Costs"
@@ -2364,8 +2362,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         {/* Show savings amount input only if they have £6,000 or more */}
         {formData.hasSavingsOver6000 === 'yes' && (
           <>
-        <div className="form-group">
-                <label htmlFor="savings">How much do you have in savings?</label>
            <AmountInputWithPeriod 
               id="savings" 
              label="Savings Amount"

@@ -3,6 +3,7 @@ import { formatCurrency } from '../utils/formatters';
 import BetterOffInWorkModule from './BetterOffInWorkModule';
 import { useTextManager } from '../hooks/useTextManager';
 import { saveBenefitCalculatorData } from '../utils/benefitDataService';
+import { childBenefitCalculator } from '../utils/childBenefitCalculator';
 
 function ResultsSection({ results, formData, onPrint, onExport }) {
   const { getTextValue } = useTextManager();
@@ -12,21 +13,25 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
   const [mifGainful, setMifGainful] = useState('');
   const [claimantHours, setClaimantHours] = useState(35);
   const [showLhaPanel, setShowLhaPanel] = useState(false);
+  const [showChildBenefitWeekly, setShowChildBenefitWeekly] = useState(false);
+
+  // Calculate Child Benefit
+  const childBenefitResults = childBenefitCalculator.calculateChildBenefit(formData, taxYear);
 
   // Save benefit calculator data for budgeting tool
   useEffect(() => {
     if (results && results.calculation) {
       const benefitResults = {
         ucAmount: results.calculation.finalAmount,
-        otherBenefits: 0, // This would need to be calculated based on form data
+        otherBenefits: childBenefitResults.monthlyAmount,
         totalIncome: results.calculation.totalElements,
         totalDeductions: results.calculation.earningsReduction,
-        netIncome: results.calculation.finalAmount
+        netIncome: results.calculation.finalAmount + childBenefitResults.monthlyAmount
       };
       
       saveBenefitCalculatorData(formData, benefitResults);
     }
-  }, [results, formData]);
+  }, [results, formData, childBenefitResults.monthlyAmount]);
 
   // Check if MIF panel should be shown
   const shouldShowMIFPanel = () => {
@@ -198,6 +203,54 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
             </div>
           </div>
         </div>
+
+        {/* Child Benefit Section */}
+        {formData && formData.children > 0 && (
+          <div className="child-benefit-section">
+            <div className="child-benefit-header">
+              <h3>Child Benefit</h3>
+              <button 
+                type="button" 
+                className="btn btn-outline btn-sm"
+                onClick={() => setShowChildBenefitWeekly(!showChildBenefitWeekly)}
+              >
+                {showChildBenefitWeekly ? 'Hide' : 'See'} weekly amount
+              </button>
+            </div>
+            <div className="breakdown-list">
+              <div className="breakdown-item">
+                <span className="label">Child Benefit (Monthly)</span>
+                <span className="value">{formatCurrency(childBenefitResults.monthlyAmount)}</span>
+              </div>
+              {showChildBenefitWeekly && (
+                <>
+                  <div className="breakdown-item">
+                    <span className="label">Child Benefit (Weekly)</span>
+                    <span className="value">{formatCurrency(childBenefitResults.weeklyAmount)}</span>
+                  </div>
+                  <div className="breakdown-item">
+                    <span className="label">Child Benefit (Yearly)</span>
+                    <span className="value">{formatCurrency(childBenefitResults.yearlyAmount)}</span>
+                  </div>
+                  {childBenefitResults.breakdown && childBenefitResults.breakdown.length > 0 && (
+                    <>
+                      {childBenefitResults.breakdown.map((child, index) => (
+                        <div key={index} className="breakdown-item child-breakdown">
+                          <span className="label">{child.description}</span>
+                          <span className="value">{formatCurrency(child.rate)} per week</span>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+            <div className="child-benefit-info">
+              <p><strong>Note:</strong> Child Benefit is not means-tested but may be subject to the High Income Child Benefit Charge if you or your partner earn over £60,000 per year.</p>
+              <p>Rates based on official government rates from <a href="https://www.gov.uk/government/publications/rates-and-allowances-tax-credits-child-benefit-and-guardians-allowance/tax-credits-child-benefit-and-guardians-allowance" target="_blank" rel="noopener noreferrer">GOV.UK</a></p>
+            </div>
+          </div>
+        )}
 
         {/* Local Housing Allowance Panel for Private Tenants */}
         {formData && formData.tenantType === 'private' && calculation.lhaDetails && (

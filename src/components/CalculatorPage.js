@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import CalculatorForm from './CalculatorForm';
-import ResultsSection from './ResultsSection';
+import ComprehensiveResultsSection from './ComprehensiveResultsSection';
 import AdminPanel from './AdminPanel';
+import StatePensionAgeWarning from './StatePensionAgeWarning';
+import { getPensionAgeWarningType } from '../utils/pensionAgeCalculator';
 import { applySkinForRoute } from '../utils/skinManager';
 import { UniversalCreditCalculator } from '../utils/calculator';
 import Navigation from './Navigation';
@@ -14,6 +16,8 @@ function CalculatorPage({ isRehabilitation = false }) {
     // Tax Year and Circumstances
     taxYear: '2025_26',
     circumstances: 'single',
+    age: 25,
+    partnerAge: 25,
     
     // Housing
     housingStatus: 'no_housing_costs',
@@ -96,6 +100,8 @@ function CalculatorPage({ isRehabilitation = false }) {
   const [showSavedScenarios, setShowSavedScenarios] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [hasCalculated, setHasCalculated] = useState(false);
+  const [pensionWarningType, setPensionWarningType] = useState(null);
 
   // Initialize calculator
   const [calculator] = useState(() => new UniversalCreditCalculator());
@@ -114,6 +120,15 @@ function CalculatorPage({ isRehabilitation = false }) {
 
   const handleCalculate = async () => {
     setLoading(true);
+    setHasCalculated(true);
+    const warningType = getPensionAgeWarningType(formData);
+    setPensionWarningType(warningType);
+    if (warningType) {
+      // Show warning only; hide results
+      setShowResults(false);
+      setLoading(false);
+      return;
+    }
     try {
       // Convert period-based amounts to monthly amounts for calculation
       const calculationInput = {
@@ -250,6 +265,8 @@ function CalculatorPage({ isRehabilitation = false }) {
       // Tax Year and Circumstances
       taxYear: '2025_26',
       circumstances: 'single',
+      age: 25,
+      partnerAge: 25,
       
       // Housing
       housingStatus: 'no_housing_costs',
@@ -327,6 +344,9 @@ function CalculatorPage({ isRehabilitation = false }) {
     });
     setResults(null);
     setShowResults(false);
+    // Clear pension-age warning and calculation gate
+    setHasCalculated(false);
+    setPensionWarningType(null);
   };
 
   const handlePrint = () => {
@@ -627,7 +647,11 @@ function CalculatorPage({ isRehabilitation = false }) {
           />
         </div>
 
-        {showSavedScenarios && savedScenarios.length > 0 && (
+        {hasCalculated && pensionWarningType && (
+          <StatePensionAgeWarning type={pensionWarningType} />
+        )}
+
+        {!pensionWarningType && showSavedScenarios && savedScenarios.length > 0 && (
           <div className="saved-scenarios">
             <h3>Saved Scenarios</h3>
             <div className="scenarios-list">
@@ -652,9 +676,8 @@ function CalculatorPage({ isRehabilitation = false }) {
           </div>
         )}
 
-        {showResults && results && (
-          <ResultsSection 
-            results={results} 
+        {!pensionWarningType && showResults && results && (
+          <ComprehensiveResultsSection 
             formData={formData}
             onPrint={handlePrint}
             onExport={handleExport}

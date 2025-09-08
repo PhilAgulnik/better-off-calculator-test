@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "Universal Credit Calculator - React Version",
   "private": true,
+  "homepage": "https://yourusername.github.io/universal-credit-calculator",
+  "devDependencies": {
+    "gh-pages": "^6.0.0",
+    "serve": "^14.2.1",
+    "cross-env": "^7.0.3"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
@@ -27,7 +33,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "build:production": "cross-env GENERATE_SOURCEMAP=false npm run build",
+    "serve": "serve -s build -l 3000"
   },
   "eslintConfig": {
     "extends": [
