@@ -1,3 +1,0 @@
-# Universal Credit Calculator Package
-
-
