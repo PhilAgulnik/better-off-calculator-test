@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 // eslint-disable-next-line no-unused-vars
 import { format, addMonths, isWithinInterval, isSameDay, startOfMonth, endOfMonth } from 'date-fns';
 
@@ -6,14 +6,7 @@ function AssessmentPeriodCalendar({ assessmentPeriodStart, onPeriodSelect, selec
   const [currentPeriod, setCurrentPeriod] = useState(null);
   const [periodIndex, setPeriodIndex] = useState(0);
 
-  useEffect(() => {
-    if (assessmentPeriodStart) {
-      generateCurrentPeriod();
-    }
-  }, [assessmentPeriodStart, periodIndex]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const generateCurrentPeriod = () => {
+  const generateCurrentPeriod = useCallback(() => {
     if (!assessmentPeriodStart) return;
 
     const startDate = new Date(assessmentPeriodStart);
@@ -40,7 +33,13 @@ function AssessmentPeriodCalendar({ assessmentPeriodStart, onPeriodSelect, selec
       isPast: currentPeriodEnd < now,
       isFuture: currentPeriodStart > now
     });
-  };
+  }, [assessmentPeriodStart, periodIndex]);
+
+  useEffect(() => {
+    if (assessmentPeriodStart) {
+      generateCurrentPeriod();
+    }
+  }, [assessmentPeriodStart, periodIndex, generateCurrentPeriod]);
 
   const handlePreviousPeriod = () => {
     setPeriodIndex(prev => Math.max(0, prev - 1));
@@ -62,7 +61,6 @@ function AssessmentPeriodCalendar({ assessmentPeriodStart, onPeriodSelect, selec
 
   const generateCalendarDays = (year, month) => {
     const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
     startDate.setDate(startDate.getDate() - firstDay.getDay() + 1); // Start from Monday
     
@@ -85,7 +83,6 @@ function AssessmentPeriodCalendar({ assessmentPeriodStart, onPeriodSelect, selec
     
     // Check if it's outside the current month
     const currentMonth = currentPeriod.start.getMonth();
-    const currentYear = currentPeriod.start.getFullYear();
     if (date.getMonth() !== currentMonth && date.getMonth() !== (currentMonth + 1) % 12) {
       classes.push('other-month');
     }
