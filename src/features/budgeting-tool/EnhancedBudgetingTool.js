@@ -5,12 +5,14 @@ import {
   getHousingReviewsConfig,
   isFieldCompulsory,
   getCompulsoryFieldNames,
+  // eslint-disable-next-line no-unused-vars
   fieldDefinitions
 } from './adminConfigService';
 import {
   householdTypes,
   getONSData,
   getDataSourceInfo,
+  // eslint-disable-next-line no-unused-vars
   applyInflationAdjustment,
   waterCompanies,
   getWaterBillByCompany
@@ -19,6 +21,7 @@ import {
   housingReviewTypes,
   getHousingReviewAmounts,
   getHousingReviewDataSourceInfo,
+  // eslint-disable-next-line no-unused-vars
   applyHousingReviewAmounts
 } from './housingReviewsDataService';
 import Navigation from '../../components/Navigation';

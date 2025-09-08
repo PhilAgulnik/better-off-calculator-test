@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { getLHARate, convertLHAToMonthly, getAllLHARates, lhaRates2025_26 } from './lhaDataService';
 /**
  * Universal Credit Calculator - React Version

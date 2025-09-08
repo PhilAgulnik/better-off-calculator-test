@@ -83,6 +83,8 @@ function Navigation({ showRelatedTools = true }) {
           breadcrumbs.push({ label: 'Rehabilitation Services', path: '/rehabilitation-services' });
           breadcrumbs.push({ label: 'Affordability Map', path: '/affordability-map' });
           break;
+        default:
+          break;
       }
     }
     
