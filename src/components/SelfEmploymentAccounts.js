@@ -18,10 +18,10 @@ function SelfEmploymentAccounts() {
       available: true
     },
     {
-      key: 'dashboard',
-      icon: '📈',
-      title: 'Dashboard',
-      description: 'Track your business performance with real-time analytics, profit margins, and key financial metrics all in one place.',
+      key: 'making-tax-digital',
+      icon: '🏛️',
+      title: 'Making Tax Digital',
+      description: 'Submit quarterly updates to HMRC directly from your records. Guidance and tooling to comply with MTD for Income Tax Self Assessment.',
       available: false
     },
     {
