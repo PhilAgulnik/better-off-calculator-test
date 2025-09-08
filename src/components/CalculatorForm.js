@@ -1,4 +1,5 @@
 import React from 'react';
+import NetEarningsModule from './NetEarningsModule';
 import CarerModule from './CarerModule';
 import { useTextManager } from '../hooks/useTextManager';
 import AmountInputWithPeriod from './AmountInputWithPeriod';
@@ -447,18 +448,17 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
           {(formData.employmentType === 'employed' || formData.employmentType === 'self-employed') && (
             <>
               <div className="form-group">
-                <label htmlFor="monthlyEarnings">Monthly Earnings</label>
                 <AmountInputWithPeriod 
-                    id="monthlyEarnings" 
-                  label="Monthly Earnings"
-                    value={formData.monthlyEarnings}
+                  id="monthlyEarnings" 
+                  label="Monthly gross earnings"
+                  value={formData.monthlyEarnings}
                   onChange={(value) => handleInputChange('monthlyEarnings', value)}
                   onPeriodChange={(e) => handleInputChange('monthlyEarningsPeriod', e.target.value)}
                   periodValue={formData.monthlyEarningsPeriod}
                   min={0}
                   step={0.01}
-                  />
-                </div>
+                />
+              </div>
 
                        {/* Pension Contributions - only show for employed */}
          {formData.employmentType === 'employed' && (
@@ -466,7 +466,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
              <label htmlFor="pensionAmount">Pension Contributions (per month)</label>
                 <AmountInputWithPeriod 
                   id="pensionAmount"
-                  label="Pension Contributions"
+                  label="Pension Contributions (per month)"
                   value={formData.pensionAmount}
                   onChange={(value) => handleInputChange('pensionAmount', value)}
                   onPeriodChange={(e) => handleInputChange('pensionAmountPeriod', e.target.value)}
@@ -554,6 +554,11 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
          )}
 
               
+              {/* Net earnings module appears only when gross earnings > 0 */}
+              {formData.monthlyEarnings > 0 && (
+                <NetEarningsModule formData={formData} onFormChange={onFormChange} />
+              )}
+
             </>
           )}
 
