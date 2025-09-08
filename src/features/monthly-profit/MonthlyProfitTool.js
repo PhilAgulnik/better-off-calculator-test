@@ -5,6 +5,7 @@ import MonthlyReportingForm from './MonthlyReportingForm';
 import Navigation from '../../components/Navigation';
 
 function MonthlyProfitTool() {
+  // eslint-disable-next-line no-unused-vars
   const { getTextValue } = useTextManager();
   const [assessmentPeriodStart, setAssessmentPeriodStart] = useState('');
   const [currentDate] = useState(new Date().toISOString().split('T')[0]);

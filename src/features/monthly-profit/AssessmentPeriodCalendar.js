@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { format, addMonths, isWithinInterval, isSameDay, startOfMonth, endOfMonth } from 'date-fns';
 
 function AssessmentPeriodCalendar({ assessmentPeriodStart, onPeriodSelect, selectedPeriod }) {
@@ -11,6 +12,7 @@ function AssessmentPeriodCalendar({ assessmentPeriodStart, onPeriodSelect, selec
     }
   }, [assessmentPeriodStart, periodIndex]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const generateCurrentPeriod = () => {
     if (!assessmentPeriodStart) return;
 

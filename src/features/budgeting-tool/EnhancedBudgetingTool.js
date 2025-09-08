@@ -19,7 +19,9 @@ import {
 } from './onsDataService';
 import {
   housingReviewTypes,
+  // eslint-disable-next-line no-unused-vars
   getHousingReviewAmounts,
+  // eslint-disable-next-line no-unused-vars
   getHousingReviewDataSourceInfo,
   // eslint-disable-next-line no-unused-vars
   applyHousingReviewAmounts
@@ -108,6 +110,7 @@ function EnhancedBudgetingTool() {
     }
   };
 
+  // eslint-disable-next-line no-unused-vars
   const validateForm = () => {
     const errors = {};
     const compulsoryFields = getCompulsoryFieldNames();

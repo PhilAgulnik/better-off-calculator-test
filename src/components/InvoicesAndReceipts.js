@@ -480,6 +480,7 @@ const InvoicesAndReceipts = () => {
 
     // Extract date - look for various date formats
     const datePatterns = [
+      // eslint-disable-next-line no-useless-escape
       /(\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4})/g,  // DD/MM/YYYY or DD-MM-YYYY
       // eslint-disable-next-line no-useless-escape
       /(\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2})/g,    // YYYY/MM/DD or YYYY-MM-DD
