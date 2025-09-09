@@ -248,7 +248,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         {formData.housingStatus === 'renting' && (
           <>
         <div className="form-group">
-          <label htmlFor="rent">Monthly Rent</label>
           <AmountInputWithPeriod 
               id="rent" 
             label="Monthly Rent"
@@ -262,7 +261,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         </div>
 
         <div className="form-group">
-          <label htmlFor="serviceCharges">Service Charges</label>
           <AmountInputWithPeriod 
               id="serviceCharges" 
             label="Service Charges"
@@ -463,7 +461,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                        {/* Pension Contributions - only show for employed */}
          {formData.employmentType === 'employed' && (
                            <div className="form-group">
-             <label htmlFor="pensionAmount">Pension Contributions (per month)</label>
                 <AmountInputWithPeriod 
                   id="pensionAmount"
                   label="Pension Contributions (per month)"
@@ -997,7 +994,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             {(formData.partnerEmploymentType === 'employed' || formData.partnerEmploymentType === 'self-employed') && (
               <>
               <div className="form-group">
-                <label htmlFor="partnerMonthlyEarnings">Partner's Monthly Earnings</label>
                   <AmountInputWithPeriod 
                     id="partnerMonthlyEarnings"
                     label="Partner's Monthly Earnings"
@@ -1013,10 +1009,9 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                          {/* Partner Pension Contributions - only show for employed */}
          {formData.partnerEmploymentType === 'employed' && (
                         <div className="form-group">
-               <label htmlFor="partnerPensionAmount">Partner's Pension Contributions (per month)</label>
               <AmountInputWithPeriod 
                 id="partnerPensionAmount"
-                label="Partner's Pension Contributions"
+                label="Partner's Pension Contributions (per month)"
                 value={formData.partnerPensionAmount}
                 onChange={(value) => handleInputChange('partnerPensionAmount', value)}
                 onPeriodChange={(e) => handleInputChange('partnerPensionAmountPeriod', e.target.value)}
@@ -1556,7 +1551,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
             </div>
 
                             <div className="form-group">
-                 <label htmlFor="childcareCosts">Monthly Childcare Costs</label>
                  <AmountInputWithPeriod 
                    id="childcareCosts"
                    label="Monthly Childcare Costs"
@@ -2370,10 +2364,9 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         {formData.hasSavingsOver6000 === 'yes' && (
           <>
         <div className="form-group">
-                <label htmlFor="savings">How much do you have in savings?</label>
            <AmountInputWithPeriod 
               id="savings" 
-             label="Savings Amount"
+             label="How much do you have in savings?"
               value={formData.savings}
              onChange={(value) => handleInputChange('savings', value)}
              onPeriodChange={(e) => handleInputChange('savingsPeriod', e.target.value)}
