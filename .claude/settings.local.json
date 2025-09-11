@@ -10,7 +10,9 @@
       "Bash(git commit:*)",
       "Bash(git fetch:*)",
       "Bash(git checkout:*)",
-      "Bash(npx serve:*)"
+      "Bash(npx serve:*)",
+      "Bash(git log:*)",
+      "Bash(git stash:*)"
     ],
     "deny": [],
     "ask": []

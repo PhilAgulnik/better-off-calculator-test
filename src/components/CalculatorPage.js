@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import CalculatorForm from './CalculatorForm';
-import DetailedResults from './DetailedResults';
+import ResultsSection from './ResultsSection';
 import AdminPanel from './AdminPanel';
 import StatePensionAgeWarning from './StatePensionAgeWarning';
 import { getPensionAgeWarningType } from '../utils/pensionAgeCalculator';
@@ -677,7 +677,8 @@ function CalculatorPage({ isRehabilitation = false }) {
         )}
 
         {!pensionWarningType && showResults && results && (
-          <DetailedResults 
+          <ResultsSection 
+            results={results}
             formData={formData}
             onPrint={handlePrint}
             onExport={handleExport}
