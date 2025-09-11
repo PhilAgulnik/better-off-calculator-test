@@ -81,9 +81,9 @@ function BudgetingToolAdmin() {
           <Link to="/ons-standard-amounts" className="nav-link" target="_blank" rel="noopener noreferrer">
             View ONS Standard Amounts
           </Link>
-          <a href="/housing-review-amounts" className="nav-link" target="_blank" rel="noopener noreferrer">
+          <Link to="/housing-review-amounts" className="nav-link" target="_blank" rel="noopener noreferrer">
             View Housing Review Amounts
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -161,12 +161,12 @@ function BudgetingToolAdmin() {
                       </div>
                       {config.standardAmounts.enabled && (
                         <div className="source-links">
-                          <a href="/ons-standard-amounts" className="source-link" target="_blank" rel="noopener noreferrer">
+                          <Link to="/ons-standard-amounts" className="source-link" target="_blank" rel="noopener noreferrer">
                             See all ONS standard amounts
-                          </a>
-                          <a href="/housing-review-amounts" className="source-link" target="_blank" rel="noopener noreferrer">
+                          </Link>
+                          <Link to="/housing-review-amounts" className="source-link" target="_blank" rel="noopener noreferrer">
                             See all Housing Review standard amounts
-                          </a>
+                          </Link>
                         </div>
                       )}
                     </div>
