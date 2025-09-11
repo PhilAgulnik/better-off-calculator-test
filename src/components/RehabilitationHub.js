@@ -3,7 +3,7 @@ import { setCurrentSkin } from '../utils/skinManager';
 import Logo from './Logo';
 import Navigation from './Navigation';
 
-function RehabilitationServices() {
+function RehabilitationHub() {
   useEffect(() => {
     // Apply the rehabilitation skin when this component mounts
     setCurrentSkin('rehabilitation');
@@ -133,4 +133,4 @@ function RehabilitationServices() {
   );
 }
 
-export default RehabilitationServices;
+export default RehabilitationHub;

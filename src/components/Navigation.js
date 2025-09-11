@@ -22,7 +22,7 @@ function Navigation({ showRelatedTools = true }) {
     selfEmployment: [
       { path: '/monthly-profit', label: 'Monthly Profit Tool', icon: '📊', description: 'Track monthly earnings' },
       { path: '/self-assessment-tax-form', label: 'Self-Assessment Tax', icon: '📝', description: 'Tax form assistance' },
-      { path: '/minimum-income-floor', label: 'Minimum Income Floor', icon: '📈', description: 'MIF information' },
+      { path: '/mif-help-guide', label: 'MIF Help Guide', icon: '📈', description: 'MIF information' },
       { path: '/mif-calculator', label: 'MIF Calculator', icon: '🧮', description: 'Calculate your MIF' }
     ]
   };
@@ -38,7 +38,7 @@ function Navigation({ showRelatedTools = true }) {
     if (location.pathname.startsWith('/self-employment') || 
         location.pathname === '/monthly-profit' || 
         location.pathname === '/self-assessment-tax-form' || 
-        location.pathname.startsWith('/minimum-income-floor') || 
+        location.pathname.startsWith('/mif-help-guide') || 
         location.pathname === '/mif-calculator') {
       return 'selfEmployment';
     }
@@ -67,9 +67,9 @@ function Navigation({ showRelatedTools = true }) {
           breadcrumbs.push({ label: 'Self-Employment Tools', path: '/self-employment-accounts' });
           breadcrumbs.push({ label: 'Monthly Profit Tool', path: '/monthly-profit' });
           break;
-        case 'minimum-income-floor':
+        case 'mif-help-guide':
           breadcrumbs.push({ label: 'Self-Employment Tools', path: '/self-employment-accounts' });
-          breadcrumbs.push({ label: 'Minimum Income Floor', path: '/minimum-income-floor' });
+          breadcrumbs.push({ label: 'MIF Help Guide', path: '/mif-help-guide' });
           break;
         case 'mif-calculator':
           breadcrumbs.push({ label: 'Self-Employment Tools', path: '/self-employment-accounts' });
@@ -100,7 +100,7 @@ function Navigation({ showRelatedTools = true }) {
         { path: '/', label: 'Universal Credit Calculator', icon: '🏠' },
         { path: '/rehabilitation-services', label: 'Rehabilitation Services', icon: '🔄' },
         { path: '/self-employment-accounts', label: 'Self-Employment Tools', icon: '💼' },
-        { path: '/minimum-income-floor', label: 'Minimum Income Floor', icon: '📈' }
+        { path: '/mif-help-guide', label: 'MIF Help Guide', icon: '📈' }
       ];
     }
     
@@ -109,11 +109,11 @@ function Navigation({ showRelatedTools = true }) {
         { path: '/budgeting-tool', label: 'Budgeting Tool', icon: '💰' },
         { path: '/rehabilitation-services', label: 'Rehabilitation Services', icon: '🔄' },
         { path: '/self-employment-accounts', label: 'Self-Employment Tools', icon: '💼' },
-        { path: '/minimum-income-floor', label: 'Minimum Income Floor', icon: '📈' }
+        { path: '/mif-help-guide', label: 'MIF Help Guide', icon: '📈' }
       ];
     }
     
-    if (currentPath.startsWith('/self-employment') || currentPath === '/monthly-profit' || currentPath === '/minimum-income-floor' || currentPath === '/mif-calculator') {
+    if (currentPath.startsWith('/self-employment') || currentPath === '/monthly-profit' || currentPath === '/mif-help-guide' || currentPath === '/mif-calculator') {
       return [
         { path: '/', label: 'Universal Credit Calculator', icon: '🏠' },
         { path: '/budgeting-tool', label: 'Budgeting Tool', icon: '💰' },

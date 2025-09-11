@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.adminandmore.co.uk)",
+      "WebSearch",
+      "Bash(npm start)",
+      "Bash(npm install:*)",
+      "Bash(npm run deploy:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

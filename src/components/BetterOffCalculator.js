@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { formatCurrency } from '../utils/formatters';
 
-function BetterOffInWorkModule({ 
+function BetterOffCalculator({ 
   formData, 
   onFormChange, 
   currentUCAmount = 0,
@@ -592,4 +592,4 @@ function BetterOffInWorkModule({
   );
 }
 
-export default BetterOffInWorkModule;
+export default BetterOffCalculator;

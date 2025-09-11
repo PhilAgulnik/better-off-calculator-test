@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatCurrency } from '../utils/formatters';
-import BetterOffInWorkModule from './BetterOffInWorkModule';
+import BetterOffCalculator from './BetterOffCalculator';
 import { useTextManager } from '../hooks/useTextManager';
 import { saveBenefitCalculatorData } from '../utils/benefitDataService';
 import { childBenefitCalculator } from '../utils/childBenefitCalculator';
@@ -623,7 +623,7 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
       </div>
 
       {/* Better Off in Work Module */}
-      <BetterOffInWorkModule
+      <BetterOffCalculator
         currentUCAmount={calculation.finalAmount}
         isVisible={showBetterOffModule}
         onToggleVisibility={() => setShowBetterOffModule(!showBetterOffModule)}

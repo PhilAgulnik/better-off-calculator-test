@@ -2,12 +2,12 @@
 import React, { useState } from 'react';
 import Navigation from './Navigation';
 
-function MinimumIncomeFloor() {
+function MIFHelpGuide() {
   return (
     <div className="mif-page">
       <div className="container">
         <div className="mif-header">
-          <h1>Minimum Income Floor (MIF)</h1>
+          <h1>Minimum Income Floor (MIF) - Help Guide</h1>
           <p className="subtitle">Understanding how the MIF affects your Universal Credit as a self-employed person</p>
         </div>
 
@@ -21,7 +21,7 @@ function MinimumIncomeFloor() {
               </p>
               <div className="calculator-action">
                 <a href="/mif-calculator" className="btn btn-primary btn-lg">
-                  Open MIF Calculator
+                  Open MIF Calculator Tool
                 </a>
               </div>
             </div>
@@ -175,4 +175,4 @@ function MinimumIncomeFloor() {
   );
 }
 
-export default MinimumIncomeFloor;
+export default MIFHelpGuide;

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import CalculatorPage from './CalculatorPage';
 import { applySkinForRoute } from '../utils/skinManager';
 
-function RehabilitationCalculator() {
+function RehabilitationCalculatorView() {
   const location = useLocation();
   
   // Apply the rehabilitation skin for this route
@@ -16,4 +16,4 @@ function RehabilitationCalculator() {
   );
 }
 
-export default RehabilitationCalculator;
+export default RehabilitationCalculatorView;

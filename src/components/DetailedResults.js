@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { formatCurrency } from '../utils/formatters';
 import { benefitCalculator } from '../utils/benefitCalculator.js';
-function ComprehensiveResultsSection({ formData, onPrint, onExport }) {
+function DetailedResults({ formData, onPrint, onExport }) {
   const [calculationResults, setCalculationResults] = useState(null);
   const [showDetailedBreakdown, setShowDetailedBreakdown] = useState(false);
 
@@ -197,4 +197,4 @@ function ComprehensiveResultsSection({ formData, onPrint, onExport }) {
   );
 }
 
-export default ComprehensiveResultsSection;
+export default DetailedResults;

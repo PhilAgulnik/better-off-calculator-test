@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import TextManagement from './admin/TextManagement';
 import SkinManagement from './admin/SkinManagement';
-import TestingModule from './TestingModule';
+import ComponentTester from './ComponentTester';
 import { 
   getAvailableSkins, 
   getCurrentSkin, 
@@ -295,7 +295,7 @@ function AdminPanel({ isVisible = false, onToggleVisibility, currentRoute, formD
           </div>
         )}
         {activeTab === 'testing-module' && (
-          <TestingModule 
+          <ComponentTester 
             isVisible={true}
             onToggleVisibility={() => setActiveTab('text-management')}
             testFile={testFile}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function MIFCalculator() {
+function MIFCalculatorTool() {
   const [mifData, setMifData] = useState({
     age: '',
     hasChildren: false,
@@ -73,7 +73,7 @@ function MIFCalculator() {
         <div className="calculator-header">
           <h1>MIF Calculator</h1>
           <p className="subtitle">Calculate your Minimum Income Floor for Universal Credit</p>
-          <a href="/minimum-income-floor" className="back-link">← Back to MIF Information</a>
+          <a href="/mif-help-guide" className="back-link">← Back to MIF Help Guide</a>
         </div>
 
         <div className="calculator-content">
@@ -199,4 +199,4 @@ function MIFCalculator() {
   );
 }
 
-export default MIFCalculator;
+export default MIFCalculatorTool;

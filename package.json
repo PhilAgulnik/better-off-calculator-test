@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "description": "Universal Credit Calculator - React Version",
   "private": true,
-  "homepage": "/",
+  "homepage": "https://PhilAgulnik.github.io/better-off-calculator-test",
   "devDependencies": {
-    "gh-pages": "^6.0.0",
-    "serve": "^14.2.1",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "gh-pages": "^6.3.0",
+    "serve": "^14.2.1"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UniversalCreditCalculator } from '../utils/calculator';
 
-function TestingModule({ 
+function ComponentTester({ 
   isVisible, 
   onToggleVisibility, 
   testFile: externalTestFile, 
@@ -324,4 +324,4 @@ function TestingModule({
   );
 }
 
-export default TestingModule;
+export default ComponentTester;

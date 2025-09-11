@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTextManager } from '../hooks/useTextManager';
 import Navigation from './Navigation';
 
-function SelfEmploymentAccounts() {
+function SelfEmploymentHub() {
   const { getTextValue } = useTextManager();
   const [showSignUpForm, setShowSignUpForm] = useState(false);
   const [email, setEmail] = useState('');
@@ -10,6 +10,13 @@ function SelfEmploymentAccounts() {
   const [submitted, setSubmitted] = useState(false);
 
   const features = [
+    {
+      key: 'income-maximisation',
+      icon: '💰',
+      title: 'Income Maximisation',
+      description: 'Calculate all the benefits and financial support you\'re entitled to as a self-employed person.',
+      available: true
+    },
     {
       key: 'SelfEmploymentAccounts.Features.TaxSelfAssessment',
       icon: '📊',
@@ -65,6 +72,27 @@ function SelfEmploymentAccounts() {
       title: 'Business Administration Guide',
       description: 'Online tools to learn about marketing, accounting, and other essential business tools for self-employed success.',
       available: false
+    },
+    {
+      key: 'access-to-work',
+      icon: '♿',
+      title: 'Access to Work Grants',
+      description: 'Apply for and manage Access to Work grants for self-employed individuals with disabilities or health conditions. Get help with workplace support, equipment, and accessibility tools.',
+      available: false,
+      functionalityIdeas: [
+        'Eligibility checker for self-employed Access to Work grants',
+        'Grant application form builder with UTR integration',
+        'Equipment and support cost calculator',
+        'Workplace assessment request system',
+        'Grant tracking and renewal management (3-year cycles)',
+        'Support worker/interpreter booking system',
+        'Equipment approval and procurement tracker',
+        'Travel support claims calculator',
+        'Communication aids request forms',
+        'Annual grant usage reporting',
+        'Integration with business accounting systems',
+        'Reasonable adjustment recommendation engine'
+      ]
     }
   ];
 
@@ -104,6 +132,13 @@ function SelfEmploymentAccounts() {
                   {!feature.available && (
                     <span className="coming-soon">Coming Soon</span>
                   )}
+                  {feature.available && feature.key === 'income-maximisation' && (
+                    <div className="feature-action">
+                      <a href="/self-employment-accounts/income-maximisation" className="btn btn-primary btn-sm">
+                        Calculate Benefits
+                      </a>
+                    </div>
+                  )}
                   {feature.available && feature.key === 'SelfEmploymentAccounts.Features.TaxSelfAssessment' && (
                     <div className="feature-action">
                       <a href="/self-assessment-tax-form" className="btn btn-primary btn-sm">
@@ -113,7 +148,7 @@ function SelfEmploymentAccounts() {
                   )}
                   {feature.available && feature.key === 'mif' && (
                     <div className="feature-action">
-                      <a href="/minimum-income-floor" className="btn btn-primary btn-sm">
+                      <a href="/mif-help-guide" className="btn btn-primary btn-sm">
                         Learn About MIF
                       </a>
                     </div>
@@ -218,4 +253,4 @@ function SelfEmploymentAccounts() {
   );
 }
 
-export default SelfEmploymentAccounts;
+export default SelfEmploymentHub;

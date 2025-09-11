@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { setCurrentSkin } from '../utils/skinManager';
 import Logo from './Logo';
 
-function HelpGuide() {
+function PrisonLeaversGuide() {
   useEffect(() => {
     // Apply the rehabilitation skin when this component mounts
     setCurrentSkin('rehabilitation');
@@ -141,4 +141,4 @@ function HelpGuide() {
   );
 }
 
-export default HelpGuide;
+export default PrisonLeaversGuide;
