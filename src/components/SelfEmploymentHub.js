@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useTextManager } from '../hooks/useTextManager';
 import Navigation from './Navigation';
 
@@ -134,37 +135,37 @@ function SelfEmploymentHub() {
                   )}
                   {feature.available && feature.key === 'income-maximisation' && (
                     <div className="feature-action">
-                      <a href="/self-employment-accounts/income-maximisation" className="btn btn-primary btn-sm">
+                      <Link to="/self-employment-accounts/income-maximisation" className="btn btn-primary btn-sm">
                         Calculate Benefits
-                      </a>
+                      </Link>
                     </div>
                   )}
                   {feature.available && feature.key === 'SelfEmploymentAccounts.Features.TaxSelfAssessment' && (
                     <div className="feature-action">
-                      <a href="/self-assessment-tax-form" className="btn btn-primary btn-sm">
+                      <Link to="/self-assessment-tax-form" className="btn btn-primary btn-sm">
                         Try Tax Form Now
-                      </a>
+                      </Link>
                     </div>
                   )}
                   {feature.available && feature.key === 'mif' && (
                     <div className="feature-action">
-                      <a href="/mif-help-guide" className="btn btn-primary btn-sm">
+                      <Link to="/mif-help-guide" className="btn btn-primary btn-sm">
                         Learn About MIF
-                      </a>
+                      </Link>
                     </div>
                   )}
                   {feature.available && feature.key === 'monthly-profit' && (
                     <div className="feature-action">
-                      <a href="/monthly-profit" className="btn btn-primary btn-sm">
+                      <Link to="/monthly-profit" className="btn btn-primary btn-sm">
                         Try Monthly Profit Tool
-                      </a>
+                      </Link>
                     </div>
                   )}
                   {feature.available && feature.key === 'receipts-invoices' && (
                     <div className="feature-action">
-                      <a href="/self-employment-accounts/invoices-receipts" className="btn btn-primary btn-sm">
+                      <Link to="/self-employment-accounts/invoices-receipts" className="btn btn-primary btn-sm">
                         Manage Invoices & Receipts
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </div>

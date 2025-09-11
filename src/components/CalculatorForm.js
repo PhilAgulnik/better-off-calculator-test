@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import NetEarningsModule from './NetEarningsModule';
 import CarerModule from './CarerModule';
 import { useTextManager } from '../hooks/useTextManager';
@@ -240,7 +241,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         {formData.housingStatus === 'in_prison' && (
           <div className="info-box">
             <p><strong>Rehabilitation Support:</strong> You can access help for people in prison through our rehabilitation services pages.</p>
-            <a href="/rehabilitation-services" className="btn btn-primary btn-sm">Go to Rehabilitation Services</a>
+            <Link to="/rehabilitation-services" className="btn btn-primary btn-sm">Go to Rehabilitation Services</Link>
           </div>
         )}
 
@@ -288,7 +289,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                 <option key={name} value={name}>{name}</option>
               ))}
             </select>
-            <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap. You can also find out about rent levels and LHA rates in other areas using our <a href="/affordability-map" target="_blank" rel="noopener noreferrer">affordability map</a>.</small>
+            <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap. You can also find out about rent levels and LHA rates in other areas using our <Link to="/affordability-map" target="_blank" rel="noopener noreferrer">affordability map</Link>.</small>
         </div>
         )}
           </>
@@ -941,7 +942,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
               <br /><br />
               {getTextValue('MIF.SelfEmploymentAccounts.Info', 'Self-employed people have to fill in a monthly form to report their income to DWP. Our new self-employment accounts can help fill in this form and also ensure you claim all relevant allowances in Universal Credit. We can even help you fill out your annual income tax self-assessment form. Go to our self-employment accounts page to see how we can help and to sign up for the new service.')}
               <br /><br />
-              <a href="/self-employment-accounts" className="btn btn-primary btn-sm">Go to Self-Employment Accounts</a>
+              <Link to="/self-employment-accounts" className="btn btn-primary btn-sm">Go to Self-Employment Accounts</Link>
             </div>
           )}
         </div>

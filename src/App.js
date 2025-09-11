@@ -40,7 +40,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <Router basename={process.env.NODE_ENV === 'production' ? '/better-off-calculator-test' : ''}>
       <RouteHandler />
       <Routes>
         <Route path="/" element={<CalculatorPage />} />

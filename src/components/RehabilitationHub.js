@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { setCurrentSkin } from '../utils/skinManager';
 import Logo from './Logo';
 import Navigation from './Navigation';
@@ -118,9 +119,9 @@ function RehabilitationHub() {
                 </div>
               ) : (
                 <div className="service-actions">
-                  <a href={service.link} className="btn btn-primary">
+                  <Link to={service.link} className="btn btn-primary">
                     Get Started
-                  </a>
+                  </Link>
                 </div>
               )}
             </div>

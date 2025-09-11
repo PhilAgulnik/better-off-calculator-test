@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { setCurrentSkin } from '../utils/skinManager';
 import Logo from './Logo';
 
@@ -113,28 +114,28 @@ function PrisonLeaversGuide() {
         <div className="quick-links">
           <h2>Quick Links</h2>
           <div className="quick-links-grid">
-            <a href="/rehabilitation-calculator" className="quick-link-card">
+            <Link to="/rehabilitation-calculator" className="quick-link-card">
               <div className="quick-link-icon">🧮</div>
               <h3>Benefits Calculator</h3>
               <p>Calculate your Universal Credit and other benefits</p>
-            </a>
-            <a href="/budgeting-tool" className="quick-link-card">
+            </Link>
+            <Link to="/budgeting-tool" className="quick-link-card">
               <div className="quick-link-icon">📊</div>
               <h3>Budgeting Tool</h3>
               <p>Create a budget and manage your finances</p>
-            </a>
-            <a href="/affordability-map" className="quick-link-card">
+            </Link>
+            <Link to="/affordability-map" className="quick-link-card">
               <div className="quick-link-icon">🗺️</div>
               <h3>Affordability Map</h3>
               <p>Find affordable areas to live</p>
-            </a>
+            </Link>
           </div>
         </div>
 
         <div className="back-to-services">
-          <a href="/rehabilitation-services" className="btn btn-secondary">
+          <Link to="/rehabilitation-services" className="btn btn-secondary">
             ← Back to Services
-          </a>
+          </Link>
         </div>
       </div>
     </div>
