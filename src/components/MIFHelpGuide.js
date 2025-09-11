@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navigation from './Navigation';
 
 function MIFHelpGuide() {
@@ -20,9 +21,9 @@ function MIFHelpGuide() {
                 Use our dedicated MIF calculator to find out exactly how much you need to earn each month to avoid MIF penalties.
               </p>
               <div className="calculator-action">
-                <a href="/mif-calculator" className="btn btn-primary btn-lg">
+                <Link to="/mif-calculator" className="btn btn-primary btn-lg">
                   Open MIF Calculator Tool
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -153,17 +154,17 @@ function MIFHelpGuide() {
               <div className="resource-card">
                 <h3>💼 Business Support</h3>
                 <p>Get help with your business to increase earnings and avoid MIF penalties.</p>
-                <a href="/self-employment-accounts" className="btn btn-outline">
+                <Link to="/self-employment-accounts" className="btn btn-outline">
                   Business Support Tools
-                </a>
+                </Link>
               </div>
               
               <div className="resource-card">
                 <h3>📊 Monthly Profit Tool</h3>
                 <p>Track your monthly business performance to stay above your MIF threshold.</p>
-                <a href="/monthly-profit" className="btn btn-outline">
+                <Link to="/monthly-profit" className="btn btn-outline">
                   Use Monthly Profit Tool
-                </a>
+                </Link>
               </div>
             </div>
           </div>

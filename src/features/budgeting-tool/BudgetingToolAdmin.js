@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   loadAdminConfig, 
   saveAdminConfig, 
@@ -74,12 +75,12 @@ function BudgetingToolAdmin() {
         <p>Configure the budgeting tool settings and pre-fill options</p>
         
         <div className="admin-navigation">
-          <a href="/budgeting-tool" className="nav-link">
+          <Link to="/budgeting-tool" className="nav-link">
             ← Back to Budgeting Tool
-          </a>
-          <a href="/ons-standard-amounts" className="nav-link" target="_blank" rel="noopener noreferrer">
+          </Link>
+          <Link to="/ons-standard-amounts" className="nav-link" target="_blank" rel="noopener noreferrer">
             View ONS Standard Amounts
-          </a>
+          </Link>
           <a href="/housing-review-amounts" className="nav-link" target="_blank" rel="noopener noreferrer">
             View Housing Review Amounts
           </a>

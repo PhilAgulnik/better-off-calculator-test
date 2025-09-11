@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { setCurrentSkin } from '../utils/skinManager';
 import Logo from './Logo';
 
@@ -144,8 +145,8 @@ function HelpGuideHousing() {
         </div>
 
         <div className="navigation-links">
-          <a href="/help-guide" className="btn btn-secondary">← Back to Help Guide</a>
-          <a href="/affordability-map" className="btn btn-primary">View Affordability Map</a>
+          <Link to="/help-guide" className="btn btn-secondary">← Back to Help Guide</Link>
+          <Link to="/affordability-map" className="btn btn-primary">View Affordability Map</Link>
         </div>
       </div>
     </div>

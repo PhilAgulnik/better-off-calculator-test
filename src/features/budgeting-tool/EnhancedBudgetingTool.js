@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   getStandardAmountsConfig,
   getCompulsoryFieldsConfig,
@@ -219,9 +220,9 @@ function EnhancedBudgetingTool() {
               {showAdviserMode ? 'Hide' : 'Show'} Adviser Mode
             </button>
             <button className="btn btn-secondary" onClick={handleReset}>Reset Budget</button>
-            <a href="/budgeting-tool-admin" className="btn btn-outline">
+            <Link to="/budgeting-tool-admin" className="btn btn-outline">
               Admin Panel
-            </a>
+            </Link>
           </div>
         </div>
 

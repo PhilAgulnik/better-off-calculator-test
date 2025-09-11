@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { 
   householdTypes, 
   getONSData, 
@@ -155,9 +156,9 @@ function ONSStandardAmounts() {
           </div>
 
           <div className="back-link">
-            <a href="/budgeting-tool" className="btn btn-primary">
+            <Link to="/budgeting-tool" className="btn btn-primary">
               ← Back to Budgeting Tool
-            </a>
+            </Link>
           </div>
         </div>
       </div>

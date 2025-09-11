@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { setCurrentSkin } from '../utils/skinManager';
 import Logo from './Logo';
 
@@ -89,9 +90,9 @@ function AffordabilityMap() {
         </div>
 
         <div className="back-to-services">
-          <a href="/rehabilitation-services" className="btn btn-primary">
+          <Link to="/rehabilitation-services" className="btn btn-primary">
             ← Back to Services
-          </a>
+          </Link>
         </div>
       </div>
     </div>

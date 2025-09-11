@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function MIFCalculatorTool() {
   const [mifData, setMifData] = useState({
@@ -73,7 +74,7 @@ function MIFCalculatorTool() {
         <div className="calculator-header">
           <h1>MIF Calculator</h1>
           <p className="subtitle">Calculate your Minimum Income Floor for Universal Credit</p>
-          <a href="/mif-help-guide" className="back-link">← Back to MIF Help Guide</a>
+          <Link to="/mif-help-guide" className="back-link">← Back to MIF Help Guide</Link>
         </div>
 
         <div className="calculator-content">

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { setCurrentSkin } from '../utils/skinManager';
 import Logo from './Logo';
 
@@ -171,8 +172,8 @@ function HelpGuideHealth() {
         </div>
 
         <div className="navigation-links">
-          <a href="/help-guide" className="btn btn-secondary">← Back to Help Guide</a>
-          <a href="/rehabilitation-calculator" className="btn btn-primary">Calculate My Benefits</a>
+          <Link to="/help-guide" className="btn btn-secondary">← Back to Help Guide</Link>
+          <Link to="/rehabilitation-calculator" className="btn btn-primary">Calculate My Benefits</Link>
         </div>
       </div>
     </div>
