@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 function Navigation({ showRelatedTools = true }) {
   const location = useLocation();
@@ -216,10 +216,10 @@ function Navigation({ showRelatedTools = true }) {
             <h4>Related Tools</h4>
             <div className="related-tools-grid">
               {relatedTools.map((tool) => (
-                <a key={tool.path} href={tool.path} className="related-tool-link">
+                <Link key={tool.path} to={tool.path} className="related-tool-link">
                   <span className="tool-icon">{tool.icon}</span>
                   <span className="tool-label">{tool.label}</span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
