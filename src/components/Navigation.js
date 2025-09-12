@@ -152,10 +152,10 @@ function Navigation({ showRelatedTools = true }) {
             <ul className="nav-list">
               {navigationStructure.main.map((item) => (
                 <li key={item.path} className={location.pathname === item.path ? 'active' : ''}>
-                  <a href={item.path} className="nav-item">
+                  <Link to={item.path} className="nav-item">
                     <span className="nav-icon">{item.icon}</span>
                     <span className="nav-label">{item.label}</span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -170,13 +170,13 @@ function Navigation({ showRelatedTools = true }) {
               <ul className="nav-list">
                 {navigationStructure[currentSection].map((item) => (
                   <li key={item.path} className={location.pathname === item.path ? 'active' : ''}>
-                    <a href={item.path} className="nav-item">
+                    <Link to={item.path} className="nav-item">
                       <span className="nav-icon">{item.icon}</span>
                       <div className="nav-content">
                         <span className="nav-label">{item.label}</span>
                         {item.description && <span className="nav-description">{item.description}</span>}
                       </div>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -195,9 +195,9 @@ function Navigation({ showRelatedTools = true }) {
                   {index === breadcrumbs.length - 1 ? (
                     <span className="breadcrumb-current">{crumb.label}</span>
                   ) : (
-                    <a href={crumb.path} className="breadcrumb-link">
+                    <Link to={crumb.path} className="breadcrumb-link">
                       {crumb.label}
-                    </a>
+                    </Link>
                   )}
                   {index < breadcrumbs.length - 1 && (
                     <span className="breadcrumb-separator">›</span>
