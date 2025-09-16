@@ -38,30 +38,6 @@ function RehabilitationHub() {
       icon: '🏠',
       link: '/affordability-map',
       comingSoon: false
-    },
-    {
-      id: 'employment-support',
-      title: 'Employment Support',
-      description: 'Find work opportunities and get help with job applications and interviews.',
-      icon: '💼',
-      link: '/rehabilitation-services/employment',
-      comingSoon: true
-    },
-    {
-      id: 'guide-benefits',
-      title: 'Your Guide to Benefits, Housing and Health',
-      description: 'Essential information about benefits you can claim when leaving prison, housing support from your council, and how to register with a GP (even if you don\'t have a fixed address).',
-      icon: '📋',
-      link: '/help-guide',
-      comingSoon: false
-    },
-    {
-      id: 'education-training',
-      title: 'Education & Training',
-      description: 'Improve your skills and qualifications for better opportunities.',
-      icon: '🎓',
-      link: '/rehabilitation-services/education',
-      comingSoon: true
     }
   ];
 
