@@ -6683,3 +6683,319 @@ body {
 .warning-text p { margin: 0 0 0.75rem 0; color: #8a1f2d; line-height: 1.6; font-size: 1.1rem; }
 .warning-text p:last-child { margin-bottom: 0; }
 .pension-age-note { font-size: 1rem; font-style: italic; background: rgba(138,31,45,0.08); padding: 0.5rem 0.75rem; border-radius: 4px; border-left: 3px solid #8a1f2d; }
+
+/* Enhanced Guide Section Graphics */
+.guide-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  margin: 3rem 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dee2e6;
+  position: relative;
+  overflow: hidden;
+}
+
+.guide-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #007bff, #28a745, #ffc107);
+}
+
+.guide-header {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.guide-header-graphic {
+  flex-shrink: 0;
+}
+
+.guide-icon-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px rgba(0, 123, 255, 0.3);
+}
+
+.guide-main-icon {
+  font-size: 3rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+.guide-accent-icons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.accent-icon {
+  position: absolute;
+  font-size: 1.5rem;
+  opacity: 0.8;
+  animation: orbit 6s linear infinite;
+}
+
+.accent-icon:nth-child(1) {
+  animation-delay: 0s;
+  transform: rotate(0deg) translateX(60px) rotate(0deg);
+}
+
+.accent-icon:nth-child(2) {
+  animation-delay: -2s;
+  transform: rotate(120deg) translateX(60px) rotate(-120deg);
+}
+
+.accent-icon:nth-child(3) {
+  animation-delay: -4s;
+  transform: rotate(240deg) translateX(60px) rotate(-240deg);
+}
+
+.guide-header-text h2 {
+  margin: 0 0 1rem 0;
+  color: #212529;
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #007bff, #28a745);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.guide-intro {
+  font-size: 1.2rem;
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.help-areas {
+  display: grid;
+  gap: 2rem;
+}
+
+.help-area {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e9ecef;
+}
+
+.help-area:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+}
+
+.help-area-visual {
+  display: flex;
+  gap: 0;
+}
+
+.help-area-image {
+  width: 200px;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.benefits-image {
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+}
+
+.housing-image {
+  background: linear-gradient(135deg, #d1ecf1, #74b9ff);
+}
+
+.health-image {
+  background: linear-gradient(135deg, #f8d7da, #fd79a8);
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-icon {
+  font-size: 4rem;
+  opacity: 0.8;
+  z-index: 2;
+  position: relative;
+}
+
+.placeholder-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.2) 2px, transparent 2px),
+    radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.2) 2px, transparent 2px);
+  background-size: 30px 30px;
+  opacity: 0.5;
+}
+
+.help-area-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.help-area-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.help-area-header h3 {
+  margin: 0;
+  color: #212529;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.help-area-badge {
+  background: #e9ecef;
+  color: #495057;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.benefits-image + .help-area-content .help-area-badge {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.housing-image + .help-area-content .help-area-badge {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.health-image + .help-area-content .help-area-badge {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.help-area-content > p {
+  color: #6c757d;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.help-topics ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem 0;
+}
+
+.help-topics li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f8f9fa;
+  position: relative;
+  padding-left: 1.5rem;
+  color: #495057;
+  font-size: 0.95rem;
+}
+
+.help-topics li:before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #28a745;
+  font-weight: bold;
+}
+
+.help-topics li:last-child {
+  border-bottom: none;
+}
+
+.help-area-actions {
+  margin-top: auto;
+}
+
+.help-area-actions .btn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.help-area-actions .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 123, 255, 0.4);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .guide-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  
+  .guide-header-text h2 {
+    font-size: 2rem;
+  }
+  
+  .guide-icon-container {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .guide-main-icon {
+    font-size: 2.5rem;
+  }
+  
+  .help-area-visual {
+    flex-direction: column;
+  }
+  
+  .help-area-image {
+    width: 100%;
+    height: 150px;
+  }
+  
+  .help-area-content {
+    padding: 1.5rem;
+  }
+}
