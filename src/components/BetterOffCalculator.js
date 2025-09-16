@@ -377,7 +377,7 @@ function BetterOffCalculator({
                 <h4>Costs of work</h4>
                 
                 <div className="costs-intro">
-                  <p>Some people have extra costs when they enter work. You can update the better off amount to take these into account by entering any extra costs you expect below. For help with how to use this tool please read our <a href="#" className="help-link">Costs of work help page</a>.</p>
+                  <p>Some people have extra costs when they enter work. You can update the better off amount to take these into account by entering any extra costs you expect below. For help with how to use this tool please read our <span className="help-link">Costs of work help page</span>.</p>
                 </div>
                 
                 {/* Additional spending because of work */}

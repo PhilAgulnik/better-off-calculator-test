@@ -103,9 +103,9 @@ function PrisonLeaversGuide() {
               </div>
               
               <div className="help-area-actions">
-                <a href={area.link} className="btn btn-primary">
+                <Link to={area.link} className="btn btn-primary">
                   Learn More
-                </a>
+                </Link>
               </div>
             </div>
           ))}
