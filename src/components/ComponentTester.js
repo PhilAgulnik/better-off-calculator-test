@@ -68,7 +68,7 @@ function ComponentTester({
         return {
           testCaseId: index + 1,
           input: {
-            taxYear: columns[0] || '2024_25',
+            taxYear: columns[0] || '2025_26',
             circumstances: columns[1] || 'single',
             age: parseInt(columns[2]) || 25,
             partnerAge: parseInt(columns[3]) || 25,
@@ -139,6 +139,15 @@ function ComponentTester({
       try {
         const calculation = await calculator.calculate(testCase.input);
         const jsonOutput = calculator.exportCalculationForTesting(testCase.input, calculation);
+        
+        // Debug logging for test case results
+        console.log(`Test Case ${testCase.testCaseId} Results:`, {
+          taxYear: testCase.input.taxYear,
+          actualStandardAllowance: jsonOutput.output.standardAllowance,
+          expectedStandardAllowance: testCase.expectedOutput.standardAllowance,
+          actualFinalAmount: jsonOutput.output.finalAmount,
+          expectedFinalAmount: testCase.expectedOutput.finalAmount
+        });
         
         // Compare with expected results
         const comparison = compareResults(jsonOutput.output, testCase.expectedOutput);

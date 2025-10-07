@@ -81,7 +81,12 @@ export class BenefitCalculator {
       if (calc.childcareElement > 0) ucBreakdown.push({ label: 'Childcare Element', amount: calc.childcareElement });
       if (calc.carerElement > 0) ucBreakdown.push({ label: 'Carer Element', amount: calc.carerElement });
       if (calc.lcwraElement > 0) ucBreakdown.push({ label: 'LCWRA Element', amount: calc.lcwraElement });
-      if (calc.earningsReduction > 0) ucBreakdown.push({ label: 'Earnings Reduction', amount: -calc.earningsReduction });
+      if (calc.earningsReduction > 0) {
+        const label = calc.workAllowance > 0 
+          ? `Earnings Reduction after work allowance of £${calc.workAllowance.toFixed(2)}`
+          : 'Earnings Reduction';
+        ucBreakdown.push({ label, amount: -calc.earningsReduction });
+      }
       if (calc.capitalDeduction > 0) ucBreakdown.push({ label: 'Capital Deduction', amount: -calc.capitalDeduction });
       if (calc.benefitDeduction > 0) ucBreakdown.push({ label: 'Benefit Deduction', amount: -calc.benefitDeduction });
     }

@@ -1,0 +1,268 @@
+{
+  "testRun": {
+    "timestamp": "2025-09-24T05:12:41.966Z",
+    "totalTests": 5,
+    "passedTests": 0,
+    "failedTests": 5,
+    "successRate": "0.00%"
+  },
+  "results": [
+    {
+      "testCaseId": 1,
+      "passed": false,
+      "differences": [
+        {
+          "field": "earningsReduction",
+          "expected": 566.5,
+          "actual": 0,
+          "difference": "566.50"
+        },
+        {
+          "field": "finalAmount",
+          "expected": 1192.64,
+          "actual": 0,
+          "difference": "1192.64"
+        }
+      ],
+      "actual": {
+        "standardAllowance": 400.14,
+        "housingElement": 850,
+        "childElement": 339,
+        "childcareElement": 170,
+        "carerElement": 0,
+        "totalElements": 1759.1399999999999,
+        "earningsReduction": null,
+        "capitalDeduction": 0,
+        "benefitDeduction": 0,
+        "finalAmount": null
+      },
+      "expected": {
+        "standardAllowance": 400.14,
+        "housingElement": 850,
+        "childElement": 339,
+        "childcareElement": 170,
+        "carerElement": 0,
+        "totalElements": 1759.14,
+        "earningsReduction": 566.5,
+        "capitalDeduction": 0,
+        "benefitDeduction": 0,
+        "finalAmount": 1192.64
+      },
+      "debug": {
+        "mainGross": 2000,
+        "partnerGross": 0,
+        "mainNet": 1673.34,
+        "totalNet": null,
+        "workAllowance": 411,
+        "earningsAboveAllowance": null,
+        "taperReduction": null
+      }
+    },
+    {
+      "testCaseId": 2,
+      "passed": false,
+      "differences": [
+        {
+          "field": "earningsReduction",
+          "expected": 1127.5,
+          "actual": 1804.3740000000003,
+          "difference": "676.87"
+        },
+        {
+          "field": "finalAmount",
+          "expected": 1747.41,
+          "actual": 1035.7359999999996,
+          "difference": "711.67"
+        }
+      ],
+      "actual": {
+        "standardAllowance": 628.1,
+        "housingElement": 1275,
+        "childElement": 631.81,
+        "childcareElement": 340,
+        "carerElement": 0,
+        "totalElements": 2874.91,
+        "earningsReduction": 1804.3740000000003,
+        "capitalDeduction": 34.8,
+        "benefitDeduction": 0,
+        "finalAmount": 1035.7359999999996
+      },
+      "expected": {
+        "standardAllowance": 628.1,
+        "housingElement": 1275,
+        "childElement": 631.81,
+        "childcareElement": 340,
+        "carerElement": 0,
+        "totalElements": 2874.91,
+        "earningsReduction": 1127.5,
+        "capitalDeduction": 34.8,
+        "benefitDeduction": 0,
+        "finalAmount": 1747.41
+      },
+      "debug": {
+        "mainGross": 3000,
+        "partnerGross": 1500,
+        "mainNet": 2363.34,
+        "partnerNet": 1328.34,
+        "totalNet": 3691.6800000000003,
+        "workAllowance": 411,
+        "earningsAboveAllowance": 3280.6800000000003,
+        "taperReduction": 1804.3740000000003
+      }
+    },
+    {
+      "testCaseId": 3,
+      "passed": false,
+      "differences": [
+        {
+          "field": "earningsReduction",
+          "expected": 55,
+          "actual": 0,
+          "difference": "55.00"
+        },
+        {
+          "field": "finalAmount",
+          "expected": 551.83,
+          "actual": 0,
+          "difference": "551.83"
+        }
+      ],
+      "actual": {
+        "standardAllowance": 400.14,
+        "housingElement": 200,
+        "childElement": 0,
+        "childcareElement": 0,
+        "carerElement": 0,
+        "totalElements": 600.14,
+        "earningsReduction": null,
+        "capitalDeduction": 0,
+        "benefitDeduction": 0,
+        "finalAmount": null
+      },
+      "expected": {
+        "standardAllowance": 400.14,
+        "housingElement": 200,
+        "childElement": 0,
+        "childcareElement": 0,
+        "carerElement": 0,
+        "totalElements": 600.14,
+        "earningsReduction": 55,
+        "capitalDeduction": 0,
+        "benefitDeduction": 0,
+        "finalAmount": 551.83
+      },
+      "debug": {
+        "mainGross": 100,
+        "partnerGross": 0,
+        "mainNet": 97,
+        "totalNet": null,
+        "workAllowance": 411,
+        "earningsAboveAllowance": null,
+        "taperReduction": null
+      }
+    },
+    {
+      "testCaseId": 4,
+      "passed": false,
+      "differences": [
+        {
+          "field": "earningsReduction",
+          "expected": 566.5,
+          "actual": 0,
+          "difference": "566.50"
+        },
+        {
+          "field": "finalAmount",
+          "expected": 1192.64,
+          "actual": 0,
+          "difference": "1192.64"
+        }
+      ],
+      "actual": {
+        "standardAllowance": 400.14,
+        "housingElement": 850,
+        "childElement": 339,
+        "childcareElement": 170,
+        "carerElement": 0,
+        "totalElements": 1759.1399999999999,
+        "earningsReduction": null,
+        "capitalDeduction": 0,
+        "benefitDeduction": 0,
+        "finalAmount": null
+      },
+      "expected": {
+        "standardAllowance": 400.14,
+        "housingElement": 850,
+        "childElement": 339,
+        "childcareElement": 170,
+        "carerElement": 0,
+        "totalElements": 1759.14,
+        "earningsReduction": 566.5,
+        "capitalDeduction": 0,
+        "benefitDeduction": 0,
+        "finalAmount": 1192.64
+      },
+      "debug": {
+        "mainGross": 2000,
+        "partnerGross": 0,
+        "mainNet": 1673.34,
+        "totalNet": null,
+        "workAllowance": 411,
+        "earningsAboveAllowance": null,
+        "taperReduction": null
+      }
+    },
+    {
+      "testCaseId": 5,
+      "passed": false,
+      "differences": [
+        {
+          "field": "earningsReduction",
+          "expected": 1127.5,
+          "actual": 1804.3740000000003,
+          "difference": "676.87"
+        },
+        {
+          "field": "finalAmount",
+          "expected": 1747.41,
+          "actual": 1035.7359999999996,
+          "difference": "711.67"
+        }
+      ],
+      "actual": {
+        "standardAllowance": 628.1,
+        "housingElement": 1275,
+        "childElement": 631.81,
+        "childcareElement": 340,
+        "carerElement": 0,
+        "totalElements": 2874.91,
+        "earningsReduction": 1804.3740000000003,
+        "capitalDeduction": 34.8,
+        "benefitDeduction": 0,
+        "finalAmount": 1035.7359999999996
+      },
+      "expected": {
+        "standardAllowance": 628.1,
+        "housingElement": 1275,
+        "childElement": 631.81,
+        "childcareElement": 340,
+        "carerElement": 0,
+        "totalElements": 2874.91,
+        "earningsReduction": 1127.5,
+        "capitalDeduction": 34.8,
+        "benefitDeduction": 0,
+        "finalAmount": 1747.41
+      },
+      "debug": {
+        "mainGross": 3000,
+        "partnerGross": 1500,
+        "mainNet": 2363.34,
+        "partnerNet": 1328.34,
+        "totalNet": 3691.6800000000003,
+        "workAllowance": 411,
+        "earningsAboveAllowance": 3280.6800000000003,
+        "taperReduction": 1804.3740000000003
+      }
+    }
+  ]
+}

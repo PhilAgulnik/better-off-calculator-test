@@ -10,28 +10,37 @@ export class UniversalCreditCalculator {
     this.rates = {
       '2025_26': {
         standardAllowance: {
-          single: { under25: 311.68, over25: 393.45 },
-          couple: { under25: 489.23, over25: 617.60 }
+          single: { under25: 316.98, over25: 400.14 },
+          couple: { under25: 497.55, over25: 628.10 }
         },
         childElement: {
-          first: 315.00,
-          additional: 269.58
+          preTwoChildLimit: 339.00,     // For children born before 6 April 2017
+          postTwoChildLimit: 292.81     // For children born on/after 6 April 2017
+        },
+        disabledChildElement: {
+          lowerRate: 158.76,
+          higherRate: 495.87
         },
         childcareElement: {
           maxPercentage: 85,
-          maxAmount: 950.92
+          maxAmountOneChild: 1031.88,
+          maxAmountTwoOrMore: 1768.94
         },
         workAllowance: {
-          single: { withHousing: 379, withoutHousing: 631 },
-          couple: { withHousing: 379, withoutHousing: 631 }
+          single: { withHousing: 411, withoutHousing: 684 },
+          couple: { withHousing: 411, withoutHousing: 684 }
         },
         taperRate: 0.55,
-        carerElement: 185.86,
-        lcwraElement: 390.06,
+        carerElement: 201.68,
+        lcwraElement: 423.27,
         // Capital limits
         capitalLowerLimit: 6000,
         capitalUpperLimit: 16000,
         capitalDeductionRate: 0.04, // £4.35 per £250 over £6,000
+        pensionThresholds: {
+          lowerEarningsLimit: 6240,
+          upperEarningsLimit: 50270
+        },
         // LHA rates (simplified - would need postcode lookup in full implementation)
         lhaRates: {
           shared: 300,
@@ -55,16 +64,21 @@ export class UniversalCreditCalculator {
           maxAmount: 950.92
         },
         workAllowance: {
-          single: { withHousing: 379, withoutHousing: 631 },
-          couple: { withHousing: 379, withoutHousing: 631 }
+          single: { withHousing: 411, withoutHousing: 684 },
+          couple: { withHousing: 411, withoutHousing: 684 }
         },
         taperRate: 0.55,
-        carerElement: 185.86,
-        lcwraElement: 390.06,
+        carerElement: 201.68,
+        lcwraElement: 423.27,
         // Capital limits
         capitalLowerLimit: 6000,
         capitalUpperLimit: 16000,
         capitalDeductionRate: 0.04,
+        // Pension contribution thresholds (2024/25)
+        pensionThresholds: {
+          lowerEarningsLimit: 6240, // Annual - compulsory contributions start above this
+          upperEarningsLimit: 50270 // Annual - compulsory contributions end at this level
+        },
         // LHA rates (simplified)
         lhaRates: {
           shared: 300,
@@ -88,12 +102,12 @@ export class UniversalCreditCalculator {
           maxAmount: 950.92
         },
         workAllowance: {
-          single: { withHousing: 379, withoutHousing: 631 },
-          couple: { withHousing: 379, withoutHousing: 631 }
+          single: { withHousing: 411, withoutHousing: 684 },
+          couple: { withHousing: 411, withoutHousing: 684 }
         },
         taperRate: 0.55,
-        carerElement: 185.86,
-        lcwraElement: 390.06,
+        carerElement: 201.68,
+        lcwraElement: 423.27,
         // Capital limits
         capitalLowerLimit: 6000,
         capitalUpperLimit: 16000,
@@ -150,7 +164,8 @@ export class UniversalCreditCalculator {
       // Calculate total elements
       const totalElements = standardAllowance + housingElement + childElement + childcareElement + carerElement + lcwraElement;
       
-      // Calculate earnings reduction
+      // Calculate work allowance and earnings reduction
+      const workAllowance = this.calculateWorkAllowance(input, rates);
       const earningsReduction = this.calculateEarningsReduction(input, rates, totalElements);
       
              // Calculate other deductions
@@ -171,6 +186,7 @@ export class UniversalCreditCalculator {
           carerElement,
           lcwraElement,
           totalElements,
+          workAllowance,
           earningsReduction,
           capitalDeduction: capitalDeductionResult.deduction,
           capitalDeductionDetails: capitalDeductionResult,
@@ -326,22 +342,69 @@ export class UniversalCreditCalculator {
   }
 
   calculateChildElement(input, rates) {
-    const { children } = input;
+    const { children, childAges, childDisabilities } = input;
     if (children === 0) return 0;
-    
-    const firstChild = rates.childElement.first;
-    const additionalChildren = (children - 1) * rates.childElement.additional;
-    
-    return firstChild + additionalChildren;
+
+    // Two-child limit cutoff date: 6 April 2017
+    const twoChildLimitDate = new Date('2017-04-06');
+
+    let totalChildElement = 0;
+
+    // If we have specific child ages/birth dates, use them
+    if (childAges && childAges.length > 0) {
+      for (let i = 0; i < Math.min(children, childAges.length); i++) {
+        const childAge = childAges[i];
+
+        // Calculate approximate birth date from age
+        const today = new Date();
+        const approximateBirthDate = new Date(today.getFullYear() - childAge, today.getMonth(), today.getDate());
+
+        // Children born before 6 April 2017 get the higher rate
+        if (approximateBirthDate < twoChildLimitDate) {
+          totalChildElement += rates.childElement.preTwoChildLimit;
+        } else {
+          totalChildElement += rates.childElement.postTwoChildLimit;
+        }
+      }
+    } else {
+      // Fallback: If no specific ages provided, assume mixed ages
+      // For 1 child: assume they could be pre-2017 (higher rate) for backward compatibility
+      // For multiple children: assume eldest is pre-2017, others post-2017
+
+      if (children === 1) {
+        // Single child - use higher rate for backward compatibility with existing calculations
+        totalChildElement = rates.childElement.preTwoChildLimit;
+      } else {
+        // Multiple children - assume first is pre-2017, rest are post-2017
+        totalChildElement = rates.childElement.preTwoChildLimit; // First child
+        totalChildElement += (children - 1) * rates.childElement.postTwoChildLimit; // Additional children
+      }
+    }
+
+    // Add disabled child element
+    if (childDisabilities && childDisabilities.length > 0 && rates.disabledChildElement) {
+      for (let i = 0; i < childDisabilities.length; i++) {
+        const disability = childDisabilities[i];
+        if (disability === 'lower') {
+          totalChildElement += rates.disabledChildElement.lowerRate;
+        } else if (disability === 'higher') {
+          totalChildElement += rates.disabledChildElement.higherRate;
+        }
+      }
+    }
+
+    return totalChildElement;
   }
 
   calculateChildcareElement(input, rates) {
     const { childcareCosts, children } = input;
     if (children === 0 || childcareCosts === 0) return 0;
-    
-    const maxAmount = rates.childcareElement.maxAmount;
+
+    const maxAmount = children === 1
+      ? rates.childcareElement.maxAmountOneChild
+      : rates.childcareElement.maxAmountTwoOrMore;
     const percentage = rates.childcareElement.maxPercentage / 100;
-    
+
     return Math.min(childcareCosts * percentage, maxAmount);
   }
 
@@ -394,6 +457,129 @@ export class UniversalCreditCalculator {
 
 
 
+  calculatePensionContribution(monthlyEarnings, pensionType, pensionAmount, pensionPercentage, rates) {
+    if (!monthlyEarnings || monthlyEarnings <= 0) {
+      return 0;
+    }
+    
+    const annualEarnings = monthlyEarnings * 12;
+    const lowerLimit = rates.pensionThresholds.lowerEarningsLimit;
+    const upperLimit = rates.pensionThresholds.upperEarningsLimit;
+    
+    // If annual earnings are below the lower threshold, no compulsory contributions
+    if (annualEarnings <= lowerLimit) {
+      return 0;
+    }
+    
+    // Calculate pensionable earnings (between lower and upper limits)
+    const pensionableEarnings = Math.min(annualEarnings, upperLimit) - lowerLimit;
+    const monthlyPensionableEarnings = pensionableEarnings / 12;
+    
+    if (pensionType === 'amount') {
+      return pensionAmount || 0;
+    } else if (pensionType === 'percentage') {
+      // Apply percentage to pensionable earnings only
+      return (monthlyPensionableEarnings * (pensionPercentage || 0)) / 100;
+    }
+    
+    return 0;
+  }
+
+  // Static method for UI to calculate pension contributions with thresholds
+  static calculateUIPensionContribution(monthlyEarnings, pensionType, pensionAmount, pensionPercentage, taxYear = '2025_26') {
+    // Create temporary calculator instance to access rates
+    const tempCalculator = new UniversalCreditCalculator();
+    const rates = tempCalculator.rates[taxYear] || tempCalculator.rates['2025_26'];
+    
+    return tempCalculator.calculatePensionContribution(monthlyEarnings, pensionType, pensionAmount, pensionPercentage, rates);
+  }
+
+  // Static method for UI to calculate proper net earnings (tax, NI, pension)
+  static calculateUINetEarnings(monthlyEarnings, pensionType, pensionAmount, pensionPercentage, taxYear = '2025_26') {
+    // Create temporary calculator instance to access rates
+    const tempCalculator = new UniversalCreditCalculator();
+    const rates = tempCalculator.rates[taxYear] || tempCalculator.rates['2025_26'];
+    
+    return tempCalculator.calculateProperNetEarnings(monthlyEarnings, pensionType, pensionAmount, pensionPercentage, rates);
+  }
+
+  // Calculate proper net earnings including tax, NI, and pension (matches NetEarningsModule)
+  calculateProperNetEarnings(monthlyEarnings, pensionType, pensionAmount, pensionPercentage, rates) {
+    // Tax calculation (matches NetEarningsModule logic)
+    const personalAllowanceYear = 12570;
+    const basicBandYear = 37700;
+    const grossYear = monthlyEarnings * 12;
+    const taxableYear = Math.max(0, grossYear - personalAllowanceYear);
+    const basicTaxYear = Math.min(taxableYear, basicBandYear) * 0.20;
+    const higherTaxYear = Math.max(0, taxableYear - basicBandYear) * 0.40;
+    const taxMonthly = (basicTaxYear + higherTaxYear) / 12;
+    
+    // National Insurance calculation
+    const niMonthlyThreshold = 1048;
+    const niRate = 0.08;
+    const niMonthly = Math.max(0, monthlyEarnings - niMonthlyThreshold) * niRate;
+    
+    // Pension contribution with thresholds - match NetEarningsModule logic
+    let pensionMonthly;
+    if (pensionType === 'amount' && pensionAmount > 0) {
+      pensionMonthly = pensionAmount;
+    } else {
+      // Default to 3% for employed people (matches NetEarningsModule)
+      pensionMonthly = this.calculatePensionContribution(monthlyEarnings, 'percentage', 0, 3, rates);
+    }
+    
+    // Net earnings
+    const netEarnings = Math.max(0, monthlyEarnings - taxMonthly - niMonthly - pensionMonthly);
+    
+    console.log('calculateProperNetEarnings debug:', {
+      monthlyEarnings,
+      taxMonthly,
+      niMonthly,
+      pensionMonthly,
+      netEarnings
+    });
+    
+    return netEarnings;
+  }
+
+  calculateWorkAllowance(input, rates) {
+    const { 
+      children,
+      hasLCWRA,
+      partnerHasLCWRA,
+      circumstances,
+      claimsDisabilityBenefits,
+      partnerClaimsDisabilityBenefits,
+      housingStatus,
+      rent,
+      serviceCharges
+    } = input;
+    
+    // Work allowance only applies if:
+    // 1. Have children, OR
+    // 2. Main person has LCWRA or claims qualifying disability benefits, OR  
+    // 3. Partner has LCWRA or claims qualifying disability benefits
+    const hasChildren = children > 0;
+    const mainPersonDisabled = hasLCWRA === 'yes' || claimsDisabilityBenefits === 'yes';
+    const partnerDisabled = circumstances === 'couple' && (partnerHasLCWRA === 'yes' || partnerClaimsDisabilityBenefits === 'yes');
+    
+    const eligibleForWorkAllowance = hasChildren || mainPersonDisabled || partnerDisabled;
+    
+    if (!eligibleForWorkAllowance) {
+      return 0;
+    }
+    
+    // Determine if has housing costs
+    const hasHousingCosts = housingStatus === 'renting' && (rent > 0 || serviceCharges > 0);
+    
+    // Return appropriate work allowance
+    if (hasHousingCosts) {
+      return rates.workAllowance[circumstances].withHousing;
+    } else {
+      return rates.workAllowance[circumstances].withoutHousing;
+    }
+  }
+
   calculateEarningsReduction(input, rates, totalElements) {
     const { 
       monthlyEarnings, 
@@ -401,58 +587,79 @@ export class UniversalCreditCalculator {
       circumstances,
       employmentType,
       partnerEmploymentType,
-      pensionType,
-      pensionAmount,
-      pensionPercentage,
-      partnerPensionType,
-      partnerPensionAmount,
-      partnerPensionPercentage
+      netMonthlyEarningsCalculated,
+      netMonthlyEarningsOverride,
+      partnerNetMonthlyEarningsCalculated,
+      partnerNetMonthlyEarningsOverride
     } = input;
     
-    // Calculate total earnings
-    let totalEarnings = 0;
-    let totalPensionDeductions = 0;
+    // Calculate net earnings properly (after tax, NI, and pension)
+    let netEarnings = 0;
     
-    // Main person earnings and pension
+    // Main person net earnings
     if (employmentType === 'employed' && monthlyEarnings > 0) {
-      totalEarnings += monthlyEarnings;
-      
-      // Calculate pension deduction for main person
-      if (pensionType === 'amount') {
-        totalPensionDeductions += pensionAmount;
-      } else if (pensionType === 'percentage') {
-        totalPensionDeductions += (monthlyEarnings * pensionPercentage) / 100;
+      // Use override if provided, otherwise use calculated net earnings
+      let mainPersonNet;
+      if (netMonthlyEarningsOverride !== undefined && netMonthlyEarningsOverride !== '') {
+        console.log('Using override net earnings:', netMonthlyEarningsOverride);
+        mainPersonNet = parseFloat(netMonthlyEarningsOverride) || 0;
+      } else if (netMonthlyEarningsCalculated !== undefined && netMonthlyEarningsCalculated !== null) {
+        console.log('Using calculated net earnings:', netMonthlyEarningsCalculated);
+        mainPersonNet = netMonthlyEarningsCalculated;
+      } else {
+        console.log('Calculating proper net earnings for:', monthlyEarnings);
+        // If no net earnings available, calculate proper net earnings (tax, NI, pension)
+        mainPersonNet = this.calculateProperNetEarnings(monthlyEarnings, input.pensionType, input.pensionAmount, input.pensionPercentage, rates);
       }
+      console.log('Final mainPersonNet:', mainPersonNet);
+      netEarnings += mainPersonNet;
     } else if (employmentType === 'self-employed' && monthlyEarnings > 0) {
-      totalEarnings += monthlyEarnings;
+      // For self-employed, use gross earnings as no automatic deductions
+      netEarnings += monthlyEarnings;
     }
     
-    // Partner earnings and pension
+    // Partner net earnings
     if (circumstances === 'couple' && partnerEmploymentType === 'employed' && partnerMonthlyEarnings > 0) {
-      totalEarnings += partnerMonthlyEarnings;
-      
-      // Calculate pension deduction for partner
-      if (partnerPensionType === 'amount') {
-        totalPensionDeductions += partnerPensionAmount;
-      } else if (partnerPensionType === 'percentage') {
-        totalPensionDeductions += (partnerMonthlyEarnings * partnerPensionPercentage) / 100;
+      // Use override if provided, otherwise use calculated net earnings
+      let partnerNet;
+      if (partnerNetMonthlyEarningsOverride !== undefined && partnerNetMonthlyEarningsOverride !== '') {
+        partnerNet = parseFloat(partnerNetMonthlyEarningsOverride) || 0;
+      } else if (partnerNetMonthlyEarningsCalculated !== undefined && partnerNetMonthlyEarningsCalculated !== null) {
+        partnerNet = partnerNetMonthlyEarningsCalculated;
+      } else {
+        // If no net earnings available, calculate proper net earnings (tax, NI, pension)
+        partnerNet = this.calculateProperNetEarnings(partnerMonthlyEarnings, input.partnerPensionType, input.partnerPensionAmount, input.partnerPensionPercentage, rates);
       }
+      netEarnings += partnerNet;
     } else if (circumstances === 'couple' && partnerEmploymentType === 'self-employed' && partnerMonthlyEarnings > 0) {
-      totalEarnings += partnerMonthlyEarnings;
+      // For self-employed, use gross earnings as no automatic deductions
+      netEarnings += partnerMonthlyEarnings;
     }
     
-    // Net earnings after pension deductions
-    const netEarnings = totalEarnings - totalPensionDeductions;
-    
-    const workAllowance = rates.workAllowance[circumstances].withHousing;
+    // Calculate work allowance based on eligibility
+    const workAllowance = this.calculateWorkAllowance(input, rates);
     const taperRate = rates.taperRate;
     
+    console.log('Earnings Reduction Debug:', {
+      employmentType,
+      monthlyEarnings,
+      netMonthlyEarningsCalculated,
+      netMonthlyEarningsOverride,
+      finalNetEarnings: netEarnings,
+      workAllowance,
+      taperRate,
+      excessEarnings: netEarnings > workAllowance ? netEarnings - workAllowance : 0
+    });
+    
     if (netEarnings <= workAllowance) {
+      console.log('No earnings reduction - netEarnings <= workAllowance');
       return 0;
     }
     
     const excessEarnings = netEarnings - workAllowance;
-    return excessEarnings * taperRate;
+    const reduction = excessEarnings * taperRate;
+    console.log('Earnings reduction calculated:', reduction);
+    return reduction;
   }
 
   calculateCapitalDeduction(input, totalElements, rates) {

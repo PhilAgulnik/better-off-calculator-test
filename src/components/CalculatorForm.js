@@ -3,12 +3,13 @@ import { Link } from 'react-router-dom';
 import NetEarningsModule from './NetEarningsModule';
 import CarerModule from './CarerModule';
 import { useTextManager } from '../hooks/useTextManager';
+import { UniversalCreditCalculator } from '../utils/calculator';
 import AmountInputWithPeriod from './AmountInputWithPeriod';
-import { getBRMANames } from '../utils/lhaDataService';
+import { getGroupedBRMAs } from '../utils/lhaDataService';
 
-function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }) {
+function CalculatorForm({ formData, onFormChange, onCalculate, onReset, validationErrors = {} }) {
   const { getTextValue } = useTextManager();
-  
+
   const handleInputChange = (field, value) => {
     onFormChange(field, value);
   };
@@ -277,18 +278,27 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         {/* BRMA selection for private tenants, shown in housing costs block */}
         {formData.tenantType === 'private' && (
           <div className="form-group">
-            <label htmlFor="brma">Are you live in</label>
+            <label htmlFor="brma">Please select your Broad Rental Market Area</label>
             <select
               id="brma"
-              className="form-control"
+              className={`form-control ${validationErrors.brma ? 'is-invalid' : ''}`}
               value={formData.brma || ''}
               onChange={(e) => handleInputChange('brma', e.target.value)}
             >
               <option value="">Select your area</option>
-              {getBRMANames().map(name => (
-                <option key={name} value={name}>{name}</option>
+              {getGroupedBRMAs().map(group => (
+                <optgroup key={group.label} label={group.label}>
+                  {group.options.map(name => (
+                    <option key={name} value={name}>{name}</option>
+                  ))}
+                </optgroup>
               ))}
             </select>
+            {validationErrors.brma && (
+              <div className="invalid-feedback" style={{ display: 'block', color: '#dc3545', fontSize: '0.875em', marginTop: '0.25rem' }}>
+                {validationErrors.brma}
+              </div>
+            )}
             <small className="form-text">We'll use your Broad Rental Market Area (BRMA) to set your Local Housing Allowance (LHA) cap. You can also find out about rent levels and LHA rates in other areas using our <Link to="/affordability-map" target="_blank" rel="noopener noreferrer">affordability map</Link>.</small>
         </div>
         )}
@@ -526,7 +536,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                  {/* Show calculation and toggle back to amount */}
                  {formData.monthlyEarnings > 0 && formData.pensionPercentage > 0 && (
                    <div className="help-text">
-                     {formData.pensionPercentage}% of £{formData.monthlyEarnings.toLocaleString()} = £{((formData.monthlyEarnings * formData.pensionPercentage) / 100).toFixed(2)} per month
+                     {formData.pensionPercentage}% of pensionable earnings = £{UniversalCreditCalculator.calculateUIPensionContribution(formData.monthlyEarnings, 'percentage', 0, formData.pensionPercentage, formData.taxYear).toFixed(2)} per month
               </div>
                  )}
                  
@@ -538,7 +548,7 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
                        handleInputChange('pensionType', 'amount');
                        // Convert percentage to amount if we have earnings
                        if (formData.monthlyEarnings > 0 && formData.pensionPercentage > 0) {
-                         const calculatedAmount = (formData.monthlyEarnings * formData.pensionPercentage) / 100;
+                         const calculatedAmount = UniversalCreditCalculator.calculateUIPensionContribution(formData.monthlyEarnings, 'percentage', 0, formData.pensionPercentage, formData.taxYear);
                          handleInputChange('pensionAmount', Math.round(calculatedAmount * 100) / 100);
                        }
                      }}
@@ -2389,9 +2399,6 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onSave, onReset }
         <div className="button-group">
           <button type="button" onClick={onCalculate} className="btn btn-primary">
             Calculate
-          </button>
-          <button type="button" onClick={onSave} className="btn btn-secondary">
-            Save Scenario
           </button>
           <button type="button" onClick={onReset} className="btn btn-outline">
             Reset

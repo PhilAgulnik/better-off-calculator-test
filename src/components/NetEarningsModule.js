@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { UniversalCreditCalculator } from '../utils/calculator';
 
 function NetEarningsModule({ formData, onFormChange }) {
   const gross = parseFloat(formData.monthlyEarnings) || 0;
@@ -26,7 +27,7 @@ function NetEarningsModule({ formData, onFormChange }) {
     const taxMonthly = (basicTaxYear + higherTaxYear) / 12;
 
     const niMonthly = Math.max(0, gross - niMonthlyThreshold) * niRate;
-    const pensionMonthly = gross * minPensionRate;
+    const pensionMonthly = UniversalCreditCalculator.calculateUIPensionContribution(gross, 'percentage', 0, 3, formData.taxYear || '2025_26');
 
     const netCalculated = Math.max(0, gross - taxMonthly - niMonthly - pensionMonthly);
     return {

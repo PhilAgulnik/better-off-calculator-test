@@ -2,6 +2,8 @@
 // Based on government statistics: https://www.gov.uk/government/statistics/local-housing-allowance-indicative-rates-for-2024-to-2025
 
 let brmaListEngland = [];
+let brmaListScotland = [];
+let brmaListWales = [];
 let lhaRatesData = {};
 
 try {
@@ -11,6 +13,20 @@ try {
   brmaListEngland = require('../data/brmaListEngland.json');
 } catch (e) {
   brmaListEngland = [];
+}
+
+try {
+  // eslint-disable-next-line global-require
+  brmaListScotland = require('../data/brmaListScotland.json');
+} catch (e) {
+  brmaListScotland = [];
+}
+
+try {
+  // eslint-disable-next-line global-require
+  brmaListWales = require('../data/brmaListWales.json');
+} catch (e) {
+  brmaListWales = [];
 }
 
 try {
@@ -69,12 +85,40 @@ export const lhaRates2025_26 = {
 // Keep the old rates for backward compatibility
 export const lhaRates2024_25 = lhaRates2025_26;
 
-// Get all available BRMA names for dropdown
+// Get all available BRMA names for dropdown (legacy - returns all combined)
 export const getBRMANames = () => {
   if (Array.isArray(brmaListEngland) && brmaListEngland.length > 0) {
     return brmaListEngland;
   }
   return Object.keys(lhaRates2024_25);
+};
+
+// Get grouped BRMAs by country
+export const getGroupedBRMAs = () => {
+  const groups = [];
+
+  if (Array.isArray(brmaListEngland) && brmaListEngland.length > 0) {
+    groups.push({
+      label: 'England',
+      options: brmaListEngland
+    });
+  }
+
+  if (Array.isArray(brmaListScotland) && brmaListScotland.length > 0) {
+    groups.push({
+      label: 'Scotland',
+      options: brmaListScotland
+    });
+  }
+
+  if (Array.isArray(brmaListWales) && brmaListWales.length > 0) {
+    groups.push({
+      label: 'Wales',
+      options: brmaListWales
+    });
+  }
+
+  return groups;
 };
 
 // Calculate bedroom entitlement based on circumstances

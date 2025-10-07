@@ -95,53 +95,19 @@ function AffordabilityMap() {
               <div className="guide-icon-container">
                 <div className="guide-main-icon">📚</div>
                 <div className="guide-accent-icons">
-                  <span className="accent-icon">💰</span>
                   <span className="accent-icon">🏠</span>
                   <span className="accent-icon">🏥</span>
                 </div>
               </div>
             </div>
             <div className="guide-header-text">
-              <h2>Your Guide to Benefits, Housing and Health</h2>
-              <p className="guide-intro">Essential information about benefits you can claim when leaving prison, housing support from your council, and how to register with a GP (even if you don't have a fixed address).</p>
+              <h2>Your Guide to Housing and Health</h2>
+              <p className="guide-intro">Essential information about housing support from your council and how to register with a GP (even if you don't have a fixed address).</p>
             </div>
           </div>
           
           <div className="help-areas">
-            <div className="help-area">
-              <div className="help-area-visual">
-                <div className="help-area-image benefits-image">
-                  <div className="image-placeholder">
-                    <div className="placeholder-icon">💰</div>
-                    <div className="placeholder-pattern"></div>
-                  </div>
-                </div>
-                <div className="help-area-content">
-                  <div className="help-area-header">
-                    <h3>Benefits</h3>
-                    <div className="help-area-badge">Financial Support</div>
-                  </div>
-                  <p>Essential information about benefits you can claim when leaving prison</p>
-                  <div className="help-topics">
-                    <ul>
-                      <li>Universal Credit application process</li>
-                      <li>Housing Benefit and Local Housing Allowance</li>
-                      <li>Employment and Support Allowance (ESA)</li>
-                      <li>Personal Independence Payment (PIP)</li>
-                      <li>Disability Living Allowance (DLA)</li>
-                      <li>Jobseeker's Allowance (JSA)</li>
-                    </ul>
-                  </div>
-                  <div className="help-area-actions">
-                    <Link to="/help-guide/benefits" className="btn btn-primary">
-                      Learn More
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="help-area">
+<div className="help-area">
               <div className="help-area-visual">
                 <div className="help-area-image housing-image">
                   <div className="image-placeholder">

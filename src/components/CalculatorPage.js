@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import CalculatorForm from './CalculatorForm';
 import ResultsSection from './ResultsSection';
 import AdminPanel from './AdminPanel';
+import ExamplesSection from './ExamplesSection';
 import StatePensionAgeWarning from './StatePensionAgeWarning';
 import { getPensionAgeWarningType } from '../utils/pensionAgeCalculator';
 import { applySkinForRoute } from '../utils/skinManager';
@@ -96,12 +97,13 @@ function CalculatorPage({ isRehabilitation = false }) {
 
   const [results, setResults] = useState(null);
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [showExamples, setShowExamples] = useState(false);
   const [savedScenarios, setSavedScenarios] = useState([]);
-  const [showSavedScenarios, setShowSavedScenarios] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hasCalculated, setHasCalculated] = useState(false);
   const [pensionWarningType, setPensionWarningType] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
 
   // Initialize calculator
   const [calculator] = useState(() => new UniversalCreditCalculator());
@@ -111,14 +113,57 @@ function CalculatorPage({ isRehabilitation = false }) {
     applySkinForRoute(location.pathname);
   }, [location.pathname]);
 
+  // Load saved scenarios from localStorage on component mount
+  useEffect(() => {
+    const saved = localStorage.getItem('ucSavedScenarios');
+    if (saved) {
+      try {
+        setSavedScenarios(JSON.parse(saved));
+      } catch (error) {
+        console.error('Error loading saved scenarios:', error);
+        setSavedScenarios([]);
+      }
+    }
+  }, []);
+
+  // Expose current calculation data for Examples component
+  useEffect(() => {
+    window.currentCalculatorData = {
+      formData: formData,
+      results: results
+    };
+  }, [formData, results]);
+
   const handleFormChange = (field, value) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
+    // Clear validation error for this field when user makes a change
+    if (validationErrors[field]) {
+      setValidationErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleCalculate = async () => {
+    // Validate BRMA selection for private tenants
+    const errors = {};
+    if (formData.housingStatus === 'renting' && formData.tenantType === 'private' && !formData.brma) {
+      errors.brma = 'Please select your Broad Rental Market Area';
+    }
+    setValidationErrors(errors);
+
+    // If there are validation errors, don't proceed
+    if (Object.keys(errors).length > 0) {
+      setLoading(false);
+      setHasCalculated(false);
+      return;
+    }
+
     setLoading(true);
     setHasCalculated(true);
     const warningType = getPensionAgeWarningType(formData);
@@ -151,6 +196,11 @@ function CalculatorPage({ isRehabilitation = false }) {
       };
 
       console.log('Calculation input:', calculationInput);
+      console.log('Net earnings in form data:', {
+        netMonthlyEarningsCalculated: formData.netMonthlyEarningsCalculated,
+        netMonthlyEarningsOverride: formData.netMonthlyEarningsOverride,
+        monthlyEarnings: formData.monthlyEarnings
+      });
       console.log('LCWRA Debug - formData:', { 
         hasLCWRA: formData.hasLCWRA, 
         partnerHasLCWRA: formData.partnerHasLCWRA,
@@ -245,19 +295,43 @@ function CalculatorPage({ isRehabilitation = false }) {
   };
 
   const handleSaveScenario = () => {
+    if (!results || !results.calculation) {
+      console.warn('Cannot save scenario: no calculation results');
+      return;
+    }
+
     const scenario = {
       id: Date.now(),
       name: `Scenario ${savedScenarios.length + 1}`,
       input: { ...formData },
       calculation: results,
-      timestamp: new Date().toLocaleString()
+      timestamp: new Date().toISOString()
     };
-    setSavedScenarios(prev => [...prev, scenario]);
-    setShowSavedScenarios(true);
-    
-    // Save to localStorage
+
     const updated = [...savedScenarios, scenario];
+    setSavedScenarios(updated);
+
+    // Save to localStorage
     localStorage.setItem('ucSavedScenarios', JSON.stringify(updated));
+  };
+
+  const handleLoadExample = (exampleFormData, exampleResults) => {
+    // Load the form data
+    setFormData({ ...exampleFormData });
+
+    // If we have results (user-created examples), load them too
+    if (exampleResults) {
+      setResults(exampleResults);
+      setShowResults(true);
+    } else {
+      // For pre-defined examples, clear results to force recalculation
+      setResults(null);
+      setShowResults(false);
+    }
+
+    // Reset calculation state
+    setHasCalculated(false);
+    setPensionWarningType(null);
   };
 
   const handleReset = () => {
@@ -445,7 +519,10 @@ function CalculatorPage({ isRehabilitation = false }) {
       doc.setFont('helvetica', 'normal');
       
       if (results.calculation.earningsReduction > 0) {
-        doc.text('Earnings Reduction', margin, yPosition);
+        const label = results.calculation.workAllowance > 0 
+          ? `Earnings Reduction after work allowance of £${results.calculation.workAllowance.toFixed(2)}`
+          : 'Earnings Reduction';
+        doc.text(label, margin, yPosition);
         doc.text(`-£${results.calculation.earningsReduction.toFixed(2)}`, margin + contentWidth - 30, yPosition, { align: 'right' });
         yPosition += 6;
       }
@@ -624,8 +701,15 @@ function CalculatorPage({ isRehabilitation = false }) {
             <p className="subtitle">{isRehabilitation ? 'Use this calculator to maximise your income and see how changes in circumstance might affect you' : 'Use this calculator to check your finances if you move into work, claim all your entitlements and get help with self employment'}</p>
           </div>
           <div className="header-buttons">
-            <button 
-              type="button" 
+            <button
+              type="button"
+              className="btn btn-outline btn-sm"
+              onClick={() => setShowExamples(!showExamples)}
+            >
+              {showExamples ? 'Hide Examples' : 'Examples'}
+            </button>
+            <button
+              type="button"
               className="btn btn-outline btn-sm admin-toggle"
               onClick={() => setShowAdminPanel(!showAdminPanel)}
             >
@@ -637,13 +721,13 @@ function CalculatorPage({ isRehabilitation = false }) {
 
       <main className="main-content">
         <div className="calculator-grid">
-          <CalculatorForm 
+          <CalculatorForm
             formData={formData}
             onFormChange={handleFormChange}
             onCalculate={handleCalculate}
-            onSave={handleSaveScenario}
             onReset={handleReset}
             isRehabilitation={isRehabilitation}
+            validationErrors={validationErrors}
           />
         </div>
 
@@ -651,7 +735,7 @@ function CalculatorPage({ isRehabilitation = false }) {
           <StatePensionAgeWarning type={pensionWarningType} />
         )}
 
-        {!pensionWarningType && showSavedScenarios && savedScenarios.length > 0 && (
+        {!pensionWarningType && savedScenarios.length > 0 && (
           <div className="saved-scenarios">
             <h3>Saved Scenarios</h3>
             <div className="scenarios-list">
@@ -677,17 +761,25 @@ function CalculatorPage({ isRehabilitation = false }) {
         )}
 
         {!pensionWarningType && showResults && results && (
-          <ResultsSection 
+          <ResultsSection
             results={results}
             formData={formData}
             onPrint={handlePrint}
             onExport={handleExport}
+            onSave={handleSaveScenario}
           />
         )}
       </main>
 
+      {/* Examples Section */}
+      <ExamplesSection
+        isVisible={showExamples}
+        onToggleVisibility={() => setShowExamples(false)}
+        onLoadExample={handleLoadExample}
+      />
+
       {/* Admin Panel */}
-      <AdminPanel 
+      <AdminPanel
         isVisible={showAdminPanel}
         onToggleVisibility={() => setShowAdminPanel(false)}
         currentRoute={location.pathname}

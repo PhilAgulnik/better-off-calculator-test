@@ -4,6 +4,7 @@ import BetterOffCalculator from './BetterOffCalculator';
 import { useTextManager } from '../hooks/useTextManager';
 import { saveBenefitCalculatorData } from '../utils/benefitDataService';
 import { childBenefitCalculator } from '../utils/childBenefitCalculator';
+import { UniversalCreditCalculator } from '../utils/calculator';
 
 function ResultsSection({ results, formData, onPrint, onExport }) {
   const { getTextValue } = useTextManager();
@@ -179,7 +180,12 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
               <span className="value">{formatCurrency(calculation.totalElements)}</span>
             </div>
             <div className="breakdown-item deduction">
-              <span className="label">Earnings Reduction</span>
+              <span className="label">
+                {calculation.workAllowance > 0 
+                  ? `Earnings Reduction after work allowance of ${formatCurrency(calculation.workAllowance)}`
+                  : 'Earnings Reduction'
+                }
+              </span>
               <span className="value">-{formatCurrency(calculation.earningsReduction)}</span>
             </div>
             <div className="breakdown-item deduction">
@@ -325,15 +331,13 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                   {formData.pensionType === 'percentage' && formData.pensionPercentage > 0 && (
                     <div className="breakdown-item">
                       <span className="label">Your Pension Contribution ({formData.pensionPercentage}%)</span>
-                      <span className="value">-{formatCurrency((formData.monthlyEarnings * formData.pensionPercentage) / 100)}</span>
+                      <span className="value">-{formatCurrency(UniversalCreditCalculator.calculateUIPensionContribution(formData.monthlyEarnings, 'percentage', 0, formData.pensionPercentage, formData.taxYear))}</span>
                     </div>
                   )}
                   <div className="breakdown-item">
                     <span className="label">Your Net Earnings</span>
                     <span className="value">{formatCurrency(
-                      formData.monthlyEarnings - 
-                      (formData.pensionType === 'amount' ? formData.pensionAmount : 
-                       formData.pensionType === 'percentage' ? (formData.monthlyEarnings * formData.pensionPercentage) / 100 : 0)
+                      UniversalCreditCalculator.calculateUINetEarnings(formData.monthlyEarnings, formData.pensionType, formData.pensionAmount, formData.pensionPercentage, formData.taxYear)
                     )}</span>
                   </div>
                 </>
@@ -355,15 +359,13 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                   {formData.partnerPensionType === 'percentage' && formData.partnerPensionPercentage > 0 && (
                     <div className="breakdown-item">
                       <span className="label">Partner's Pension Contribution ({formData.partnerPensionPercentage}%)</span>
-                      <span className="value">-{formatCurrency((formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100)}</span>
+                      <span className="value">-{formatCurrency(UniversalCreditCalculator.calculateUIPensionContribution(formData.partnerMonthlyEarnings, 'percentage', 0, formData.partnerPensionPercentage, formData.taxYear))}</span>
                     </div>
                   )}
                   <div className="breakdown-item">
                     <span className="label">Partner's Net Earnings</span>
                     <span className="value">{formatCurrency(
-                      formData.partnerMonthlyEarnings - 
-                      (formData.partnerPensionType === 'amount' ? formData.partnerPensionAmount : 
-                       formData.partnerPensionType === 'percentage' ? (formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100 : 0)
+                      UniversalCreditCalculator.calculateUINetEarnings(formData.partnerMonthlyEarnings, formData.partnerPensionType, formData.partnerPensionAmount, formData.partnerPensionPercentage, formData.taxYear)
                     )}</span>
                   </div>
                 </>
@@ -376,13 +378,9 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
                   <span className="label">Total Net Earnings (after pension)</span>
                   <span className="value">{formatCurrency(
                     (formData.employmentType === 'employed' ? 
-                      formData.monthlyEarnings - 
-                      (formData.pensionType === 'amount' ? formData.pensionAmount : 
-                       formData.pensionType === 'percentage' ? (formData.monthlyEarnings * formData.pensionPercentage) / 100 : 0) : 0) +
+                      UniversalCreditCalculator.calculateUINetEarnings(formData.monthlyEarnings, formData.pensionType, formData.pensionAmount, formData.pensionPercentage, formData.taxYear) : 0) +
                     (formData.circumstances === 'couple' && formData.partnerEmploymentType === 'employed' ? 
-                      formData.partnerMonthlyEarnings - 
-                      (formData.partnerPensionType === 'amount' ? formData.partnerPensionAmount : 
-                       formData.partnerPensionType === 'percentage' ? (formData.partnerMonthlyEarnings * formData.partnerPensionPercentage) / 100 : 0) : 0)
+                      UniversalCreditCalculator.calculateUINetEarnings(formData.partnerMonthlyEarnings, formData.partnerPensionType, formData.partnerPensionAmount, formData.partnerPensionPercentage, formData.taxYear) : 0)
                   )}</span>
                 </div>
               )}

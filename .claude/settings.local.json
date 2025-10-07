@@ -14,7 +14,13 @@
       "Bash(git log:*)",
       "Bash(git stash:*)",
       "Bash(npx gh-pages:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(grep:*)",
+      "WebFetch(domain:www.gov.uk)",
+      "Bash(node test-csv.js)",
+      "Bash(copy:*)",
+      "Bash(node:*)",
+      "Bash(sed:*)"
     ],
     "deny": [],
     "ask": []
