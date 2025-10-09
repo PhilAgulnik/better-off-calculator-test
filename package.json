@@ -2,8 +2,8 @@
   "name": "universal-credit-calculator",
   "version": "1.0.0",
   "description": "Universal Credit Calculator - React Version",
+  "homepage": "https://philagulnik.github.io/better-off-calculator-test",
   "private": true,
-  "homepage": "https://PhilAgulnik.github.io/better-off-calculator-test",
   "devDependencies": {
     "cross-env": "^7.0.3",
     "gh-pages": "^6.3.0",
