@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import CalculatorPage from './components/CalculatorPage';
 import SelfEmploymentHub from './components/SelfEmploymentHub';
@@ -20,6 +20,7 @@ import HousingReviewAmounts from './components/HousingReviewAmounts';
 import ONSStandardAmounts from './components/ONSStandardAmounts';
 import InvoicesAndReceipts from './components/InvoicesAndReceipts';
 import SelfEmploymentIncomeMaximisation from './components/SelfEmploymentIncomeMaximisation';
+import PasswordProtection from './components/PasswordProtection';
 import { initializeSkin, applySkinForRoute } from './utils/skinManager';
 
 // Component to handle route changes and apply skins
@@ -35,12 +36,26 @@ function RouteHandler() {
 }
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   useEffect(() => {
     initializeSkin();
+    // Check if user is already authenticated in this session
+    const authenticated = sessionStorage.getItem('authenticated');
+    if (authenticated === 'true') {
+      setIsAuthenticated(true);
+    }
   }, []);
 
+  // Show password protection for production builds only
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  if (isProduction && !isAuthenticated) {
+    return <PasswordProtection onAuthenticated={() => setIsAuthenticated(true)} />;
+  }
+
   return (
-    <Router basename={process.env.NODE_ENV === 'production' ? '/better-off-calculator-test' : ''}>
+    <Router>
       <RouteHandler />
       <Routes>
         <Route path="/" element={<CalculatorPage />} />
