@@ -6,7 +6,7 @@ import { saveBenefitCalculatorData } from '../utils/benefitDataService';
 import { childBenefitCalculator } from '../utils/childBenefitCalculator';
 import { UniversalCreditCalculator } from '../utils/calculator';
 
-function ResultsSection({ results, formData, onPrint, onExport }) {
+function ResultsSection({ results, formData, onPrint, onExport, onSave }) {
   const { getTextValue } = useTextManager();
   const { calculation, taxYear } = results;
   const [showBetterOffModule, setShowBetterOffModule] = useState(false);
@@ -604,15 +604,18 @@ function ResultsSection({ results, formData, onPrint, onExport }) {
         )}
 
         <div className="action-buttons">
+          <button type="button" onClick={onSave} className="btn btn-secondary">
+            Save Scenario
+          </button>
           <button type="button" onClick={onPrint} className="btn btn-outline">
             Print Results
           </button>
           <button type="button" onClick={onExport} className="btn btn-outline">
             Export PDF
           </button>
-          <button 
-            type="button" 
-            onClick={() => setShowBetterOffModule(!showBetterOffModule)} 
+          <button
+            type="button"
+            onClick={() => setShowBetterOffModule(!showBetterOffModule)}
             className="btn btn-primary"
           >
             {showBetterOffModule ? 'Hide' : 'Show'} Better Off in Work Calculator

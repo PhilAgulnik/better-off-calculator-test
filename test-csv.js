@@ -220,7 +220,7 @@ function parseCSV(csvContent) {
 async function runTests() {
   try {
     // Read the CSV file  
-    const csvPath = path.join(__dirname, 'working-test-cases-2025-26.csv');
+    const csvPath = path.join(__dirname, 'calculator-test-template.csv');
     const csvContent = fs.readFileSync(csvPath, 'utf8');
     
     // Parse test cases

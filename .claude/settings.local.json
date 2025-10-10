@@ -20,7 +20,17 @@
       "Bash(node test-csv.js)",
       "Bash(copy:*)",
       "Bash(node:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(dir \"C:\\Users\\PhilAgulnik\\Downloads\\*.csv\" /b /o-d)",
+      "Read(//c/Users/PhilAgulnik/Downloads/**)",
+      "Bash(git push:*)",
+      "Bash(clear)",
+      "Bash(npm run serve:*)",
+      "Bash(serve:*)",
+      "WebFetch(domain:philagulnik.github.io)"
     ],
     "deny": [],
     "ask": []
