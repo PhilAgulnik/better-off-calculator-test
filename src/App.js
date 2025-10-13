@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import CalculatorPage from './components/CalculatorPage';
 import SelfEmploymentHub from './components/SelfEmploymentHub';
 import SelfAssessmentTaxForm from './components/SelfAssessmentTaxForm';
@@ -11,7 +11,7 @@ import HelpGuideBenefits from './components/HelpGuideBenefits';
 import HelpGuideHousing from './components/HelpGuideHousing';
 import HelpGuideHealth from './components/HelpGuideHealth';
 import ChildBenefitChargeHelp from './components/ChildBenefitChargeHelp';
-import BudgetingTool from './features/budgeting-tool/EnhancedBudgetingTool'; // Updated to use enhanced version
+import BudgetingTool from './features/budgeting-tool/EnhancedBudgetingTool';
 import RehabilitationCalculatorView from './components/RehabilitationCalculatorView';
 import BudgetingToolAdmin from './features/budgeting-tool/BudgetingToolAdmin';
 import MIFHelpGuide from './components/MIFHelpGuide';
@@ -23,15 +23,13 @@ import SelfEmploymentIncomeMaximisation from './components/SelfEmploymentIncomeM
 import PasswordProtection from './components/PasswordProtection';
 import { initializeSkin, applySkinForRoute } from './utils/skinManager';
 
-// Component to handle route changes and apply skins
 function RouteHandler() {
   const location = useLocation();
-  
+
   useEffect(() => {
-    // Apply skin for the current route
     applySkinForRoute(location.pathname);
   }, [location.pathname]);
-  
+
   return null;
 }
 
@@ -40,14 +38,12 @@ function App() {
 
   useEffect(() => {
     initializeSkin();
-    // Check if user is already authenticated in this session
     const authenticated = sessionStorage.getItem('authenticated');
     if (authenticated === 'true') {
       setIsAuthenticated(true);
     }
   }, []);
 
-  // Show password protection for production builds only
   const isProduction = process.env.NODE_ENV === 'production';
 
   if (isProduction && !isAuthenticated) {
@@ -69,7 +65,7 @@ function App() {
         <Route path="/help-guide/housing" element={<HelpGuideHousing />} />
         <Route path="/help-guide/health" element={<HelpGuideHealth />} />
         <Route path="/help/child-benefit-charge" element={<ChildBenefitChargeHelp />} />
-        <Route path="/budgeting-tool" element={<BudgetingTool />} /> {/* Now uses enhanced version */}
+        <Route path="/budgeting-tool" element={<BudgetingTool />} />
         <Route path="/budgeting-tool-admin" element={<BudgetingToolAdmin />} />
         <Route path="/housing-review-amounts" element={<HousingReviewAmounts />} />
         <Route path="/ons-standard-amounts" element={<ONSStandardAmounts />} />
