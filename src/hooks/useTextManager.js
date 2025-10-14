@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getTextBlocks } from '../utils/textManager';
+import { getTextBlocks } from '../shared/utils/textManager';
 
 export const useTextManager = () => {
   const [textBlocks, setTextBlocks] = useState({});

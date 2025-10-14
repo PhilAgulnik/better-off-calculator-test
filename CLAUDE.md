@@ -15,28 +15,106 @@ This is a React-based Universal Credit (UC) calculator that helps users estimate
 
 ## Project Structure
 
+The project uses a **feature-based architecture** for better organization and maintainability:
+
 ```
 src/
-├── components/           # React components
-│   ├── CalculatorPage.js       # Main calculator page with form state
-│   ├── CalculatorForm.js       # Input form component
-│   ├── ResultsSection.js       # Results display
-│   ├── NetEarningsModule.js    # Net earnings calculator
-│   ├── CarerModule.js          # Carer allowance module
-│   ├── AffordabilityMap.js     # BRMA/LHA visualization
-│   └── Navigation.js           # Site navigation
-├── utils/
-│   ├── calculator.js           # Core UC calculation logic
-│   ├── lhaDataService.js       # Local Housing Allowance data/logic
-│   ├── benefitCalculator.js    # Benefit calculations
-│   └── pensionAgeCalculator.js # State pension age logic
-├── data/
-│   ├── brmaListEngland.json    # England BRMA names
-│   ├── brmaListScotland.json   # Scotland BRMA names
-│   ├── brmaListWales.json      # Wales BRMA names
-│   └── lhaRates2025_26.json    # LHA rates for 2025-26
-└── App.js                # Root app component
+├── features/
+│   ├── uc-calculator/              # UC Calculator (Main Feature)
+│   │   ├── components/
+│   │   │   ├── CalculatorPage.js       # Main calculator page
+│   │   │   ├── CalculatorForm.js       # Input form component
+│   │   │   ├── ResultsSection.js       # Results display
+│   │   │   ├── DetailedResults.js      # Detailed breakdown
+│   │   │   ├── NetEarningsModule.js    # Net earnings calculator
+│   │   │   ├── CarerModule.js          # Carer allowance module
+│   │   │   ├── BetterOffCalculator.js  # Better-off analysis
+│   │   │   ├── SavedScenarios.js       # Saved calculations
+│   │   │   ├── StatePensionAgeWarning.js
+│   │   │   └── AffordabilityMap.js     # BRMA/LHA visualization
+│   │   └── utils/
+│   │       ├── calculator.js           # Core UC calculation logic
+│   │       ├── benefitCalculator.js    # Benefit calculations
+│   │       ├── childBenefitCalculator.js
+│   │       ├── pensionAgeCalculator.js # State pension age logic
+│   │       ├── lhaDataService.js       # LHA data/logic
+│   │       └── benefitDataService.js
+│   │
+│   ├── self-employment/            # Self-Employment Tools
+│   │   ├── components/
+│   │   │   ├── SelfEmploymentHub.js
+│   │   │   ├── SelfAssessmentTaxForm.js
+│   │   │   ├── InvoicesAndReceipts.js
+│   │   │   ├── SelfEmploymentIncomeMaximisation.js
+│   │   │   ├── MIFCalculatorTool.js
+│   │   │   └── MIFHelpGuide.js
+│   │   └── monthly-profit/
+│   │       ├── MonthlyProfitTool.js
+│   │       ├── AssessmentPeriodCalendar.js
+│   │       └── MonthlyReportingForm.js
+│   │
+│   ├── budgeting-tool/             # Budgeting Tool
+│   │   ├── components/
+│   │   │   ├── EnhancedBudgetingTool.js
+│   │   │   ├── BudgetingToolAdmin.js
+│   │   │   ├── HousingReviewAmounts.js
+│   │   │   └── ONSStandardAmounts.js
+│   │   └── services/
+│   │       ├── adminConfigService.js
+│   │       ├── housingReviewsDataService.js
+│   │       └── onsDataService.js
+│   │
+│   ├── rehabilitation/             # Rehabilitation Services
+│   │   └── components/
+│   │       ├── RehabilitationHub.js
+│   │       ├── RehabilitationCalculatorView.js
+│   │       └── PrisonLeaversGuide.js
+│   │
+│   └── help-guides/                # Help & Documentation
+│       └── components/
+│           ├── HelpGuideBenefits.js
+│           ├── HelpGuideHousing.js
+│           ├── HelpGuideHealth.js
+│           └── ChildBenefitChargeHelp.js
+│
+├── shared/                         # Shared Components & Utilities
+│   ├── components/
+│   │   ├── Navigation.js           # Site navigation
+│   │   ├── Logo.js
+│   │   ├── LoadingOverlay.js
+│   │   ├── AmountInputWithPeriod.js
+│   │   ├── PasswordProtection.js
+│   │   ├── ExamplesSection.js
+│   │   ├── AdminPanel.js
+│   │   ├── ComponentTester.js
+│   │   └── admin/                  # Admin sub-components
+│   │       ├── SkinManagement.js
+│   │       └── TextManagement.js
+│   └── utils/
+│       ├── formatters.js           # Formatting utilities
+│       ├── skinManager.js          # Theme management
+│       ├── textManager.js          # Text/localization
+│       └── testChildBenefit.js
+│
+├── data/                           # Static Data Files
+│   ├── brmaListEngland.json        # England BRMA names
+│   ├── brmaListScotland.json       # Scotland BRMA names
+│   ├── brmaListWales.json          # Wales BRMA names
+│   └── lhaRates2025_26.json        # LHA rates for 2025-26
+│
+├── hooks/                          # Custom React Hooks
+│   └── useTextManager.js
+│
+└── App.js                          # Root app component
 ```
+
+### Architecture Benefits
+
+- **Feature-based organization**: Each major feature is self-contained
+- **Clear boundaries**: Easy to identify what belongs to each feature
+- **Shared code isolation**: Common utilities and components in dedicated folder
+- **Scalability**: Easy to add new features or split into separate projects
+- **Maintainability**: Related code grouped together
 
 ## Core Features
 
