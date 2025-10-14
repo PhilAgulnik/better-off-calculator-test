@@ -1857,9 +1857,12 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onReset, validati
 
         {/* Carer Section */}
         <div className="carer-section">
-          
+
           <div className="form-group">
             <label>Do you care for someone who is sick or disabled?</label>
+            <div className="developer-note" style={{ fontSize: '0.85rem', color: '#666', fontStyle: 'italic', marginTop: '0.25rem', marginBottom: '0.5rem' }}>
+              Note: This question will be replaced by BYR page redevelopment and new Carers Journey
+            </div>
             <div className="radio-group">
               <label className={`radio-label ${formData.isCarer === 'no' ? 'default-option' : ''}`}>
                 <input 
@@ -1942,6 +1945,9 @@ function CalculatorForm({ formData, onFormChange, onCalculate, onReset, validati
         {/* Other Benefits */}
         <div className="form-group">
            <label>Do you receive any other benefits?</label>
+            <div className="developer-note" style={{ fontSize: '0.85rem', color: '#666', fontStyle: 'italic', marginTop: '0.25rem', marginBottom: '0.5rem' }}>
+              Note: This question will be replaced by BYR page redevelopment and new Carers Journey
+            </div>
             <div className="radio-group">
              <label className={`radio-label ${formData.hasOtherBenefits === 'no' ? 'default-option' : ''}`}>
                 <input 
