@@ -176,7 +176,7 @@ function SelfEmploymentHub() {
           <div className="cta-section">
             <button
               className="btn btn-primary btn-lg"
-              onClick={() => window.open('/#/self-assessment-tax-form', '_blank')}
+              onClick={() => window.open(`${window.location.origin}${window.location.pathname}#/self-assessment-tax-form`, '_blank')}
               style={{ marginRight: '1rem' }}
             >
               Try Self-Assessment Tax Form
